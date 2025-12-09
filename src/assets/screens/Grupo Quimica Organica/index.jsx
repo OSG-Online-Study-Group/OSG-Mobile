@@ -22,13 +22,8 @@ import {
 } from "./styles";
 import { Ionicons } from "@expo/vector-icons";
 
-<<<<<<< HEAD
-export default function QuimicaOrganica() {
-=======
 export default function QuimicaOrganica({navigation}) {
->>>>>>> e963efe (fix: grupo quimica e grupo economia botao voltar)
-economia botao voltar)
- = useState([
+const [messages, setMessages] =  useState([
     { id: 1, text: "Olá, grupo!", sender: "outro" },
     { id: 2, text: "Tudo bem com vocês?", sender: "outro" },
     { id: 3, text: "Sim! Estudando para a prova de amanhã.", sender: "me" },
