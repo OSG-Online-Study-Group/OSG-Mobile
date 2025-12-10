@@ -13,8 +13,10 @@ import {
   OptionIcon,
   BannerImage
 } from "./styles";
+  import { useNavigation } from "@react-navigation/native";
 
-export default function FiltroExtras() {
+export default function FiltroExtras({ navigation }) {
+  
   return (
     <Container>
 
@@ -26,7 +28,7 @@ export default function FiltroExtras() {
           source={require("../../images/icon_OSG.jpg")}
         />
 
-        <BackButton>
+        <BackButton onPress={() => navigation.goBack()}>
           <BackText>Voltar</BackText>
         </BackButton>
       </Header>
