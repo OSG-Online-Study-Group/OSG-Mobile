@@ -64,12 +64,12 @@ export default function Game() {
           <MenuText>Grupos</MenuText>
         </MenuButton>
 
-        <MenuButton onPress={() => navigation.navigate("Prefil")}>
+        <MenuButton onPress={() => navigation.navigate("Perfil")}>
           <Ionicons name="person-outline" size={20} color="#fff" />
           <MenuText>Perfil</MenuText>
         </MenuButton>
 
-        <MenuButton onPress={() => navigation.navigate("Prefil")}>
+        <MenuButton onPress={() => navigation.navigate("Perfil")}>
           <Ionicons name="person-outline" size={20} color="#fff" />
           <MenuText>Perfil</MenuText>
         </MenuButton>
