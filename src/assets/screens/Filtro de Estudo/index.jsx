@@ -29,11 +29,10 @@ export default function FiltroEstudo({ navigation }) {
         />
 
         {/* 🔙 Botão Voltar */}
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <BackButton>
+      
+          <BackButton onPress={() => navigation.goBack()}> 
             <BackText>Voltar</BackText>
           </BackButton>
-        </TouchableOpacity>
       </Header>
 
       {/* ===== CARD EXATAS ===== */}

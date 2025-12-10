@@ -16,6 +16,7 @@ import {
 } from "./styles";
 import { Ionicons } from "@expo/vector-icons";
 
+
 export default function Menu({ navigation }) {
   return (
     <Container>
