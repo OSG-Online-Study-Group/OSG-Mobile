@@ -1,4 +1,4 @@
-import { Image, TouchableOpacity } from "react-native";
+import { Image, ScrollView } from "react-native";
 import {
   Container,
   Header,
@@ -14,10 +14,13 @@ import {
   Text3,
 } from "./styles";
 import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
-export default function Game({ navigation }) {
+export default function Game() {
+  const navigation = useNavigation();
   return (
     <Container>
+      <ScrollView showsVerticalScrollIndicator={false}>
       <Header>
         <BackButton onPress={() => navigation.goBack()}>
           <OptionText style={{ color: "#C67AFC" }}>Voltar</OptionText>
@@ -25,41 +28,27 @@ export default function Game({ navigation }) {
         <Title>Escolha o Modo que deseja jogar</Title>
       </Header>
 
-      {/* 🔥 QUIZ DIÁRIO */}
-      <TouchableOpacity onPress={() => navigation.navigate("ThemeSelection")}>
-        <GameOption>
-          <Image source={require("../../images/quiz_icon.jpg")} />
-          <Text>Quiz diário</Text>
-        </GameOption>
-      </TouchableOpacity>
+      <GameOption onPress={() => navigation.navigate("Treino")}>
+        <Image source={require("../../images/quiz_icon.jpg")} />
+        <Text>Quiz diário</Text>
+      </GameOption>
 
-      {/* 🔥 DUELO ALEATÓRIO */}
-      <TouchableOpacity onPress={() => navigation.navigate("ConviteDuelo")}>
-        <GameOption>
-          <Image source={require("../../images/Humanas_background.jpg")} />
-          <Text2>Duelo Aleatório</Text2>
-        </GameOption>
-      </TouchableOpacity>
+      <GameOption onPress={() => navigation.navigate("ThemeSelection")}>
+        <Image source={require("../../images/Humanas_background.jpg")} />
+        <Text2>Duelo Aleatório</Text2>
+      </GameOption>
 
-      {/* 🔥 DUELO COM AMIGOS */}
-      <TouchableOpacity onPress={() => navigation.navigate("DueloAmigo")}>
-        <GameOption>
-          <Image source={require("../../images/duelo_amigos.jpg")} />
-          <Text3>Duelo com Amigos</Text3>
-        </GameOption>
-      </TouchableOpacity>
+      <GameOption onPress={() => navigation.navigate("ConviteDuelo")}>
+        <Image source={require("../../images/duelo_amigos.jpg")} />
+        <Text3>Duelo com Amigos</Text3>
+      </GameOption>
 
-      {/* 🔥 TREINO */}
-      <TouchableOpacity onPress={() => navigation.navigate("Treino")}>
-        <GameOption>
-          <Image source={require("../../images/treino_icon.jpg")} />
-          <Text>Treino</Text>
-        </GameOption>
-      </TouchableOpacity>
+      <GameOption onPress={() => navigation.navigate("ThemeSelection")}>
+        <Image source={require("../../images/treino_icon.jpg")} />
+        <Text>Treino</Text>
+      </GameOption>
 
-      {/* BOTTOM MENU */}
       <BottomMenu>
-
         <MenuButton onPress={() => navigation.navigate("Menu")}>
           <Ionicons name="home-outline" size={20} color="#fff" />
           <MenuText>Home</MenuText>
@@ -70,22 +59,22 @@ export default function Game({ navigation }) {
           <MenuText>Game</MenuText>
         </MenuButton>
 
-        <MenuButton onPress={() => navigation.navigate("ChatList")}>
+        <MenuButton active>
           <Ionicons name="chatbubble-ellipses" size={22} color="#fff" />
           <MenuText>Grupos</MenuText>
         </MenuButton>
 
-        <MenuButton onPress={() => navigation.navigate("FiltroEstudo")}>
-          <Ionicons name="book-outline" size={20} color="#fff" />
-          <MenuText>Matérias</MenuText>
-        </MenuButton>
-
-        <MenuButton onPress={() => navigation.navigate("Perfil")}>
+        <MenuButton onPress={() => navigation.navigate("Prefil")}>
           <Ionicons name="person-outline" size={20} color="#fff" />
           <MenuText>Perfil</MenuText>
         </MenuButton>
 
+        <MenuButton onPress={() => navigation.navigate("Prefil")}>
+          <Ionicons name="person-outline" size={20} color="#fff" />
+          <MenuText>Perfil</MenuText>
+        </MenuButton>
       </BottomMenu>
+      </ScrollView>
     </Container>
   );
 }
