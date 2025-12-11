@@ -31,8 +31,8 @@ export default function Perfil({ navigation }) {
         <BackgroundImage source={require("../../images/profile_banner.jpg")} />
 
         {/* Voltar para Menu */}
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <BackButton>
+        <TouchableOpacity >
+          <BackButton onPress={() => navigation.goBack()}>
             <Ionicons name="arrow-undo" size={22} color="#B84EF2" />
           </BackButton>
         </TouchableOpacity>
