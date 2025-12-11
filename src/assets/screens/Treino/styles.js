@@ -1,4 +1,5 @@
 import styled from "styled-components/native";
+import { ScrollView } from "react-native";
 
 export const Container = styled.View`
   flex: 1;
@@ -59,7 +60,7 @@ export const QuestionText = styled.Text`
   margin-top: 10px;
 `;
 
-export const ChatArea = styled.View`
+export const ChatArea = styled(ScrollView)`
   flex: 1;
   margin-bottom: 20px;
 `;

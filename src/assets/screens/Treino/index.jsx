@@ -16,11 +16,6 @@ import {
   Avatar,
   MessageBubble,
   MessageText,
-  LifeBox,
-  LifeNumber,
-  LifeLabel,
-  LifeBar,
-  LifeSegment,
   InputArea,
   SendButton,
   AddButton,
@@ -28,42 +23,70 @@ import {
   MenuText,
   Input,
 } from "./styles";
+
 import { Ionicons } from "@expo/vector-icons";
+import { enviarMensagemParaIA } from "../../../../src/service/IAservice";
 
 export default function DueloAmigo({ navigation }) {
-
-  // 🔥 Estado para armazenar mensagens
   const [newMessage, setNewMessage] = useState("");
+  const [messages, setMessages] = useState([]);
 
-  // 🔥 Enviar mensagem
-  const handleSend = () => {
+  const handleSend = async () => {
     if (newMessage.trim() === "") return;
-    console.log("Enviou:", newMessage);
+
+    // exibe sua mensagem
+    const userMessage = {
+      id: Date.now(),
+      sender: "you",
+      text: newMessage,
+    };
+
+    setMessages((prev) => [...prev, userMessage]);
+
+    const textToSend = newMessage;
     setNewMessage("");
+
+    try {
+      // envia para a IA (via service)
+      const resposta = await enviarMensagemParaIA(textToSend);
+
+      const botMessage = {
+        id: Date.now() + 1,
+        sender: "bot",
+        text: resposta || "Resposta recebida.",
+      };
+
+      setMessages((prev) => [...prev, botMessage]);
+
+    } catch (error) {
+      const errorMessage = {
+        id: Date.now() + 2,
+        sender: "bot",
+        text: "Erro ao conectar à API.",
+      };
+      setMessages((prev) => [...prev, errorMessage]);
+    }
   };
 
   return (
     <Container>
 
-      {/* ======= HEADER ======= */}
+      {/* HEADER */}
       <Header>
-        {/* MENU → abre tela Menu */}
         <MenuButton onPress={() => navigation.navigate("FiltroEstudo")}>
           <MenuIcon source={require("../../images/menu.jpg")} />
         </MenuButton>
 
         <Title>OSG</Title>
 
-        {/* VOLTAR */}
         <BackButton onPress={() => navigation.goBack()}>
           <BackText>Voltar</BackText>
         </BackButton>
       </Header>
 
-      {/* ======= CARD DE PERGUNTA ======= */}
+      {/* CARD DE PERGUNTA */}
       <QuestionCard>
         <QuestionIcon source={require("../../images/espada.jpg")} />
-
         <QuestionTitle>Responda!</QuestionTitle>
 
         <QuestionText>
@@ -71,35 +94,37 @@ export default function DueloAmigo({ navigation }) {
         </QuestionText>
       </QuestionCard>
 
-      {/* ======= CHAT ======= */}
+      {/* CHAT */}
       <ChatArea>
+        {messages.map((msg) => (
+          <MessageRow
+            key={msg.id}
+            style={{
+              justifyContent:
+                msg.sender === "you" ? "flex-end" : "flex-start",
+            }}
+          >
+            {msg.sender === "bot" && (
+              <Avatar source={require("../../images/profile_photo.jpg")} />
+            )}
 
-        {/* Exemplo: sua mensagem */}
-        <MessageRow style={{ justifyContent: "flex-end" }}>
-          <MessageBubble style={{ backgroundColor: "#6A3BA7" }}>
-            <MessageText>Mensagem sua aqui...</MessageText>
-          </MessageBubble>
+            <MessageBubble
+              style={{
+                backgroundColor:
+                  msg.sender === "you" ? "#6A3BA7" : "#3F235A",
+              }}
+            >
+              <MessageText>{msg.text}</MessageText>
+            </MessageBubble>
 
-          <Avatar source={require("../../images/profile_photo.jpg")} />
-        </MessageRow>
-
+            {msg.sender === "you" && (
+              <Avatar source={require("../../images/profile_photo.jpg")} />
+            )}
+          </MessageRow>
+        ))}
       </ChatArea>
 
-      {/* ======= VIDA ======= */}
-      <LifeBox>
-        <LifeNumber>5</LifeNumber>
-        <LifeLabel>pontos de vida restantes</LifeLabel>
-      </LifeBox>
-
-      <LifeBar>
-        <LifeSegment />
-        <LifeSegment />
-        <LifeSegment />
-        <LifeSegment />
-        <LifeSegment />
-      </LifeBar>
-
-      {/* ======= INPUT ======= */}
+      {/* INPUT */}
       <InputArea>
         <AddButton>
           <Title style={{ color: "#fff", fontSize: 22 }}>+</Title>
@@ -117,9 +142,8 @@ export default function DueloAmigo({ navigation }) {
         </SendButton>
       </InputArea>
 
-      {/* ======= MENU INFERIOR ======= */}
+      {/* MENU INFERIOR */}
       <BottomMenu>
-
         <MenuButton onPress={() => navigation.navigate("Menu")}>
           <Ionicons name="home-outline" size={20} color="#fff" />
           <MenuText>Home</MenuText>
@@ -144,9 +168,7 @@ export default function DueloAmigo({ navigation }) {
           <Ionicons name="person-outline" size={20} color="#fff" />
           <MenuText>Perfil</MenuText>
         </MenuButton>
-
       </BottomMenu>
-
     </Container>
   );
 }
