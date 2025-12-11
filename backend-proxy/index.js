@@ -24,6 +24,5 @@ app.post("/duelo/enviar", async (req, res) => {
   }
 });
 
-app.listen(process.env.PORT, () => {
-  console.log("Backend rodando na porta " + process.env.PORT);
-});
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Backend rodando na porta ${PORT}`));
