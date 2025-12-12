@@ -134,4 +134,8 @@ export const Divider = styled.View`
   width: 100%;
   background-color: #3b0f66;
   margin: 10px 0;
+<<<<<<< HEAD
 `;
+=======
+`;
+>>>>>>> fc3b99b (fix: corrigido navegações de algumas telas)
