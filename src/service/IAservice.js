@@ -1,10 +1,9 @@
-// FRONTEND - envia mensagem para o backend
-
-import api from "./api"; // usa o axios configurado com o IP da sua máquina
+// src/service/IAservice.js
+import api from "./api"; // importa o axios configurado
 
 export async function enviarMensagemParaIA(mensagem) {
   try {
-    const resposta = await api.post("/duelo/enviar", {
+    const resposta = await api.post("/duelo/enviar", { // rota definida no backend
       mensagem: mensagem,
     });
 

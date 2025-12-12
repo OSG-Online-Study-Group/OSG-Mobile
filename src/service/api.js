@@ -1,7 +1,9 @@
+
 import axios from "axios";
 
+// URL do backend no Vercel
 const api = axios.create({
-  baseURL: "http://192.168.15.175:3000", // IP da máquina + porta do backend
+  baseURL: "osg-backend.vercel.app",
 });
 
 export default api;
