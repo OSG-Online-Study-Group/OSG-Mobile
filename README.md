@@ -170,11 +170,11 @@ src/services/firebase.js
 
 ---
 
-## 👤 Autor
+## 👤 Autores
 
-**Juan Oliveira**
-**João Vitor Aguiar Souza**
-**Lucas Gonçalves**
+ Juan Oliveira
+João Vitor Aguiar Souza
+Lucas Gonçalves
 Projeto desenvolvido para fins educacionais e aprendizado em desenvolvimento mobile com React Native.
 
 ```
