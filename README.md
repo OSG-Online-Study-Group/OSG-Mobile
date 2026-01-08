@@ -1,47 +1,43 @@
-📱 OSG Mobile — Online Study Group
+Perfeito. Segue o **README inteiro atualizado**, com a **parte de navegação descrita corretamente e formatada para exibir bem no GitHub**, tudo **em um único bloco**, pronto para colar.
 
-Aplicativo mobile desenvolvido com Expo (React Native) para organização de estudos em grupo, permitindo cadastro e login de usuários com autenticação via Firebase, além de navegação entre telas temáticas de estudo.
+```md
+# 📱 OSG Mobile — Online Study Group
 
-🚀 Tecnologias Utilizadas
-📦 Front-end (Mobile)
+Aplicativo mobile desenvolvido com **Expo (React Native)** com foco em organização e apoio a estudos em grupo.  
+O projeto conta com **cadastro e login de usuários via Firebase Authentication**, além de navegação estruturada entre telas de estudo.
 
-React Native
+---
 
-Expo
+## 🚀 Tecnologias Utilizadas
 
-Expo CLI
+### 📦 Mobile / Front-end
+- React Native
+- Expo
+- JavaScript (ES6+)
+- Styled-components
 
-React Navigation
+### 🔐 Backend as a Service
+- Firebase
+- Firebase Authentication
 
-Styled-components
+### 🧭 Navegação
+- React Navigation  
+  - `@react-navigation/native`  
+  - `@react-navigation/native-stack`
 
-JavaScript (ES6+)
+### 🛠️ Ferramentas
+- Node.js
+- NPM
+- Git
+- GitHub
+- Visual Studio Code
 
-🔐 Autenticação e Backend as a Service (BaaS)
+---
 
-Firebase Authentication
+## 📂 Estrutura do Projeto
 
-Firebase SDK Web
+```
 
-🧭 Navegação
-
-@react-navigation/native
-
-@react-navigation/native-stack
-
-🛠️ Ferramentas de Desenvolvimento
-
-Git
-
-GitHub
-
-Visual Studio Code
-
-Node.js
-
-NPM
-
-📂 Estrutura do Projeto (Simplificada)
 OSG-Mobile/
 ├── src/
 │   ├── assets/
@@ -50,7 +46,9 @@ OSG-Mobile/
 │   │       ├── Login/
 │   │       ├── Cadastro/
 │   │       ├── Menu/
-│   │       └── Grupos/
+│   │       ├── Grupo Economia/
+│   │       ├── Grupo Quimica Organica/
+│   │       └── Filtro de materia quimica/
 │   ├── services/
 │   │   └── firebase.js
 │   └── routes/
@@ -60,66 +58,125 @@ OSG-Mobile/
 ├── package.json
 └── README.md
 
-🔑 Funcionalidades
+```
 
-Cadastro de usuário com email e senha
+---
 
-Login de usuário autenticado
+## 🔑 Funcionalidades
 
-Integração com Firebase Authentication
+- Cadastro de usuário com email e senha
+- Login de usuário autenticado
+- Autenticação via Firebase
+- Navegação entre telas
+- Interface estilizada com Styled-components
+- Organização modular por telas
 
-Navegação entre telas
+---
 
-Interface estilizada com Styled-components
+## 🧭 Navegação da Aplicação
 
-Organização modular de telas e serviços
+A navegação do aplicativo é feita utilizando **React Navigation (Native Stack)**.
 
-⚙️ Configuração do Ambiente
-Pré-requisitos
+Fluxo principal de telas:
 
-Node.js instalado
+```
 
-Expo CLI instalado globalmente:
+Login
+└── Cadastro
+└── Menu
+├── Grupos
+│    ├── Grupo Economia
+│    └── Grupo Química Orgânica
+└── Filtro de Matéria Química
 
+````
+
+- **Login**: autenticação do usuário
+- **Cadastro**: criação de nova conta
+- **Menu**: tela principal após login
+- **Grupos**: acesso aos grupos de estudo
+- **Filtro de Matéria**: navegação por áreas da química
+- Botão **Voltar** configurado via `navigation.goBack()`
+
+---
+
+## ⚙️ Configuração do Ambiente
+
+### Pré-requisitos
+- Node.js
+- Expo CLI
+
+```bash
 npm install -g expo-cli
+````
 
-Instalação do Projeto
+---
+
+### Instalação
+
+```bash
 git clone https://github.com/juanoliveira0020/OSG-Mobile.git
 cd OSG-Mobile
 npm install
+```
 
-Executar o Projeto
+---
+
+### Executar o Projeto
+
+```bash
 npx expo start
+```
 
+ou
 
-Ou:
-
+```bash
 expo start
+```
 
+Abra o **Expo Go** no celular e escaneie o QR Code, ou execute em um emulador.
 
-Escaneie o QR Code com o Expo Go no celular ou use um emulador.
+---
 
-🔥 Firebase
+## 🔥 Firebase
 
-O projeto utiliza Firebase Authentication para:
+O projeto utiliza **Firebase Authentication** para cadastro e login de usuários.
 
-Criar usuários
+Arquivo de configuração:
 
-Realizar login seguro
-
-O arquivo de configuração fica em:
-
+```
 src/services/firebase.js
+```
 
+> Em produção, recomenda-se o uso de variáveis de ambiente para proteger as credenciais.
 
+---
 
+## 🧠 Observações
 
+* O `.gitignore` do Expo ignora automaticamente arquivos desnecessários
+* Avisos de `LF` / `CRLF` no Git não afetam o funcionamento
+* Projeto desenvolvido com foco educacional
 
-👤 Autores
-Juan Oliveira
-Lucas Gonçalves
-João Vitor Aguiar Souza 
-Projeto desenvolvido para fins educacionais e prática em desenvolvimento mobile com React Native.
+---
 
+## 📌 Melhorias Futuras
 
+* Recuperação de senha
+* Validação de formulários
+* Integração com Firestore
+* Perfil de usuário
+* Grupos dinâmicos
 
+---
+
+## 👤 Autor
+
+**Juan Oliveira**
+**João Vitor Aguiar Souza**
+**Lucas Gonçalves**
+Projeto desenvolvido para fins educacionais e aprendizado em desenvolvimento mobile com React Native.
+
+```
+- Revisar nomes de telas e pastas para padrão profissional
+```
