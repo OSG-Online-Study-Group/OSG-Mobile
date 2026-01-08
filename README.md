@@ -1,6 +1,3 @@
-Perfeito. Segue o **README inteiro atualizado**, com a **parte de navegação descrita corretamente e formatada para exibir bem no GitHub**, tudo **em um único bloco**, pronto para colar.
-
-```md
 # 📱 OSG Mobile — Online Study Group
 
 Aplicativo mobile desenvolvido com **Expo (React Native)** com foco em organização e apoio a estudos em grupo.  
