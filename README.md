@@ -169,8 +169,8 @@ src/services/firebase.js
 
 ## 👤 Autores
 
- Juan Oliveira
-João Vitor Aguiar Souza
+Juan Oliveira,
+João Vitor Aguiar Souza,
 Lucas Gonçalves
 Projeto desenvolvido para fins educacionais e aprendizado em desenvolvimento mobile com React Native.
 
