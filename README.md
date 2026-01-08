@@ -123,6 +123,3 @@ Projeto desenvolvido para fins educacionais e prática em desenvolvimento mobile
 
 
 
-Criar badges (Expo, Firebase, React Native)
-
-É só dizer.
