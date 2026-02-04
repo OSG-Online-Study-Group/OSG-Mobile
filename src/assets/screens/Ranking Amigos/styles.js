@@ -21,6 +21,11 @@ export const Title = styled.Text`
   margin-left: 68px;
 `;
 
+export const BackText = styled.Text`
+  color: #C644E0;
+  font-size: 16px;
+`;
+
 export const BackButton = styled.Text`
   color: #C8A4FF;
   font-size: 14px;
