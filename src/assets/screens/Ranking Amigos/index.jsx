@@ -6,6 +6,7 @@ import {
   Title,
   BackButton,
   SearchBox,
+  BackText,
   SearchInput,
   SearchIcon,
   Item,
