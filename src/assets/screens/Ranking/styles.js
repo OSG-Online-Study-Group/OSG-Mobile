@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-
->>>>>>> fc3b99b (fix: corrigido navegações de algumas telas)
 import styled from "styled-components/native";
 
 export const Container = styled.View`

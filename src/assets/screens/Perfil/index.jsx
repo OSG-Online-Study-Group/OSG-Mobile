@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import { ScrollView, Image, TouchableOpacity } from "react-native";
-=======
 import { ScrollView, Image } from "react-native";
->>>>>>> fc3b99b (fix: corrigido navegações de algumas telas)
 import {
   Container,
   Header,
@@ -27,32 +23,18 @@ import {
   Divider,
 } from "./styles";
 import { Ionicons } from "@expo/vector-icons";
-<<<<<<< HEAD
-
-export default function Perfil({ navigation }) {
-=======
 import { useNavigation } from "@react-navigation/native";
 
 export default function Perfil() {
   const navigation = useNavigation();
->>>>>>> fc3b99b (fix: corrigido navegações de algumas telas)
   return (
     <Container>
       <ScrollView showsVerticalScrollIndicator={false}>
         <BackgroundImage source={require("../../images/profile_banner.jpg")} />
 
-<<<<<<< HEAD
-        {/* Voltar para Menu */}
-        <TouchableOpacity >
-          <BackButton onPress={() => navigation.goBack()}>
-            <Ionicons name="arrow-undo" size={22} color="#B84EF2" />
-          </BackButton>
-        </TouchableOpacity>
-=======
         <BackButton onPress={() => navigation.goBack()}>
         <Ionicons name="arrow-undo" size={22} color="#B84EF2" />
         </BackButton>
->>>>>>> fc3b99b (fix: corrigido navegações de algumas telas)
 
         <ProfileImage source={require("../../images/profile_photo.jpg")} />
         <Name>Poker Ghost</Name>
@@ -90,71 +72,6 @@ export default function Perfil() {
           <PlusText>Obter Plus? Ganhe o dobro de xp e mais recompensas</PlusText>
         </PlusCard>
 
-<<<<<<< HEAD
-        {/* MENSAGENS */}
-        <TouchableOpacity onPress={() => navigation.navigate("ChatList")}>
-          <MenuItem>
-            <Image source={require("../../images/message_icon.jpg")} />
-            <MenuText>Mensagem</MenuText>
-          </MenuItem>
-        </TouchableOpacity>
-
-        {/* RANKING */}
-        <TouchableOpacity onPress={() => navigation.navigate("FiltroRanking")}>
-          <MenuItem>
-            <Image source={require("../../images/ranking_icon.jpg")} />
-            <MenuText>Ranking</MenuText>
-          </MenuItem>
-        </TouchableOpacity>
-
-        {/* EDITAR PERFIL */}
-        
-          <MenuItem>
-            <Image source={require("../../images/edit_icon.jpg")} />
-            <MenuText>Editar Perfil</MenuText>
-          </MenuItem>
-       
-
-        <Divider />
-
-        {/* IDIOMA */}
-      
-          <MenuItem>
-            <Image source={require("../../images/language_icon.jpg")} />
-            <MenuText>Idioma</MenuText>
-          </MenuItem>
-       
-
-        {/* SEGURANÇA */}
-        
-          <MenuItem>
-            <Image source={require("../../images/security_icon.jpg")} />
-            <MenuText>Configurações de Segurança</MenuText>
-          </MenuItem>
-        
-
-        {/* AJUDA */}
-        
-          <MenuItem>
-            <Image source={require("../../images/help_icon.jpg")} />
-            <MenuText>Ajuda e Suporte</MenuText>
-          </MenuItem>
-       
-
-        {/* LOGOUT */}
-        
-           <TouchableOpacity onPress={() => navigation.navigate("Home")}>
-          <MenuItem>
-            <Image source={require("../../images/logout_icon.jpg")} />
-            <MenuText>Fazer Logout</MenuText>
-          </MenuItem>
-        </TouchableOpacity>
-        
-      </ScrollView>
-    </Container>
-  );
-}
-=======
         <MenuItem onPress={() => navigation.navigate("ChatList")}>
           <Image source={require("../../images/message_icon.jpg")} />
           <MenuText>Mensagem</MenuText>
@@ -195,4 +112,3 @@ export default function Perfil() {
     </Container>
   );
 }
->>>>>>> fc3b99b (fix: corrigido navegações de algumas telas)
