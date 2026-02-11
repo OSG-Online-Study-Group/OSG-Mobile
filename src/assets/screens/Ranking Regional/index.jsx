@@ -4,6 +4,7 @@ import {
   Container,
   Header,
   Title,
+  BackText,
   BackButton,
   SearchBox,
   SearchInput,
@@ -16,20 +17,27 @@ import {
   Points
 } from "./styles";
 
-export default function RankRegional() {
-    
-    const data = [
-      { id: "1", name: "Makauli", points: "9999pts", avatar: require("../../images/icon_OSG.jpg") },
-      { id: "2", name: "Caiox", points: "6666pts", avatar: require("../../images/icon_OSG.jpg") },
-      { id: "3", name: "Natalie", points: "9999pts", avatar: require("../../images/icon_OSG.jpg") },
-      { id: "4", name: "McLove", points: "6666pts", avatar: require("../../images/icon_OSG.jpg") },
-      { id: "5", name: "Mc Pozinho", points: "5555pts", avatar: require("../../images/icon_OSG.jpg") },
-    ];
 
-    return (
+
+const data = [
+  { id: "1", name: "Makauli", points: "9999pts", avatar: require("../../images/icon_OSG.jpg") },
+  { id: "2", name: "Caiox", points: "6666pts", avatar: require("../../images/icon_OSG.jpg") },
+  { id: "3", name: "Natalie", points: "9999pts", avatar: require("../../images/icon_OSG.jpg") },
+  { id: "4", name: "McLove", points: "6666pts", avatar: require("../../images/icon_OSG.jpg") },
+  { id: "5", name: "Mc Pozinho", points: "5555pts", avatar: require("../../images/icon_OSG.jpg") },
+];
+
+import { useNavigation } from "@react-navigation/native";
+
+export default function RankRegional() {
+
+  const navigation = useNavigation();
+  return (
     <Container>
       <Header>
-        <BackButton>Voltar</BackButton>
+        <BackButton onPress={() => navigation.goBack()}>
+                 <BackText>Voltar</BackText>
+               </BackButton>
         <Title>Rank Regional</Title>
       </Header>
 

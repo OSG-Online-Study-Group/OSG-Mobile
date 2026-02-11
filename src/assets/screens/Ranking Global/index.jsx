@@ -6,6 +6,7 @@ import {
   Title,
   BackButton,
   SearchBox,
+  BackText,
   SearchInput,
   SearchIcon,
   TableHeader,
@@ -24,11 +25,16 @@ const data = [
   { id: "5", name: "Dfideliz", points: "5555pts", avatar: require("../../images/icon_OSG.jpg") }
 ];
 
+import { useNavigation } from "@react-navigation/native";
+
 export default function RankGlobal() {
+  const navigation = useNavigation();
   return (
     <Container>
       <Header>
-        <BackButton>Voltar</BackButton>
+        <BackButton onPress={() => navigation.goBack()}>
+          <BackText>Voltar</BackText>
+        </BackButton>
         <Title>Rank Global</Title>
       </Header>
 

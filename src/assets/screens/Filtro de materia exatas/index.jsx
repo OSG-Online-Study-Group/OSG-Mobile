@@ -27,11 +27,9 @@ export default function FiltroExatas({ navigation }) {
           source={require("../../images/icon_OSG.jpg")}
         />
 
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <BackButton>
-            <BackText>Voltar</BackText>
-          </BackButton>
-        </TouchableOpacity>
+        <BackButton onPress={() => navigation.goBack()}>
+          <BackText>Voltar</BackText>
+        </BackButton>
       </Header>
 
       {/* ===== BANNER EXATAS ===== */}
