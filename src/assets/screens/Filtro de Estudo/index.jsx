@@ -36,34 +36,29 @@ export default function FiltroEstudo({ navigation }) {
       </Header>
 
       {/* ===== CARD EXATAS ===== */}
-      <TouchableOpacity onPress={() => navigation.navigate("FiltroExatas")}>
-        <Card>
-          <CardBackground
+     <Card onPress={() => navigation.navigate("FiltroExatas")}>
+      <CardBackground
             source={require("../../images/Exatas_background.jpg")}
           />
           <CardText>Exatas</CardText>
         </Card>
-      </TouchableOpacity>
+
 
       {/* ===== CARD HUMANAS ===== */}
-      <TouchableOpacity onPress={() => navigation.navigate("FiltroHumanas")}>
-        <Card>
+    <Card onPress={() => navigation.navigate("FiltroHumanas")}>
           <CardBackground
             source={require("../../images/Humanas_background.jpg")}
           />
           <CardText>Humanas</CardText>
         </Card>
-      </TouchableOpacity>
 
       {/* ===== CARD EXTRAS ===== */}
-      <TouchableOpacity onPress={() => navigation.navigate("FiltroExtras")}>
-        <Card>
+   <Card onPress={() => navigation.navigate("FiltroExatas")}>
           <CardBackground2
             source={require("../../images/Extras.jpg")}
           />
           <CardText2>Extras</CardText2>
-        </Card>
-      </TouchableOpacity>
+          </Card>
 
       {/* ===== CARD COMUNIDADE ===== */}
       <TouchableOpacity onPress={() => navigation.navigate("CommunityScreen")}>

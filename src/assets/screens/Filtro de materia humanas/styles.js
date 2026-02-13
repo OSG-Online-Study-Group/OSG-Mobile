@@ -68,7 +68,6 @@ export const OptionButton = styled.TouchableOpacity`
   justify-content: space-between;
   align-items: center;
   padding: 0 25px;
-  elevation: 4;
 `;
 
 export const OptionText = styled.Text`
