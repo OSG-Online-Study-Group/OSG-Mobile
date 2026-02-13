@@ -40,7 +40,6 @@ export const Card = styled.TouchableOpacity`
   overflow: hidden;
   justify-content: center;
   align-items: center;
-  elevation: 4;
 `;
 
 export const CardBackground = styled.ImageBackground`
