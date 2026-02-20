@@ -142,11 +142,6 @@ Abra o **Expo Go** no celular e escaneie o QR Code, ou execute em um emulador.
 
 O projeto utiliza **Firebase Authentication** para cadastro e login de usuários.
 
-Arquivo de configuração:
-
-```
-src/services/firebase.js
-```
 
 > Em produção, recomenda-se o uso de variáveis de ambiente para proteger as credenciais.
 
