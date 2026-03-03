@@ -27,15 +27,15 @@ export default function ThemeSelection({ navigation }) {
       </Header>
 
       {/* ===== OPÇÕES DE TEMAS ===== */}
-      <GameOption onPress={() => navigation.navigate("Treino")}>
+      <GameOption onPress={() => navigation.navigate("Treino_Exatas")}>
         <Text>Exatas</Text>
       </GameOption>
 
-      <GameOption onPress={() => navigation.navigate("Treino")}>
+      <GameOption onPress={() => navigation.navigate("Treino_Humanas")}>
         <Text2>Humanas</Text2>
       </GameOption>
 
-      <GameOption onPress={() => navigation.navigate("Treino")}>
+      <GameOption onPress={() => navigation.navigate("Treino_Extras")}>
         <Text3>Extras</Text3>
       </GameOption>
 

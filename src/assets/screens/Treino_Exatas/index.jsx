@@ -25,7 +25,7 @@ import {
 } from "./styles";
 
 import { Ionicons } from "@expo/vector-icons";
-import { enviarMensagemParaIA } from "../../../../src/service/IAservice";
+import { enviarMensagemParaIA } from "../../../service/IAservice";
 
 export default function DueloAmigo({ navigation }) {
   const [newMessage, setNewMessage] = useState("");
@@ -90,7 +90,7 @@ export default function DueloAmigo({ navigation }) {
         <QuestionTitle>Responda!</QuestionTitle>
 
         <QuestionText>
-          Liste 3 momentos importantes da era do renascimento
+         Quiz de Exatas 
         </QuestionText>
       </QuestionCard>
 
