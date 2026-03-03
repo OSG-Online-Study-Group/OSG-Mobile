@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Container,
   Header,
@@ -27,43 +27,90 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { enviarMensagemParaIA } from "../../../service/IAservice";
 
-export default function DueloAmigo({ navigation }) {
+export default function QuizHumanas({ navigation }) {
   const [newMessage, setNewMessage] = useState("");
   const [messages, setMessages] = useState([]);
+  const [perguntaAtual, setPerguntaAtual] = useState("");
+
+  // 🔹 Gera pergunta ao abrir a tela
+  useEffect(() => {
+    gerarPergunta();
+  }, []);
+
+  const gerarPergunta = async () => {
+    try {
+      const prompt = `
+      Gere uma pergunta de HUMANAS (História, Geografia, Filosofia ou Sociologia).
+      A pergunta deve exigir resposta curta ou explicação breve.
+      Não forneça a resposta.
+      Retorne apenas a pergunta.
+      `;
+
+      const resposta = await enviarMensagemParaIA(prompt);
+
+      setPerguntaAtual(resposta);
+
+      const botMessage = {
+        id: Date.now(),
+        sender: "bot",
+        text: resposta,
+      };
+
+      setMessages([botMessage]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleSend = async () => {
     if (newMessage.trim() === "") return;
 
-    // exibe sua mensagem
+    const userAnswer = newMessage;
+
     const userMessage = {
       id: Date.now(),
       sender: "you",
-      text: newMessage,
+      text: userAnswer,
     };
 
     setMessages((prev) => [...prev, userMessage]);
-
-    const textToSend = newMessage;
     setNewMessage("");
 
     try {
-      // envia para a IA (via service)
-      const resposta = await enviarMensagemParaIA(textToSend);
+      const promptCorrecao = `
+      Pergunta: ${perguntaAtual}
+      Resposta do aluno: ${userAnswer}
+
+      Avalie a resposta considerando contexto histórico/social.
+      Responda apenas:
+
+      CORRETA ou INCORRETA
+
+      Depois explique brevemente o motivo.
+      `;
+
+      const respostaIA = await enviarMensagemParaIA(promptCorrecao);
 
       const botMessage = {
         id: Date.now() + 1,
         sender: "bot",
-        text: resposta || "Resposta recebida.",
+        text: respostaIA,
       };
 
       setMessages((prev) => [...prev, botMessage]);
+
+      // 🔹 Nova pergunta após 3 segundos
+      setTimeout(() => {
+        gerarPergunta();
+      }, 3000);
 
     } catch (error) {
       const errorMessage = {
         id: Date.now() + 2,
         sender: "bot",
-        text: "Erro ao conectar à API.",
+        text: "Erro ao corrigir resposta.",
       };
+
       setMessages((prev) => [...prev, errorMessage]);
     }
   };
@@ -71,30 +118,26 @@ export default function DueloAmigo({ navigation }) {
   return (
     <Container>
 
-      {/* HEADER */}
       <Header>
         <MenuButton onPress={() => navigation.navigate("FiltroEstudo")}>
           <MenuIcon source={require("../../images/menu.jpg")} />
         </MenuButton>
 
-        <Title>OSG</Title>
+        <Title>Quiz Humanas</Title>
 
         <BackButton onPress={() => navigation.goBack()}>
           <BackText>Voltar</BackText>
         </BackButton>
       </Header>
 
-      {/* CARD DE PERGUNTA */}
       <QuestionCard>
         <QuestionIcon source={require("../../images/espada.jpg")} />
-        <QuestionTitle>Responda!</QuestionTitle>
-
+        <QuestionTitle>Modo Humanas</QuestionTitle>
         <QuestionText>
-         Quiz de humanas
+          Analise, interprete e responda!
         </QuestionText>
       </QuestionCard>
 
-      {/* CHAT */}
       <ChatArea>
         {messages.map((msg) => (
           <MessageRow
@@ -124,14 +167,13 @@ export default function DueloAmigo({ navigation }) {
         ))}
       </ChatArea>
 
-      {/* INPUT */}
       <InputArea>
         <AddButton>
           <Title style={{ color: "#fff", fontSize: 22 }}>+</Title>
         </AddButton>
 
         <Input
-          placeholder="Digite aqui!"
+          placeholder="Digite sua resposta..."
           placeholderTextColor="#DCDCDC"
           value={newMessage}
           onChangeText={setNewMessage}
@@ -142,7 +184,6 @@ export default function DueloAmigo({ navigation }) {
         </SendButton>
       </InputArea>
 
-      {/* MENU INFERIOR */}
       <BottomMenu>
         <MenuButton onPress={() => navigation.navigate("Menu")}>
           <Ionicons name="home-outline" size={20} color="#fff" />
@@ -169,6 +210,7 @@ export default function DueloAmigo({ navigation }) {
           <MenuText>Perfil</MenuText>
         </MenuButton>
       </BottomMenu>
+
     </Container>
   );
 }
