@@ -28,7 +28,7 @@ export default function Game() {
         <Title>Escolha o Modo que deseja jogar</Title>
       </Header>
 
-      <GameOption onPress={() => navigation.navigate("Treino")}>
+      <GameOption onPress={() => navigation.navigate("Treino_Extras")}>
         <Image source={require("../../images/quiz_icon.jpg")} />
         <Text>Quiz diário</Text>
       </GameOption>

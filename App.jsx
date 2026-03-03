@@ -21,7 +21,9 @@ import RankAmigos from './src/assets/screens/Ranking Amigos';
 import CommunityScreen from './src/assets/screens/Comunidade';
 import ConviteDuelo from './src/assets/screens/Convite Duelo';
 import ThemeSelection from './src/assets/screens/Tema Quiz';
-import Treino from './src/assets/screens/Treino';
+import Treino_Extras from './src/assets/screens/Treino_Extras';
+import Treino_Exatas from './src/assets/screens/Treino_Exatas';
+import Treino_Humanas from './src/assets/screens/Treino_Humanas';
 import DueloAmigo from './src/assets/screens/Duelo Amigo';
 import FiltroEstudo from './src/assets/screens/Filtro de Estudo';
 import FiltroExatas from './src/assets/screens/Filtro de materia exatas';
@@ -68,7 +70,9 @@ export default function App() {
           <Stack.Screen name="CommunityScreen" component={CommunityScreen} />
           <Stack.Screen name="ConviteDuelo" component={ConviteDuelo} />
           <Stack.Screen name="ThemeSelection" component={ThemeSelection} />
-          <Stack.Screen name="Treino" component={Treino} />
+          <Stack.Screen name="Treino_Extras" component={Treino_Extras} />
+          <Stack.Screen name="Treino_Exatas" component={Treino_Exatas} />
+          <Stack.Screen name="Treino_Humanas" component={Treino_Humanas} />
           <Stack.Screen name="DueloAmigo" component={DueloAmigo} />
           <Stack.Screen name="FiltroEstudo" component={FiltroEstudo} />
           <Stack.Screen name="FiltroExatas" component={FiltroExatas} />
