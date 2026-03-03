@@ -48,7 +48,7 @@ export default function FiltroExatas({ navigation }) {
         </OptionButton>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => navigation.navigate("Treino")}>
+      <TouchableOpacity onPress={() => navigation.navigate("FiltroQuimica")}>
         <OptionButton>
           <OptionText>Química</OptionText>
           <Ionicons name="flask-outline" size={40} color="#000" />
