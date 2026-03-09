@@ -5,7 +5,6 @@ import {
   Logo,
   HeaderCenterIcon,
   BackButton,
-  BackText,
   Banner,
   BannerImage,
   BannerTitle,
@@ -16,7 +15,7 @@ import {
 } from "./styles";
 import { Ionicons } from "@expo/vector-icons";
 
-export default function FiltroAstronomia() {
+export default function FiltroAstronomia({navigation}) {
   return (
     <Container>
 
@@ -28,9 +27,9 @@ export default function FiltroAstronomia() {
           source={require("../../images/icon_OSG.jpg")}
         />
 
-        <BackButton>
-          <BackText>Voltar</BackText>
-        </BackButton>
+          <BackButton onPress={() => navigation.goBack()}>
+                <OptionText style={{ color: "#C67AFC" }}>Voltar</OptionText>
+              </BackButton>
       </Header>
 
       {/* BANNER */}

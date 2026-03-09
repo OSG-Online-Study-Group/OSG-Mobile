@@ -5,6 +5,7 @@ import {
   Logo,
   HeaderCenterIcon,
   BackButton,
+  TouchableOpacity,
   OptionText,
   Banner,
   BannerTitle,
@@ -35,11 +36,12 @@ export default function FiltroQuimica({ navigation }) {
       </Banner>
 
       {/* LISTA */}
+       <TouchableOpacity onPress={() => navigation.navigate("QuimicaOrganica")}>
       <OptionButton>
         <OptionText>Química Orgânica</OptionText>
         <Ionicons name="flask-outline" size={35} color="#000" />
       </OptionButton>
-
+        </TouchableOpacity>
       <OptionButton>
         <OptionText>Química Inorgânica</OptionText>
         <Ionicons name="eyedrop-outline" size={40} color="#000" />

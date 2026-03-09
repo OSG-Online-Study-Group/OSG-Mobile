@@ -16,6 +16,8 @@ export const Header = styled.View`
   margin-bottom: 25px;
 `;
 
+export const TouchableOpacity = styled.TouchableOpacity``;
+
 export const Logo = styled.Image`
   width: 40px;
   height: 40px;
