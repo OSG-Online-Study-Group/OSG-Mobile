@@ -21,6 +21,7 @@ import RankAmigos from './src/assets/screens/Ranking Amigos';
 import CommunityScreen from './src/assets/screens/Comunidade';
 import ConviteDuelo from './src/assets/screens/Convite Duelo';
 import ThemeSelection from './src/assets/screens/Tema Quiz';
+import QuizDiario from './src/assets/screens/Quiz Diario';
 import Treino_Extras from './src/assets/screens/Treino_Extras';
 import Treino_Exatas from './src/assets/screens/Treino_Exatas';
 import Treino_Humanas from './src/assets/screens/Treino_Humanas';
@@ -70,6 +71,7 @@ export default function App() {
           <Stack.Screen name="CommunityScreen" component={CommunityScreen} />
           <Stack.Screen name="ConviteDuelo" component={ConviteDuelo} />
           <Stack.Screen name="ThemeSelection" component={ThemeSelection} />
+          <Stack.Screen name="QuizDiario" component={QuizDiario} />
           <Stack.Screen name="Treino_Extras" component={Treino_Extras} />
           <Stack.Screen name="Treino_Exatas" component={Treino_Exatas} />
           <Stack.Screen name="Treino_Humanas" component={Treino_Humanas} />
