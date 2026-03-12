@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Alert } from "react-native";
 import { auth } from "../../config/firebase";
-import { enviarMensagemParaIA } from "../../service/IAservice";
+import { enviarMensagemParaIA } from "../../services/IAservice";
 import { db } from "../../config/firebase";
 import { doc, getDoc, increment, setDoc } from "firebase/firestore";
 import {

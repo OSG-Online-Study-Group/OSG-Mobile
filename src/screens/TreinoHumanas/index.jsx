@@ -25,7 +25,7 @@ import {
 } from "./styles";
 
 import { Ionicons } from "@expo/vector-icons";
-import { enviarMensagemParaIA } from "../../service/IAservice";
+import { enviarMensagemParaIA } from "../../services/IAservice";
 
 export default function QuizHumanas({ navigation }) {
   const [newMessage, setNewMessage] = useState("");
