@@ -56,9 +56,9 @@ export default function ThemeSelection({ navigation }) {
           <MenuText>Grupos</MenuText>
         </MenuButton>
 
-        <MenuButton onPress={() => navigation.navigate("FiltroEstudo")}>
+        <MenuButton onPress={() => navigation.navigate("Seus_Grupos")}>
           <Ionicons name="book-outline" size={20} color="#fff" />
-          <MenuText>Matérias</MenuText>
+          <MenuText>Grupos</MenuText>
         </MenuButton>
 
         <MenuButton onPress={() => navigation.navigate("Perfil")}>

@@ -65,7 +65,7 @@ export default function CommunityScreen() {
 
         <TouchableOpacity style={styles.navItem}>
           <Ionicons name="book-outline" size={22} color="#CFA7FF" />
-          <Text style={styles.navText}>Materiais</Text>
+          <Text style={styles.navText}>Grupos</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.navItem}>

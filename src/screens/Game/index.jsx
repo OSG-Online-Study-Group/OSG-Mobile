@@ -66,7 +66,7 @@ export default function Game() {
 
         <MenuButton onPress={() => navigation.navigate("Perfil")}>
           <Ionicons name="person-outline" size={20} color="#fff" />
-          <MenuText>Perfil</MenuText>
+          <MenuText>Grupos</MenuText>
         </MenuButton>
 
         <MenuButton onPress={() => navigation.navigate("Perfil")}>
