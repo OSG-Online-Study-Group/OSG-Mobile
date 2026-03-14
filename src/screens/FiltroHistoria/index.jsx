@@ -16,7 +16,7 @@ import {
 } from "./styles";
 import { Ionicons } from "@expo/vector-icons";
 
-export default function FiltroHistoria() {
+export default function FiltroHistoria({ navigation }) {
   return (
     <Container>
 
@@ -28,9 +28,9 @@ export default function FiltroHistoria() {
           source={require("../../assets/images/icon_OSG.jpg")}
         />
 
-        <BackButton>
-          <BackText>Voltar</BackText>
-        </BackButton>
+                <BackButton onPress={() => navigation.goBack()}>
+                  <OptionText style={{ color: "#C67AFC" }}>Voltar</OptionText>
+                </BackButton>
       </Header>
 
       {/* BANNER */}

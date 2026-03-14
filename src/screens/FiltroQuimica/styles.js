@@ -68,6 +68,8 @@ export const BannerIcon = styled.Image`
   bottom: 20px;
 `;
 
+
+
 /* ===== LISTA ===== */
 export const OptionButton = styled.TouchableOpacity`
   width: 100%;

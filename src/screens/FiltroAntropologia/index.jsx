@@ -16,7 +16,7 @@ import {
 } from "./styles";
 import { Ionicons } from "@expo/vector-icons";
 
-export default function FiltroAntropologia() {
+export default function FiltroAntropologia({ navigation }) {
   return (
     <Container>
 
@@ -28,8 +28,8 @@ export default function FiltroAntropologia() {
           source={require("../../assets/images/icon_OSG.jpg")}
         />
 
-        <BackButton>
-          <BackText>Voltar</BackText>
+        <BackButton onPress={() => navigation.goBack()}>
+          <OptionText style={{ color: "#C67AFC" }}>Voltar</OptionText>
         </BackButton>
       </Header>
 
@@ -58,7 +58,7 @@ export default function FiltroAntropologia() {
         <OptionText>Biológica</OptionText>
         <Ionicons name="skull-outline" size={40} color="#000" />
       </OptionButton>
-      
+
       <OptionButton>
         <OptionText>Física</OptionText>
         <Ionicons name="magnet-outline" size={40} color="#000" />
