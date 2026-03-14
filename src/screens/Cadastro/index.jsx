@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Alert } from "react-native";
 import { Container, Logo, Title, Input, Button, ButtonText } from "./styles";
 
-import { auth } from "../../config/firebase";
+import { auth } from "../../services/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { salvarUsuario } from "../../services/firestore";
 
