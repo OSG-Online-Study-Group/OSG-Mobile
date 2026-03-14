@@ -25,7 +25,7 @@ import {
 } from "./styles";
 
 import { Ionicons } from "@expo/vector-icons";
-import { enviarMensagemParaIA } from "../../services/IAservice";
+import { enviarMensagemParaIA } from "../../services/openrouter";
 
 export default function QuizExatas({ navigation }) {
   const [newMessage, setNewMessage] = useState("");
