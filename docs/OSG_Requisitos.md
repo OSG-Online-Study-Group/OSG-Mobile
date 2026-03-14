@@ -168,7 +168,7 @@ OSG-Mobile/
 │   ├── context/         ← AuthContext.jsx
 │   ├── hooks/           ← useAuth.js
 │   ├── constants/       ← colors.js, config.js
-│   └── routes/          ← index.jsx (toda a navegação)
+│   └── navigation/      ← index.jsx (toda a navegação)
 ├── App.jsx
 ├── .env                 ← NUNCA commitar
 └── package.json
@@ -270,7 +270,7 @@ OSG-Mobile/
 | **Admin** | Usuário criador do grupo com permissões especiais, como deletar mensagens do chat. |
 | **onSnapshot()** | Função do Firebase Firestore que escuta mudanças em tempo real em uma coleção ou documento. Deve ser cancelada ao sair da tela (cleanup). |
 | **OpenRouter** | Serviço de API que permite acesso a modelos de IA para geração de perguntas do quiz. |
-| **Estrutura de Pastas** | Organização oficial do projeto: `src/screens/`, `src/components/`, `src/services/`, `src/context/`, `src/hooks/`, `src/constants/`, `src/routes/`. Nomes em camelCase, sem espaços. |
+| **Estrutura de Pastas** | Organização oficial do projeto: `src/screens/`, `src/components/`, `src/services/`, `src/context/`, `src/hooks/`, `src/constants/`, `src/navigation/`. Nomes em camelCase, sem espaços. |
 
 ---
 
