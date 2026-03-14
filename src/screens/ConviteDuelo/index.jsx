@@ -20,11 +20,11 @@ export default function ConviteDuelo({ navigation }) {
       <Card>
 
         {/* VOLTAR */}
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <BackButton>
+  
+          <BackButton onPress={() => navigation.goBack()}>
             <BackIcon source={require("../../assets/images/back.jpg")} />
           </BackButton>
-        </TouchableOpacity>
+        
 
         {/* LISTA DE PLAYERS */}
         {["Makauli", "Caiox", "Natalie", "McLove", "Mc Pozinho", "Reboco"].map((player, index) => (
