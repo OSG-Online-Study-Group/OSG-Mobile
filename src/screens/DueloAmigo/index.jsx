@@ -34,7 +34,7 @@ import {
 } from "./styles";
 import { Ionicons } from "@expo/vector-icons";
 
-export default function DueloAmigo() {
+export default function DueloAmigo({ navigation }) {
     return (
         <Container>
 
@@ -46,7 +46,7 @@ export default function DueloAmigo() {
 
                 <Title>OSG</Title>
 
-                <BackButton>
+                <BackButton onPress={() => navigation.goBack()}>
                     <BackText>Voltar</BackText>
                 </BackButton>
             </Header>
