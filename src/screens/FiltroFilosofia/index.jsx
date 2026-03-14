@@ -16,7 +16,7 @@ import {
 } from "./styles";
 import { Ionicons } from "@expo/vector-icons";
 
-export default function FiltroFilosofia() {
+export default function FiltroFilosofia({ navigation }) {
   return (
     <Container>
 
@@ -28,8 +28,8 @@ export default function FiltroFilosofia() {
           source={require("../../assets/images/icon_OSG.jpg")}
         />
 
-        <BackButton>
-          <BackText>Voltar</BackText>
+        <BackButton onPress={() => navigation.goBack()}>
+          <OptionText style={{ color: "#C67AFC" }}>Voltar</OptionText>
         </BackButton>
       </Header>
 

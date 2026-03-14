@@ -16,7 +16,7 @@ import {
 } from "./styles";
 import { Ionicons } from "@expo/vector-icons";
 
-export default function FiltroInformatica() {
+export default function FiltroInformatica({ navigation }) {
   return (
     <Container>
 
@@ -28,8 +28,8 @@ export default function FiltroInformatica() {
           source={require("../../assets/images/icon_OSG.jpg")}
         />
 
-        <BackButton>
-          <BackText>Voltar</BackText>
+        <BackButton onPress={() => navigation.goBack()}>
+          <OptionText style={{ color: "#C67AFC" }}>Voltar</OptionText>
         </BackButton>
       </Header>
 
@@ -58,7 +58,7 @@ export default function FiltroInformatica() {
         <OptionText>Cloud Computing</OptionText>
         <Ionicons name="cloud-outline" size={40} color="#000" />
       </OptionButton>
-      
+
       <OptionButton>
         <OptionText>IOT</OptionText>
         <Ionicons name="qr-code-outline" size={40} color="#000" />

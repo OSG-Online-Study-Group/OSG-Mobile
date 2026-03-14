@@ -1,16 +1,21 @@
-import React, { useState } from "react";
+import React from "react";
 import { FlatList } from "react-native";
-import { 
-  Container, 
-  Header, 
-  Title, 
-  MessageBubble, 
-  InputArea, 
-  Input, 
-  SendButton, 
-  MessageText, 
-  AddButton, 
-  TopBar, 
+import { Ionicons } from "@expo/vector-icons";
+
+import { useGroupChat } from "../../../src/features/groups/userGroupchat"
+import { GROUPS } from "../../../src/features/groups/groupsIds";
+
+import {
+  Container,
+  Header,
+  Title,
+  MessageBubble,
+  InputArea,
+  Input,
+  SendButton,
+  MessageText,
+  AddButton,
+  TopBar,
   TopBarTitle,
   Logo,
   BackButton,
@@ -20,31 +25,27 @@ import {
   MenuText,
   MenuButton
 } from "./styles";
-import { Ionicons } from "@expo/vector-icons";
 
-export default function QuimicaOrganica({navigation}) {
-const [messages, setMessages] =  useState([
-    { id: 1, text: "Olá, grupo!", sender: "outro" },
-    { id: 2, text: "Tudo bem com vocês?", sender: "outro" },
-    { id: 3, text: "Sim! Estudando para a prova de amanhã.", sender: "me" },
-    { id: 4, text: "A matéria é bem difícil!", sender: "me" },
-  ]);
+export default function QuimicaOrganica({ navigation }) {
 
-  const [newMessage, setNewMessage] = useState("");
-
-  const handleSend = () => {
-    if (newMessage.trim() === "") return;
-    const msg = { id: Date.now(), text: newMessage, sender: "me" };
-    setMessages([...messages, msg]);
-    setNewMessage("");
-  };
+  const {
+    messages,
+    newMessage,
+    setNewMessage,
+    handleSend,
+    user
+  } = useGroupChat(GROUPS.QUIMICA_ORGANICA);
 
   return (
+
     <Container>
+
       <TopBar>
-      <BackButton onPress={() => navigation.goBack()}>
-        <OptionText style={{ color: "#C67AFC" }}>Voltar</OptionText>
-      </BackButton>
+
+        <BackButton onPress={() => navigation.goBack()}>
+          <OptionText style={{ color: "#C67AFC" }}>Voltar</OptionText>
+        </BackButton>
+
         <Title>OSG</Title>
         <Image source={require("../../assets/images/libras.jpg")} />
       </TopBar>
@@ -56,16 +57,19 @@ const [messages, setMessages] =  useState([
 
       <FlatList
         data={messages}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <MessageBubble isUser={item.sender === "me"}>
+
+          <MessageBubble isUser={item.senderId === user?.uid}>
             <MessageText>{item.text}</MessageText>
           </MessageBubble>
+
         )}
         contentContainerStyle={{ padding: 20 }}
       />
 
       <InputArea>
+
         <AddButton>
           <Title style={{ color: "#fff", fontSize: 22 }}>+</Title>
         </AddButton>
@@ -80,9 +84,11 @@ const [messages, setMessages] =  useState([
         <SendButton onPress={handleSend}>
           <Title style={{ color: "#fff", fontSize: 20 }}>➤</Title>
         </SendButton>
+
       </InputArea>
 
-        <BottomMenu>
+      <BottomMenu>
+
         <MenuButton>
           <Ionicons name="home-outline" size={20} color="#fff" />
           <MenuText>Home</MenuText>
@@ -107,8 +113,10 @@ const [messages, setMessages] =  useState([
           <Ionicons name="person-outline" size={20} color="#fff" />
           <MenuText>Perfil</MenuText>
         </MenuButton>
+
       </BottomMenu>
 
     </Container>
+
   );
 }
