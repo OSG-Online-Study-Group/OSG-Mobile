@@ -25,7 +25,6 @@ export default function Login({ navigation }) {
 
         try {
             await signInWithEmailAndPassword(auth, email, senha);
-            navigation.navigate("Menu");
         } catch (error) {
             console.log(error);
             Alert.alert("Erro ao fazer login", error.message);

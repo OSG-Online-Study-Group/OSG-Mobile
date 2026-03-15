@@ -29,7 +29,6 @@ export default function Cadastro({ navigation }) {
       // Salva no Firestore imediatamente após criar no Auth
       await salvarUsuario(credencial.user.uid, nome, email);
       Alert.alert("Sucesso", "Conta criada!");
-      navigation.navigate("Menu"); // redireciona após cadastro
     } catch (error) {
       Alert.alert("Erro no cadastro", error.message);
     }

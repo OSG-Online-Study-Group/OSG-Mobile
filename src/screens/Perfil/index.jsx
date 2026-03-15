@@ -1,4 +1,7 @@
 import { ScrollView, Image } from "react-native";
+import { useAuth } from '../../hooks/useAuth';
+import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 import {
   Container,
   Header,
@@ -22,11 +25,14 @@ import {
   MenuText,
   Divider,
 } from "./styles";
-import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
 
 export default function Perfil() {
   const navigation = useNavigation();
+    const { logout } = useAuth();
+
+  async function handleLogout() {
+    await logout();
+  }
   return (
     <Container>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -104,7 +110,7 @@ export default function Perfil() {
           <MenuText>Ajuda e Suporte</MenuText>
         </MenuItem>
 
-        <MenuItem onPress={() => navigation.navigate("Home")}>
+        <MenuItem onPress={handleLogout}>
           <Image source={require("../../assets/images/logout_icon.jpg")} />
           <MenuText>Fazer Logout</MenuText>
         </MenuItem>
