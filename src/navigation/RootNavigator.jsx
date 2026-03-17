@@ -8,6 +8,7 @@ import { useAuth } from '../hooks/useAuth';
 import Home from '../screens/Home';
 import Login from '../screens/Login';
 import Cadastro from '../screens/Cadastro';
+import SelecionarMaterias from "../screens/SelecionarMaterias";
 
 // Telas protegidas (requer login)
 import Menu from '../screens/Menu';
@@ -51,6 +52,7 @@ function PublicStack() {
       <Stack.Screen name="Home" component={Home} />
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Cadastro" component={Cadastro} />
+      <Stack.Screen name="SelecionarMaterias" component={SelecionarMaterias} />
     </Stack.Navigator>
   );
 }
