@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Alert } from "react-native";
 import { Container, Logo, Title, Input, Button, ButtonText } from "./styles";
-
 import { auth } from "../../services/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { salvarUsuario } from "../../services/firestore";
@@ -19,16 +18,13 @@ export default function Cadastro({ navigation }) {
     if (senha !== confirmarSenha) {
       return Alert.alert("Erro", "As senhas não coincidem.");
     }
+    if (senha.length < 6) {
+      return Alert.alert("Erro", "A senha deve ter pelo menos 6 caracteres.");
+    }
 
     try {
-      const credencial = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        senha,
-      );
-      // Salva no Firestore imediatamente após criar no Auth
+      const credencial = await createUserWithEmailAndPassword(auth, email, senha);
       await salvarUsuario(credencial.user.uid, nome, email);
-      Alert.alert("Sucesso", "Conta criada!");
     } catch (error) {
       Alert.alert("Erro no cadastro", error.message);
     }
@@ -37,23 +33,21 @@ export default function Cadastro({ navigation }) {
   return (
     <Container>
       <Logo source={require("../../assets/images/icon_OSG.jpg")} />
-
       <Title>Faça seu Cadastro</Title>
-
       <Input
         placeholder="Nome Completo"
         placeholderTextColor="#42A4C5"
         value={nome}
         onChangeText={setNome}
       />
-
       <Input
         placeholder="Email"
         placeholderTextColor="#42A4C5"
         value={email}
         onChangeText={setEmail}
+        autoCapitalize="none"
+        keyboardType="email-address"
       />
-
       <Input
         placeholder="Senha"
         placeholderTextColor="#42A4C5"
@@ -61,7 +55,6 @@ export default function Cadastro({ navigation }) {
         value={senha}
         onChangeText={setSenha}
       />
-
       <Input
         placeholder="Confirmar Senha"
         placeholderTextColor="#42A4C5"
@@ -69,9 +62,8 @@ export default function Cadastro({ navigation }) {
         value={confirmarSenha}
         onChangeText={setConfirmarSenha}
       />
-
       <Button onPress={handleCadastro}>
-        <ButtonText>Enviar</ButtonText>
+        <ButtonText>Cadastrar</ButtonText>
       </Button>
     </Container>
   );
