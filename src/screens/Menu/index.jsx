@@ -1,4 +1,4 @@
-import { ScrollView, TouchableOpacity, ActivityIndicator } from "react-native";
+import { ScrollView, TouchableOpacity, ActivityIndicator, Image } from "react-native";
 import {
   Container, Header, Title, MenuIcon, SearchBar,
   ProfileIcon, Banner, SectionTitle, GroupItem,
@@ -45,26 +45,37 @@ export default function Menu({ navigation }) {
             </GroupItem>
           </TouchableOpacity>
         ) : (
-          grupos.map((grupo) => {
-            const screen = getScreenName(grupo.subject);
-            const image = GROUP_IMAGES[grupo.subject];
-            return (
-              <TouchableOpacity
-                key={grupo.id}
-                onPress={() => screen && navigation.navigate(screen)}
-                disabled={!screen}
-              >
-                <GroupItem>
-                  {image && (
-                    // eslint-disable-next-line react-native/no-inline-styles
-                    <img src={image} style={{ width: 50, height: 50 }} />
-                  )}
-                  <GroupText>{grupo.name}</GroupText>
-                </GroupItem>
-              </TouchableOpacity>
-            );
-          })
+          <>
+            {grupos.map((grupo) => {
+              const screen = getScreenName(grupo.subject);
+              const image = GROUP_IMAGES[grupo.subject];
+              return (
+                <TouchableOpacity
+                  key={grupo.id}
+                  onPress={() => screen && navigation.navigate(screen)}
+                  disabled={!screen}
+                >
+                  <GroupItem>
+                    {image && (
+                      // eslint-disable-next-line react-native/no-inline-styles
+                      <Image source={image} style={{ width: 50, height: 50 }} />
+                    )}
+                    <GroupText>{grupo.name}</GroupText>
+                  </GroupItem>
+                </TouchableOpacity>
+              );
+            })}
+
+            {/* Botão para adicionar mais grupos */}
+            <TouchableOpacity onPress={() => navigation.navigate("SelecionarMaterias")}>
+              <GroupItem>
+                <GroupText>+ Adicionar matéria</GroupText>
+              </GroupItem>
+            </TouchableOpacity>
+          </>
         )}
+
+
       </ScrollView>
 
       <BottomMenu>

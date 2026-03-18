@@ -4,13 +4,13 @@ import { StatusBar } from 'expo-status-bar';
 import { View, ActivityIndicator } from 'react-native';
 import { useAuth } from '../hooks/useAuth';
 
-// Telas públicas (sem login)
+// Telas públicas
 import Home from '../screens/Home';
 import Login from '../screens/Login';
 import Cadastro from '../screens/Cadastro';
-import SelecionarMaterias from "../screens/SelecionarMaterias";
+import SelecionarMaterias from '../screens/SelecionarMaterias';
 
-// Telas protegidas (requer login)
+// Telas protegidas
 import Menu from '../screens/Menu';
 import Perfil from '../screens/Perfil';
 import Game from '../screens/Game';
@@ -45,23 +45,32 @@ import FiltroAntropologia from '../screens/FiltroAntropologia';
 
 const Stack = createNativeStackNavigator();
 
-// Stack pública — Login, Cadastro, Home
+// Usuário não logado
 function PublicStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Home" component={Home} />
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Cadastro" component={Cadastro} />
+    </Stack.Navigator>
+  );
+}
+
+// Usuário logado MAS sem grupos — força seleção de matérias
+function SelectionStack() {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="SelecionarMaterias" component={SelecionarMaterias} />
     </Stack.Navigator>
   );
 }
 
-// Stack privada — tudo que precisa de login
+// Usuário logado com grupos — app completo
 function PrivateStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Menu" component={Menu} />
+      <Stack.Screen name="SelecionarMaterias" component={SelecionarMaterias} />
       <Stack.Screen name="Perfil" component={Perfil} />
       <Stack.Screen name="Game" component={Game} />
       <Stack.Screen name="QuimicaOrganica" component={QuimicaOrganica} />
@@ -97,10 +106,9 @@ function PrivateStack() {
 }
 
 export default function RootNavigator() {
-  const { firebaseUser, carregando } = useAuth();
+  const { firebaseUser, usuario, carregando } = useAuth();
 
-  // Enquanto verifica se o usuário está logado, mostra loading
-  if (carregando) {
+  if (carregando || (firebaseUser && usuario === null)) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#2C173C' }}>
         <ActivityIndicator size="large" color="#B84EF2" />
@@ -110,9 +118,13 @@ export default function RootNavigator() {
 
   return (
     <NavigationContainer>
-      <StatusBar hidden />
-      {/* Mostra stack privada se logado, pública se não */}
-      {firebaseUser ? <PrivateStack /> : <PublicStack />}
+      <StatusBar hidden />  
+      {!firebaseUser
+        ? <PublicStack />
+        : !usuario?.groupIds?.length
+          ? <SelectionStack />
+          : <PrivateStack />
+      }
     </NavigationContainer>
   );
 }
