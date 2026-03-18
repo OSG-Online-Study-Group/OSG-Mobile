@@ -25,11 +25,11 @@ import {
 } from "./styles";
 
 const data = [
-  { id: "1", name: "McLovin", points: "6.240 PTS", avatar: require("../../assets/images/user.jpg") },
-  { id: "2", name: "McLovin", points: "6.240 PTS", avatar: require("../../assets/images/user.jpg") },
-  { id: "3", name: "McLovin", points: "6.240 PTS", avatar: require("../../assets/images/user.jpg") },
-  { id: "4", name: "McLovin", points: "6.240 PTS", avatar: require("../../assets/images/user.jpg") },
-  { id: "5", name: "McLovin", points: "6.240 PTS", avatar: require("../../assets/images/user.jpg") }
+  { id: "1", name: "McLovin", points: "6.240 PTS", avatar: require("../../assets/images/icon_OSG.jpg") },
+  { id: "2", name: "McLovin", points: "6.240 PTS", avatar: require("../../assets/images/icon_OSG.jpg") },
+  { id: "3", name: "McLovin", points: "6.240 PTS", avatar: require("../../assets/images/icon_OSG.jpg") },
+  { id: "4", name: "McLovin", points: "6.240 PTS", avatar: require("../../assets/images/icon_OSG.jpg") },
+  { id: "5", name: "McLovin", points: "6.240 PTS", avatar: require("../../assets/images/icon_OSG.jpg") }
 ];
 
 export default function RankUsuarios() {
@@ -70,7 +70,7 @@ export default function RankUsuarios() {
           <TopUser>
 
             <AvatarTop
-              source={require("../../assets/images/user.jpg")}
+              source={require("../../assets/images/icon_OSG.jpg")}
             />
 
             <UsernameTop>McLovin</UsernameTop>
@@ -87,7 +87,7 @@ export default function RankUsuarios() {
             />
 
             <AvatarTop
-              source={require("../../assets/images/user.jpg")}
+              source={require("../../assets/images/icon_OSG.jpg")}
             />
 
             <UsernameTop>McLovin</UsernameTop>
@@ -100,7 +100,7 @@ export default function RankUsuarios() {
           <TopUser>
 
             <AvatarTop
-              source={require("../../assets/images/user.jpg")}
+              source={require("../../assets/images/icon_OSG.jpg")}
             />
 
             <UsernameTop>McLovin</UsernameTop>
