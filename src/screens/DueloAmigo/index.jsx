@@ -135,7 +135,7 @@ export default function DueloAmigo({ navigation }) {
 
                 <MenuButton>
                     <Ionicons name="book-outline" size={20} color="#fff" />
-                    <MenuText>Matérias</MenuText>
+                    <MenuText>Grupos</MenuText>
                 </MenuButton>
 
                 <MenuButton>

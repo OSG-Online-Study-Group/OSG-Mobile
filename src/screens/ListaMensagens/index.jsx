@@ -113,7 +113,7 @@ export default function ChatList() {
 
         <MenuButton onPress={() => navigation.navigate("FiltroEstudo")}>
           <Ionicons name="book-outline" size={20} color="#fff" />
-          <MenuText>Matérias</MenuText>
+          <MenuText>Grupos</MenuText>
         </MenuButton>
 
         <MenuButton onPress={() => navigation.navigate("Perfil")}>
