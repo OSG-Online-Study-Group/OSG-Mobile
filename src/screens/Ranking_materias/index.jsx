@@ -58,7 +58,7 @@ export default function RankingMaterias() {
           />
 
           <CardIcon
-            source={require("../../assets/images/matematica.png")}
+            source={require("../../assets/images/icon_OSG.jpg")}
           />
 
         </IconCircle>
@@ -78,7 +78,7 @@ export default function RankingMaterias() {
 
         <IconCircle>
           <CardIcon
-            source={require("../../assets/images/sociologia.png")}
+            source={require("../../assets/images/icon_OSG.jpg")}
           />
         </IconCircle>
 
@@ -97,7 +97,7 @@ export default function RankingMaterias() {
 
         <IconCircle>
           <CardIcon
-            source={require("../../assets/images/biologia.png")}
+            source={require("../../assets/images/icon_OSG.jpg")}
           />
         </IconCircle>
 
@@ -116,7 +116,7 @@ export default function RankingMaterias() {
 
         <IconCircle>
           <CardIcon
-            source={require("../../assets/images/quimica.png")}
+            source={require("../../assets/images/icon_OSG.jpg")}
           />
         </IconCircle>
 
@@ -135,7 +135,7 @@ export default function RankingMaterias() {
 
         <IconCircle>
           <CardIcon
-            source={require("../../assets/images/informatica.png")}
+            source={require("../../assets/images/icon_OSG.jpg")}
           />
         </IconCircle>
 
@@ -154,7 +154,7 @@ export default function RankingMaterias() {
 
         <IconCircle>
           <CardIcon
-            source={require("../../assets/images/algebra.png")}
+            source={require("../../assets/images/icon_OSG.jpg")}
           />
         </IconCircle>
 
