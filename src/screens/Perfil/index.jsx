@@ -30,8 +30,8 @@ export default function Perfil() {
   const navigation = useNavigation();
 
   const {
-    usuario,        
-    firebaseUser,  
+    usuario,
+    firebaseUser,
     carregando,
     logout
   } = useAuth();
@@ -50,22 +50,26 @@ export default function Perfil() {
 
   return (
     <Container>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView // permite rolar a tela caso o conteúdo seja maior que a altura disponível
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 40 }}
+      >
         <BackgroundImage source={require("../../assets/images/profile_banner.jpg")} />
 
         <BackButton onPress={() => navigation.goBack()}>
           <Ionicons name="arrow-undo" size={22} color="#B84EF2" />
         </BackButton>
 
-        <ProfileImage
+        {/* <ProfileImage // codigo para carregar a foto do usuário, caso exista, ou uma imagem padrão
           source={
             usuario?.photo
               ? { uri: usuario.photo }
               : require("../../assets/images/profile_photo.jpg")
           }
-        />
+        /> */}
 
-        
+        <ProfileImage source={require("../../assets/images/profile_photo.jpg")} />
+
         <Name>{usuario?.name || "Usuário"}</Name>
 
 
@@ -126,7 +130,7 @@ export default function Perfil() {
           <MenuText>Editar Perfil</MenuText>
         </MenuItem>
 
-          
+
         <MenuItem>
           <Image source={require("../../assets/images/language_icon.jpg")} />
           <MenuText>Idioma</MenuText>
