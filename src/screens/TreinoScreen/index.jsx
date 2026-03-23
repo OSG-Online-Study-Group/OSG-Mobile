@@ -18,9 +18,10 @@ export default function TreinoScreen({ route, navigation }) {
   } = useTreino(categoria);
 
   return (
+    
     <Container>
       <Header>
-        <MenuButton onPress={() => navigation.navigate("FiltroEstudo")}>
+        <MenuButton onPress={() => navigation.navigate("FiltroTreino")}>
           <MenuIcon source={require("../../assets/images/menu.jpg")} />
         </MenuButton>
         <Title>Treino {config.label}</Title>
@@ -90,7 +91,7 @@ export default function TreinoScreen({ route, navigation }) {
           <Ionicons name="chatbubble-ellipses" size={22} color="#fff" />
           <MenuText>Grupos</MenuText>
         </MenuButton>
-        <MenuButton onPress={() => navigation.navigate("FiltroEstudo")}>
+        <MenuButton onPress={() => navigation.navigate("FiltroTreino")}>
           <Ionicons name="book-outline" size={20} color="#fff" />
           <MenuText>Matérias</MenuText>
         </MenuButton>

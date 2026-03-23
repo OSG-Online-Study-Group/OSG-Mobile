@@ -21,7 +21,7 @@ export default function Menu({ navigation }) {
   return (
     <Container>
       <Header>
-        <TouchableOpacity onPress={() => navigation.navigate("FiltroEstudo")}>
+        <TouchableOpacity onPress={() => navigation.navigate("FiltroTreino")}>
           <MenuIcon source={require("../../assets/images/menu.jpg")} />
         </TouchableOpacity>
         <Title>OSG</Title>

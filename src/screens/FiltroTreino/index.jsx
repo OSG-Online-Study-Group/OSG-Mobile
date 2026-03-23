@@ -5,7 +5,7 @@ import {
   CardText, CardBackground2, CardText2,
 } from "./styles";
 
-export default function FiltroEstudo({ navigation }) {
+export default function FiltroTreino({ navigation }) {
   return (
     <Container>
       <Header>

@@ -30,7 +30,7 @@ export default function Grupos({ navigation }) {
 
         <TopRow>
 
-          <TouchableOpacity onPress={() => navigation.navigate("FiltroEstudo")}>
+          <TouchableOpacity onPress={() => navigation.navigate("FiltroTreino")}>
             <MenuIcon source={require("../../assets/images/menu.jpg")} />
           </TouchableOpacity>
 
