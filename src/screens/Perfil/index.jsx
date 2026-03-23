@@ -1,10 +1,10 @@
-import { ScrollView, Image } from "react-native";
+import { ScrollView, Image, ActivityIndicator } from "react-native";
 import { useAuth } from '../../hooks/useAuth';
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+
 import {
   Container,
-  Header,
   BackButton,
   BackgroundImage,
   ProfileImage,
@@ -28,40 +28,75 @@ import {
 
 export default function Perfil() {
   const navigation = useNavigation();
-    const { logout } = useAuth();
+
+  const {
+    usuario,
+    firebaseUser,
+    carregando,
+    logout
+  } = useAuth();
 
   async function handleLogout() {
     await logout();
   }
+
+  if (carregando) {
+    return (
+      <Container>
+        <ActivityIndicator size="large" color="#B84EF2" />
+      </Container>
+    );
+  }
+
   return (
     <Container>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView // permite rolar a tela caso o conteúdo seja maior que a altura disponível
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 40 }}
+      >
         <BackgroundImage source={require("../../assets/images/profile_banner.jpg")} />
 
         <BackButton onPress={() => navigation.goBack()}>
-        <Ionicons name="arrow-undo" size={22} color="#B84EF2" />
+          <Ionicons name="arrow-undo" size={22} color="#B84EF2" />
         </BackButton>
 
+        {/* <ProfileImage // codigo para carregar a foto do usuário, caso exista, ou uma imagem padrão
+          source={
+            usuario?.photo
+              ? { uri: usuario.photo }
+              : require("../../assets/images/profile_photo.jpg")
+          }
+        /> */}
+
         <ProfileImage source={require("../../assets/images/profile_photo.jpg")} />
-        <Name>Poker Ghost</Name>
-        <Username>@poker_ghost321</Username>
+
+        <Name>{usuario?.name || "Usuário"}</Name>
+
+
+        <Username>
+          @{usuario?.name?.toLowerCase() || firebaseUser?.email}
+        </Username>
 
         <PointsCard>
-          <PointsText>Pontos: 777.777</PointsText>
+          <PointsText>
+            Pontos: {usuario?.points ?? usuario?.xp ?? 0}
+          </PointsText>
         </PointsCard>
 
         <StatsContainer>
           <Stat>
-            <StatNumber>5</StatNumber>
+            <StatNumber>{usuario?.groupIds?.length || 0}</StatNumber>
             <StatLabel>Matérias</StatLabel>
           </Stat>
+
           <Stat>
-            <StatNumber>1,921</StatNumber>
-            <StatLabel>Últimos Pontos</StatLabel>
+            <StatNumber>{usuario?.xp || 0}</StatNumber>
+            <StatLabel>XP</StatLabel>
           </Stat>
+
           <Stat>
-            <StatNumber>12</StatNumber>
-            <StatLabel>Amigos</StatLabel>
+            <StatNumber>{usuario?.level || 1}</StatNumber>
+            <StatLabel>Nível</StatLabel>
           </Stat>
         </StatsContainer>
 
@@ -75,7 +110,9 @@ export default function Perfil() {
         </BadgesContainer>
 
         <PlusCard>
-          <PlusText>Obter Plus? Ganhe o dobro de xp e mais recompensas</PlusText>
+          <PlusText>
+            Obter Plus? Ganhe o dobro de xp e mais recompensas
+          </PlusText>
         </PlusCard>
 
         <MenuItem onPress={() => navigation.navigate("ChatList")}>
@@ -93,7 +130,6 @@ export default function Perfil() {
           <MenuText>Editar Perfil</MenuText>
         </MenuItem>
 
-        <Divider />
 
         <MenuItem>
           <Image source={require("../../assets/images/language_icon.jpg")} />
@@ -109,6 +145,10 @@ export default function Perfil() {
           <Image source={require("../../assets/images/help_icon.jpg")} />
           <MenuText>Ajuda e Suporte</MenuText>
         </MenuItem>
+
+
+
+        <Divider />
 
         <MenuItem onPress={handleLogout}>
           <Image source={require("../../assets/images/logout_icon.jpg")} />

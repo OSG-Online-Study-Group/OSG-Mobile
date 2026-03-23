@@ -2,8 +2,7 @@ import React from "react";
 import { FlatList } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
-import { useGroupChat } from "../../../src/features/groups/userGroupchat"
-import { GROUPS } from "../../../src/features/groups/groupsIds";
+import { useChat } from "../../hooks/useChat";
 
 import {
   Container,
@@ -28,13 +27,8 @@ import {
 
 export default function QuimicaOrganica({ navigation }) {
 
-  const {
-    messages,
-    newMessage,
-    setNewMessage,
-    handleSend,
-    user
-  } = useGroupChat(GROUPS.QUIMICA_ORGANICA);
+const { messages, newMessage, setNewMessage, handleSend, user } =
+  useChat("group_quimica_organica");
 
   return (
 
