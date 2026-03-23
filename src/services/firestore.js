@@ -27,18 +27,15 @@ export async function buscarUsuario(uid) {
 }
 
 // Incrementa XP e recalcula nível
-export async function atualizarXP(uid, xpGanho) {
-  if (xpGanho <= 0) return;
+export async function atualizarXP(uid, xpGanho, groupId = null) {
   const ref = doc(db, "users", uid);
-  const snap = await getDoc(ref);
-  const xpAtual = snap.exists() ? (snap.data().xp || 0) : 0;
-  const novoXP = xpAtual + xpGanho;
-  const novoLevel = Math.floor(novoXP / 100) + 1;
-  await updateDoc(ref, {
+  const update = {
     xp: increment(xpGanho),
-    level: novoLevel,
-  });
-  return { xp: novoXP, level: novoLevel };
+  };
+  if (groupId) {
+    update[`xpPorGrupo.${groupId}`] = increment(xpGanho);
+  }
+  await updateDoc(ref, update);
 }
 
 // ─── GRUPOS ────────────────────────────────────────────────
