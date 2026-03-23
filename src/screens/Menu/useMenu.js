@@ -1,15 +1,6 @@
 import { useState, useEffect } from "react";
 import { buscarGruposDoUsuario } from "../../services/firestore";
 import { useAuth } from "../../hooks/useAuth";
-import { GROUP_BY_ID } from "../../constants/grupos";
-
-// Mapeia subject do grupo para a tela de navegação correspondente
-const SUBJECT_TO_SCREEN = {
-  quimica_organica: "QuimicaOrganica",
-  economia: "Economia",
-  algebra: "Algebra",          // criar tela futuramente se necessário
-  quimica_forense: "QuimicaForense",
-};
 
 export function useMenu() {
   const { firebaseUser } = useAuth();
@@ -32,9 +23,5 @@ export function useMenu() {
     }
   }
 
-  function getScreenName(subject) {
-    return SUBJECT_TO_SCREEN[subject] || null;
-  }
-
-  return { grupos, carregando, getScreenName };
+  return { grupos, carregando };
 }

@@ -13,8 +13,7 @@ import Menu from '../screens/Menu';
 import Perfil from '../screens/Perfil';
 import PersonalizarPerfil from '../screens/Editar_Perfil';
 import Game from '../screens/Game';
-import QuimicaOrganica from '../screens/GrupoQuimicaOrganica';
-import Economia from '../screens/GrupoEconomia';
+import GrupoChat from '../screens/GrupoChat';
 import ChatList from '../screens/ListaMensagens';
 import SolicitacaoMensagens from '../screens/SolicitacaoMensagens';
 import RankingMaterias from '../screens/Ranking_materias';
@@ -72,8 +71,7 @@ function PrivateStack() {
       <Stack.Screen name="Editar_Perfil" component={PersonalizarPerfil} />
       <Stack.Screen name="Game" component={Game} />
       <Stack.Screen name="Seus_Grupos" component={Grupos} />
-      <Stack.Screen name="QuimicaOrganica" component={QuimicaOrganica} />
-      <Stack.Screen name="Economia" component={Economia} />
+      <Stack.Screen name="GrupoChat" component={GrupoChat} />
       <Stack.Screen name="ChatList" component={ChatList} />
       <Stack.Screen name="SolicitacaoMensagens" component={SolicitacaoMensagens} />
       <Stack.Screen name="FiltroRanking" component={RankingMaterias} />

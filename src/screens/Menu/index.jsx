@@ -7,16 +7,16 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { useMenu } from "./useMenu";
 
-// Imagens por subject (frontend define o mapeamento visual)
 const GROUP_IMAGES = {
-  quimica_organica: require("../../assets/images/quimica_organica.jpg"),
-  economia: require("../../assets/images/economia.jpg"),
-  algebra: require("../../assets/images/algebra.jpg"),
-  quimica_forense: require("../../assets/images/quimica_forense.jpg"),
+  matematica: require("../../assets/images/icon_OSG.jpg"),
+  ciencias_natureza: require("../../assets/images/icon_OSG.jpg"),
+  linguagens: require("../../assets/images/icon_OSG.jpg"),
+  ciencias_humanas: require("../../assets/images/icon_OSG.jpg"),
+  informatica: require("../../assets/images/icon_OSG.jpg"),
 };
 
 export default function Menu({ navigation }) {
-  const { grupos, carregando, getScreenName } = useMenu();
+  const { grupos, carregando } = useMenu();
 
   return (
     <Container>
@@ -29,16 +29,13 @@ export default function Menu({ navigation }) {
           <ProfileIcon source={require("../../assets/images/libras.jpg")} />
         </TouchableOpacity>
       </Header>
-
       <SearchBar placeholder="Pesquisar" placeholderTextColor="#A086CC" />
       <Banner source={require("../../assets/images/banner.jpg")} />
       <SectionTitle>Seus Grupos</SectionTitle>
-
       <ScrollView>
         {carregando ? (
           <ActivityIndicator color="#B84EF2" style={{ marginTop: 20 }} />
         ) : grupos.length === 0 ? (
-          // Usuário não entrou em nenhum grupo ainda
           <TouchableOpacity onPress={() => navigation.navigate("SelecionarMaterias")}>
             <GroupItem>
               <GroupText>+ Selecionar matérias</GroupText>
@@ -47,17 +44,18 @@ export default function Menu({ navigation }) {
         ) : (
           <>
             {grupos.map((grupo) => {
-              const screen = getScreenName(grupo.subject);
               const image = GROUP_IMAGES[grupo.subject];
               return (
                 <TouchableOpacity
                   key={grupo.id}
-                  onPress={() => screen && navigation.navigate(screen)}
-                  disabled={!screen}
+                  onPress={() => navigation.navigate("GrupoChat", {
+                    groupId: grupo.id,
+                    name: grupo.name,
+                    subject: grupo.subject,
+                  })}
                 >
                   <GroupItem>
                     {image && (
-                      // eslint-disable-next-line react-native/no-inline-styles
                       <Image source={image} style={{ width: 50, height: 50 }} />
                     )}
                     <GroupText>{grupo.name}</GroupText>
@@ -65,8 +63,6 @@ export default function Menu({ navigation }) {
                 </TouchableOpacity>
               );
             })}
-
-            {/* Botão para adicionar mais grupos */}
             <TouchableOpacity onPress={() => navigation.navigate("SelecionarMaterias")}>
               <GroupItem>
                 <GroupText>+ Adicionar matéria</GroupText>
@@ -74,10 +70,7 @@ export default function Menu({ navigation }) {
             </TouchableOpacity>
           </>
         )}
-
-
       </ScrollView>
-
       <BottomMenu>
         <MenuButton onPress={() => navigation.navigate("Menu")}>
           <Ionicons name="home-outline" size={20} color="#fff" />
