@@ -356,7 +356,7 @@ Criado ao enviar convite de duelo.
         │
         ▼
   Usuário digita resposta e envia
-        │
+        │  
         ▼
   enviarMensagemParaIA(prompt de correção com pergunta + resposta)
   → Retorna "CORRETA" ou "INCORRETA" + explicação
