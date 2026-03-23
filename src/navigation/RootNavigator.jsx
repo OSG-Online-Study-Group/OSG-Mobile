@@ -16,8 +16,8 @@ import Game from '../screens/Game';
 import GrupoChat from '../screens/GrupoChat';
 import ChatList from '../screens/ListaMensagens';
 import SolicitacaoMensagens from '../screens/SolicitacaoMensagens';
-import RankingMaterias from '../screens/Ranking_materias';
-import RankUsuarios from '../screens/Ranking_pessoas';
+import RankingGeral from '../screens/RankingGeral';
+import RankingGrupos from '../screens/RankingGrupos';
 import Grupos from '../screens/Seus_Grupos';
 import CommunityScreen from '../screens/Comunidade';
 import ConviteDuelo from '../screens/ConviteDuelo';
@@ -74,8 +74,8 @@ function PrivateStack() {
       <Stack.Screen name="GrupoChat" component={GrupoChat} />
       <Stack.Screen name="ChatList" component={ChatList} />
       <Stack.Screen name="SolicitacaoMensagens" component={SolicitacaoMensagens} />
-      <Stack.Screen name="FiltroRanking" component={RankingMaterias} />
-      <Stack.Screen name="RankingUsuarios" component={RankUsuarios} />
+      <Stack.Screen name="RankingGeral" component={RankingGeral} />
+      <Stack.Screen name="RankingGrupos" component={RankingGrupos} />
       <Stack.Screen name="CommunityScreen" component={CommunityScreen} />
       <Stack.Screen name="ConviteDuelo" component={ConviteDuelo} />
       <Stack.Screen name="DueloAmigo" component={DueloAmigo} />
