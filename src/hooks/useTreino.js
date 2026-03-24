@@ -99,9 +99,9 @@ export function useTreino(categoria) {
       ]);
 
       if (acertou && firebaseUser) {
-        await atualizarXP(firebaseUser.uid, XP_POR_ACERTO, groupId);
+        const { novoXP, novoLevel } = await atualizarXP(firebaseUser.uid, XP_POR_ACERTO, groupId);
         setXpTotal((prev) => prev + XP_POR_ACERTO);
-        refreshUsuario({ xp: (usuario?.xp || 0) + XP_POR_ACERTO });
+        refreshUsuario({ xp: novoXP, level: novoLevel });
       }
 
       setTimeout(() => gerarPergunta(), 3000);

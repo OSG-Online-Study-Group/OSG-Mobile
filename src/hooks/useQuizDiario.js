@@ -9,17 +9,17 @@ const DAILY_XP = 20;
 
 // Matéria → groupId padronizado
 const MATERIA_TO_GROUP = {
-  "Matemática":  "group_matematica",
-  "Física":      "group_ciencias_natureza",
-  "Química":     "group_ciencias_natureza",
-  "Biologia":    "group_ciencias_natureza",
-  "História":    "group_ciencias_humanas",
-  "Geografia":   "group_ciencias_humanas",
-  "Filosofia":   "group_ciencias_humanas",
-  "Sociologia":  "group_ciencias_humanas",
-  "Português":   "group_linguagens",
-  "Literatura":  "group_linguagens",
-  "Inglês":      "group_linguagens",
+  "Matemática": "group_matematica",
+  "Física": "group_ciencias_natureza",
+  "Química": "group_ciencias_natureza",
+  "Biologia": "group_ciencias_natureza",
+  "História": "group_ciencias_humanas",
+  "Geografia": "group_ciencias_humanas",
+  "Filosofia": "group_ciencias_humanas",
+  "Sociologia": "group_ciencias_humanas",
+  "Português": "group_linguagens",
+  "Literatura": "group_linguagens",
+  "Inglês": "group_linguagens",
   "Informática": "group_informatica",
 };
 
@@ -130,8 +130,8 @@ export function useQuizDiario() {
       const groupId = MATERIA_TO_GROUP[quiz.materia] || null;
 
       if (acertou) {
-        await atualizarXP(firebaseUser.uid, xp, groupId);
-        refreshUsuario({ xp: (usuario?.xp || 0) + xp });
+        const { novoXP, novoLevel } = await atualizarXP(firebaseUser.uid, xp, groupId);
+        refreshUsuario({ xp: novoXP, level: novoLevel });
       }
 
       await updateDoc(doc(db, "users", firebaseUser.uid), {

@@ -1,9 +1,33 @@
 import {
   doc, setDoc, getDoc, updateDoc,
   collection, query, where, getDocs,
-  arrayUnion, increment, orderBy,
+  arrayUnion, increment, orderBy, serverTimestamp,
 } from "firebase/firestore";
-import { db } from "../services/firebase";
+import { db } from "./firebase";
+
+// ─── Level ───────────────────────────────────────────
+export function calcularLevel(xp) {
+  if (xp >= 2500) return 7;
+  if (xp >= 1500) return 6;
+  if (xp >= 1000) return 5;
+  if (xp >= 600) return 4;
+  if (xp >= 300) return 3;
+  if (xp >= 100) return 2;
+  return 1;
+}
+
+export function getTituloLevel(level) {
+  const titulos = {
+    1: "Iniciante",
+    2: "Estudante",
+    3: "Dedicado",
+    4: "Avançado",
+    5: "Expert",
+    6: "Mestre",
+    7: "Lendário",
+  };
+  return titulos[level] || "Iniciante";
+}
 
 // ─── USUÁRIOS ──────────────────────────────────────────────
 
@@ -15,8 +39,9 @@ export async function salvarUsuario(uid, nome, email) {
     xp: 0,
     level: 1,
     groupIds: [],
+    xpPorGrupo: {},
     lastDailyQuizDate: null,
-    createdAt: new Date().toISOString(),
+    createdAt: serverTimestamp(),
   });
 }
 
@@ -29,13 +54,25 @@ export async function buscarUsuario(uid) {
 // Incrementa XP e recalcula nível
 export async function atualizarXP(uid, xpGanho, groupId = null) {
   const ref = doc(db, "users", uid);
+
+  // Busca XP atual para calcular novo level
+  const snap = await getDoc(ref);
+  const xpAtual = snap.data()?.xp || 0;
+  const novoXP = xpAtual + xpGanho;
+  const novoLevel = calcularLevel(novoXP);
+
   const update = {
     xp: increment(xpGanho),
+    level: novoLevel,
   };
+
   if (groupId) {
     update[`xpPorGrupo.${groupId}`] = increment(xpGanho);
   }
+
   await updateDoc(ref, update);
+
+  return { novoXP, novoLevel };
 }
 
 // ─── GRUPOS ────────────────────────────────────────────────
