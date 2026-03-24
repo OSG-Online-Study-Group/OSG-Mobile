@@ -6,35 +6,37 @@ import { atualizarXP } from "../services/firestore";
 const XP_POR_ACERTO = 10;
 
 const CATEGORIAS = {
-  exatas: {
-    label: "Exatas",
-    materias: "Matemática, Física ou Química",
-    contexto: "contexto científico e matemático",
-    groupId: "group_ciencias_natureza",
+  matematica: {
+    label: "Matemática",
+    materias: "Matemática (Álgebra, Geometria ou Trigonometria)",
+    contexto: "contexto matemático",
   },
-  humanas: {
-    label: "Humanas",
+  ciencias_natureza: {
+    label: "Ciências da Natureza",
+    materias: "Física, Química ou Biologia",
+    contexto: "contexto científico",
+  },
+  ciencias_humanas: {
+    label: "Ciências Humanas",
     materias: "História, Geografia, Filosofia ou Sociologia",
     contexto: "contexto histórico/social",
-    groupId: "group_ciencias_humanas",
   },
   linguagens: {
     label: "Linguagens",
     materias: "Português, Literatura ou Inglês",
     contexto: "contexto linguístico e literário",
-    groupId: "group_linguagens",
   },
   informatica: {
     label: "Informática",
     materias: "Lógica, Programação ou Redes",
     contexto: "contexto de tecnologia e computação",
-    groupId: "group_informatica",
   },
 };
 
 export function useTreino(categoria) {
-  const { firebaseUser, refreshUsuario, usuario } = useAuth();
-  const config = CATEGORIAS[categoria] || CATEGORIAS.humanas;
+  const { firebaseUser, usuario, refreshUsuario } = useAuth();
+  const config = CATEGORIAS[categoria] || CATEGORIAS.ciencias_humanas;
+  const groupId = `group_${categoria}`;
 
   const [messages, setMessages] = useState([]);
   const [perguntaAtual, setPerguntaAtual] = useState("");
@@ -96,14 +98,12 @@ export function useTreino(categoria) {
         { id: Date.now() + 1, sender: "bot", text: respostaIA },
       ]);
 
-      // Salva XP se acertou
       if (acertou && firebaseUser) {
-        await atualizarXP(firebaseUser.uid, XP_POR_ACERTO, config.groupId);
+        await atualizarXP(firebaseUser.uid, XP_POR_ACERTO, groupId);
         setXpTotal((prev) => prev + XP_POR_ACERTO);
         refreshUsuario({ xp: (usuario?.xp || 0) + XP_POR_ACERTO });
       }
 
-      // Nova pergunta após 3 segundos
       setTimeout(() => gerarPergunta(), 3000);
 
     } catch {

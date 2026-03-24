@@ -120,7 +120,7 @@ export default function Perfil() {
           <MenuText>Mensagem</MenuText>
         </MenuItem>
 
-        <MenuItem onPress={() => navigation.navigate("FiltroRanking")}>
+        <MenuItem onPress={() => navigation.navigate("Ranking")}>
           <Image source={require("../../assets/images/ranking_icon.jpg")} />
           <MenuText>Ranking</MenuText>
         </MenuItem>

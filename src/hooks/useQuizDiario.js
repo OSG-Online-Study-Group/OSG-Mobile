@@ -7,24 +7,23 @@ import { db } from "../services/firebase";
 
 const DAILY_XP = 20;
 
-const MATERIAS = [
-  "Matemática", "Física", "Química", "Biologia",
-  "História", "Geografia", "Filosofia", "Sociologia",
-  "Português", "Literatura",
-];
-
+// Matéria → groupId padronizado
 const MATERIA_TO_GROUP = {
-  "Matemática": "group_matematica",
-  "Física": "group_ciencias_natureza",
-  "Química": "group_ciencias_natureza",
-  "Biologia": "group_ciencias_natureza",
-  "História": "group_ciencias_humanas",
-  "Geografia": "group_ciencias_humanas",
-  "Filosofia": "group_ciencias_humanas",
-  "Sociologia": "group_ciencias_humanas",
-  "Português": "group_linguagens",
-  "Literatura": "group_linguagens",
+  "Matemática":  "group_matematica",
+  "Física":      "group_ciencias_natureza",
+  "Química":     "group_ciencias_natureza",
+  "Biologia":    "group_ciencias_natureza",
+  "História":    "group_ciencias_humanas",
+  "Geografia":   "group_ciencias_humanas",
+  "Filosofia":   "group_ciencias_humanas",
+  "Sociologia":  "group_ciencias_humanas",
+  "Português":   "group_linguagens",
+  "Literatura":  "group_linguagens",
+  "Inglês":      "group_linguagens",
+  "Informática": "group_informatica",
 };
+
+const MATERIAS = Object.keys(MATERIA_TO_GROUP);
 
 const FALLBACK = {
   materia: "Matemática",
@@ -61,10 +60,9 @@ function parseQuiz(raw) {
 }
 
 export function useQuizDiario() {
-  const { firebaseUser, refreshUsuario } = useAuth();
+  const { firebaseUser, usuario, refreshUsuario } = useAuth();
   const [quiz, setQuiz] = useState(FALLBACK);
   const [carregando, setCarregando] = useState(true);
-  const [respondido, setRespondido] = useState(false);
   const [jaJogouHoje, setJaJogouHoje] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [xpGanho, setXpGanho] = useState(0);
@@ -112,18 +110,15 @@ export function useQuizDiario() {
       setSelectedIndex(null);
       setXpGanho(0);
       setStatus("");
-      setRespondido(false);
     } catch {
       setQuiz(FALLBACK);
     }
   }
 
   async function responder(index) {
-    if (respondido || jaJogouHoje) return;
+    if (selectedIndex !== null || jaJogouHoje) return;
 
     setSelectedIndex(index);
-    setRespondido(true);
-
     const acertou = index === quiz.correta;
     const xp = acertou ? DAILY_XP : 0;
     setXpGanho(xp);
@@ -134,10 +129,9 @@ export function useQuizDiario() {
     try {
       const groupId = MATERIA_TO_GROUP[quiz.materia] || null;
 
-      // Salva XP e marca quiz como feito hoje
       if (acertou) {
         await atualizarXP(firebaseUser.uid, xp, groupId);
-        refreshUsuario({ xp: xp }); // atualiza contexto local
+        refreshUsuario({ xp: (usuario?.xp || 0) + xp });
       }
 
       await updateDoc(doc(db, "users", firebaseUser.uid), {
@@ -158,14 +152,9 @@ export function useQuizDiario() {
   }
 
   return {
-    quiz,
-    carregando,
-    jaJogouHoje,
-    selectedIndex,
-    xpGanho,
-    status,
-    responder,
-    getOptionColor,
+    quiz, carregando, jaJogouHoje,
+    selectedIndex, xpGanho, status,
+    responder, getOptionColor,
     novaPergunta: gerarPergunta,
   };
 }

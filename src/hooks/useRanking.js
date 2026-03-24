@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { db } from "../services/firebase";
+import { GRUPOS } from "../constants/grupos";
 import {
   collection, query, orderBy, limit, onSnapshot, getDocs
 } from "firebase/firestore";
@@ -49,4 +50,31 @@ export function useRankingGrupo(groupId) {
   }, [groupId]);
 
   return { membros, carregando };
+}
+
+// Soma XP de todos os membros por grupo — para o RankingGrupos
+export function useRankingTodosGrupos() {
+  const [grupos, setGrupos] = useState([]);
+  const [carregando, setCarregando] = useState(true);
+
+  useEffect(() => {
+    const q = query(collection(db, "users"));
+    const unsub = onSnapshot(q, (snap) => {
+      const usuarios = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+
+      const totais = GRUPOS.map((grupo) => {
+        const totalXP = usuarios.reduce(
+          (acc, u) => acc + (u.xpPorGrupo?.[grupo.id] || 0), 0
+        );
+        return { ...grupo, totalXP };
+      });
+
+      const ordenados = totais.sort((a, b) => b.totalXP - a.totalXP);
+      setGrupos(ordenados);
+      setCarregando(false);
+    });
+    return () => unsub();
+  }, []);
+
+  return { grupos, carregando };
 }
