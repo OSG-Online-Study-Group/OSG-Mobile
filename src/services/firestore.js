@@ -12,8 +12,17 @@ export async function salvarUsuario(uid, nome, email) {
   await setDoc(doc(db, "users", uid), {
     name: nome,
     email: email,
+
     xp: 0,
     level: 1,
+
+    xpByCategory: {
+      humanas: 0,
+      natureza: 0,
+      exatas: 0,
+      ti: 0,
+    },
+
     groupIds: [],
     lastDailyQuizDate: null,
     createdAt: new Date().toISOString(),
@@ -27,19 +36,37 @@ export async function buscarUsuario(uid) {
 }
 
 // Incrementa XP e recalcula nível
-export async function atualizarXP(uid, xpGanho) {
-  if (xpGanho <= 0) return;
+export async function atualizarXPPorCategoria(uid, categoria, xpGanho) {
+   if (!uid || xpGanho <= 0) return;
+
   const ref = doc(db, "users", uid);
   const snap = await getDoc(ref);
-  const xpAtual = snap.exists() ? (snap.data().xp || 0) : 0;
+
+  if (!snap.exists()) return;
+
+  const data = snap.data();
+
+  const xpAtual = data.xp || 0;
   const novoXP = xpAtual + xpGanho;
   const novoLevel = Math.floor(novoXP / 100) + 1;
+
   await updateDoc(ref, {
+    
+    xpByCategory: {
+      humanas: data.xpByCategory?.humanas || 0,
+      natureza: data.xpByCategory?.natureza || 0,
+      exatas: data.xpByCategory?.exatas || 0,
+      ti: data.xpByCategory?.ti || 0,
+    },
+
+    [`xpByCategory.${categoria}`]: increment(xpGanho),
     xp: increment(xpGanho),
     level: novoLevel,
   });
+
   return { xp: novoXP, level: novoLevel };
 }
+
 
 // ─── GRUPOS ────────────────────────────────────────────────
 

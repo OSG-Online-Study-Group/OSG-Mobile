@@ -10,7 +10,7 @@ import {
 
 import { useTreino } from "../../hooks/useTreino";
 
-export default function TreinoHumanas() {
+export default function TreinoNatureza() {
   const {
     quiz,
     selected,
@@ -18,7 +18,7 @@ export default function TreinoHumanas() {
     perguntaAtual,
     finalizado,
     responder,
-  } = useTreino("humanas");
+  } = useTreino("natureza");
 
   if (!quiz) return null;
 

@@ -24,9 +24,10 @@ import ConviteDuelo from '../screens/ConviteDuelo';
 import DueloAmigo from '../screens/DueloAmigo';
 import ThemeSelection from '../screens/TemaQuiz';
 import QuizDiario from '../screens/QuizDiario';
-import Treino_Extras from '../screens/TreinoExtras';
+import Treino_Ti from '../screens/TreinoTi';
 import Treino_Exatas from '../screens/TreinoExatas';
 import Treino_Humanas from '../screens/TreinoHumanas';
+import Treino_Natureza from '../screens/TreinoNatureza';
 import FiltroEstudo from '../screens/FiltroEstudo';
 import FiltroExatas from '../screens/FiltroExatas';
 import FiltroHumanas from '../screens/FiltroHumanas';
@@ -81,9 +82,10 @@ function PrivateStack() {
       <Stack.Screen name="DueloAmigo" component={DueloAmigo} />
       <Stack.Screen name="ThemeSelection" component={ThemeSelection} />
       <Stack.Screen name="QuizDiario" component={QuizDiario} />
-      <Stack.Screen name="Treino_Extras" component={Treino_Extras} />
+      <Stack.Screen name="Treino_Ti" component={Treino_Ti} />
       <Stack.Screen name="Treino_Exatas" component={Treino_Exatas} />
       <Stack.Screen name="Treino_Humanas" component={Treino_Humanas} />
+      <Stack.Screen name="Treino_Natureza" component={Treino_Natureza} />
       <Stack.Screen name="FiltroEstudo" component={FiltroEstudo} />
       <Stack.Screen name="FiltroExatas" component={FiltroExatas} />
       <Stack.Screen name="FiltroHumanas" component={FiltroHumanas} />

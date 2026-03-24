@@ -1,69 +1,66 @@
-import React, { useState } from "react";
-import { useTreino } from "../../hooks/useTreino";
+import React from "react";
 import {
-  Container, Header, MenuButton, MenuIcon, Title,
-  BackButton, BackText, QuestionCard, QuestionIcon,
-  QuestionTitle, QuestionText, ChatArea, MessageRow,
-  Avatar, MessageBubble, MessageText, InputArea,
-  SendButton, AddButton, BottomMenu, MenuText, Input,
+  Container,
+  QuestionBox,
+  QuestionText,
+  OptionButton,
+  OptionText,
+  ProgressText,
 } from "./styles";
-import { Ionicons } from "@expo/vector-icons";
 
-export default function TreinoExatas({ navigation }) {
-  const { messages, responder } = useTreino("exatas");
-  const [input, setInput] = useState("");
+import { useTreino } from "../../hooks/useTreino";
 
-  const handleSend = () => {
-    if (!input.trim()) return;
-    responder(input);
-    setInput("");
+export default function TreinoExatas() {
+  const {
+    quiz,
+    selected,
+    respostaCorreta,
+    perguntaAtual,
+    finalizado,
+    responder,
+  } = useTreino("exatas");
+
+  if (!quiz) return null;
+
+  if (finalizado) {
+    return (
+      <Container>
+        <QuestionText>Treino finalizado!</QuestionText>
+      </Container>
+    );
+  }
+
+  const getColor = (index) => {
+    if (selected === null) return "#4c2d6f";
+
+    if (index === respostaCorreta) return "#2f9e44";
+    if (index === selected) return "#c92a2a";
+
+    return "#4c2d6f";
   };
 
   return (
     <Container>
-      <Header>
-        <MenuButton onPress={() => navigation.navigate("FiltroEstudo")}>
-          <MenuIcon source={require("../../assets/images/menu.jpg")} />
-        </MenuButton>
 
-        <Title>Exatas</Title>
+      <ProgressText>
+        Pergunta {perguntaAtual} / 7
+      </ProgressText>
 
-        <BackButton onPress={() => navigation.goBack()}>
-          <BackText>Voltar</BackText>
-        </BackButton>
-      </Header>
+      <QuestionBox>
+        <QuestionText>{quiz.pergunta}</QuestionText>
+      </QuestionBox>
 
-      <QuestionCard>
-        <QuestionIcon source={require("../../assets/images/espada.jpg")} />
-        <QuestionTitle>Modo Treino</QuestionTitle>
-        <QuestionText>Exatas</QuestionText>
-      </QuestionCard>
-
-      <ChatArea>
-        {messages.map((msg) => (
-          <MessageRow key={msg.id} style={{
-            justifyContent: msg.sender === "you" ? "flex-end" : "flex-start",
-          }}>
-            <MessageBubble>
-              <MessageText>{msg.text}</MessageText>
-            </MessageBubble>
-          </MessageRow>
-        ))}
-      </ChatArea>
-
-      <InputArea>
-        <Input value={input} onChangeText={setInput} placeholder="Resposta..." />
-        <SendButton onPress={handleSend}>
-          <Title>➤</Title>
-        </SendButton>
-      </InputArea>
-
-      <BottomMenu>
-        <MenuButton onPress={() => navigation.navigate("Menu")}>
-          <Ionicons name="home-outline" size={20} color="#fff" />
-          <MenuText>Home</MenuText>
-        </MenuButton>
-      </BottomMenu>
+      {quiz.alternativas.map((alt, i) => (
+        <OptionButton
+          key={i}
+          onPress={() => responder(i)}
+          style={{ backgroundColor: getColor(i) }}
+        >
+          <OptionText>
+            {String.fromCharCode(65 + i)}. {alt}
+          </OptionText>
+        </OptionButton>
+      ))}
     </Container>
   );
 }

@@ -35,8 +35,12 @@ export default function ThemeSelection({ navigation }) {
         <Text2>Humanas</Text2>
       </GameOption>
 
-      <GameOption onPress={() => navigation.navigate("Treino_Extras")}>
-        <Text3>Extras</Text3>
+      <GameOption onPress={() => navigation.navigate("Treino_Natureza")}>
+        <Text>Natureza</Text>
+      </GameOption>
+
+      <GameOption onPress={() => navigation.navigate("Treino_Ti")}>
+        <Text3>Ti</Text3>
       </GameOption>
 
       {/* ===== MENU INFERIOR ===== */}

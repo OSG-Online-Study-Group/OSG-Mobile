@@ -1,66 +1,84 @@
 import { useState, useEffect } from "react";
 import { enviarMensagemParaIA } from "../services/openrouter";
-import { atualizarXP } from "../services/firestore";
+import { atualizarXPPorCategoria } from "../services/firestore";
 import { useAuth } from "../context/AuthContext";
 
 export function useTreino(tipo) {
-  const [messages, setMessages] = useState([]);
-  const [perguntaAtual, setPerguntaAtual] = useState("");
+  const [quiz, setQuiz] = useState(null);
+  const [selected, setSelected] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [contador, setContador] = useState(0);
+  const [finalizado, setFinalizado] = useState(false);
 
   const { user } = useAuth();
+
+  const MAX_PERGUNTAS = 7;
+  const XP_POR_ACERTO = 5;
+
+  const categorias = {
+    exatas: "exatas",
+    humanas: "humanas",
+    natureza: "natureza",
+    extras: "ti"
+  };
 
   useEffect(() => {
     gerarPergunta();
   }, []);
 
-  const gerarPromptPergunta = () => {
+  const gerarPrompt = () => {
     const temas = {
-      exatas: "EXATAS (matemática, física ou química)",
-      humanas: "HUMANAS (história, geografia, filosofia ou sociologia)",
-      extras: "COMPUTAÇÃO (programação, redes, banco de dados, IA)"
+      exatas: "Matematica",
+      humanas: "Historia, Geografia, Sociologia ou Portugues",
+      natureza: "Fisica, Quimica ou Biologia",
+      extras: "Computacao"
     };
 
     return `
-Gere uma pergunta aberta de ${temas[tipo]}.
+Gere uma pergunta de multipla escolha sobre ${temas[tipo]}.
 
-Retorne em JSON:
+FORMATO JSON:
 {
-  "pergunta": "string"
+  "pergunta": "texto",
+  "alternativas": ["A", "B", "C", "D"],
+  "correta": 0
 }
 
 REGRAS:
-- Português correto
-- Não juntar palavras
-- Sem resposta
-- Sem explicação
+- Nivel facil ou medio
+- 4 alternativas
+- Apenas 1 correta
+- correta de 0 a 3
+- Sem explicacao
 `;
   };
 
   const gerarPergunta = async () => {
+    if (contador >= MAX_PERGUNTAS) {
+      setFinalizado(true);
+      return;
+    }
+
     try {
       setLoading(true);
 
-      const resposta = await enviarMensagemParaIA(gerarPromptPergunta());
+      const resposta = await enviarMensagemParaIA(gerarPrompt());
 
-      let pergunta = "";
+      let parsed;
 
       try {
-        const json = JSON.parse(resposta);
-        pergunta = json.pergunta;
+        parsed = JSON.parse(resposta);
       } catch {
-        pergunta = resposta;
+        parsed = {
+          pergunta: "Quanto é 2 + 2?",
+          alternativas: ["2", "3", "4", "5"],
+          correta: 2
+        };
       }
 
-      setPerguntaAtual(pergunta);
+      setQuiz(parsed);
+      setSelected(null);
 
-      setMessages([
-        {
-          id: Date.now(),
-          sender: "bot",
-          text: pergunta,
-        },
-      ]);
     } catch (e) {
       console.log(e);
     } finally {
@@ -68,71 +86,33 @@ REGRAS:
     }
   };
 
-  const responder = async (userAnswer) => {
-    const userMessage = {
-      id: Date.now(),
-      sender: "you",
-      text: userAnswer,
-    };
+  const responder = async (index) => {
+    if (selected !== null || finalizado) return;
 
-    setMessages((prev) => [...prev, userMessage]);
+    setSelected(index);
 
-    try {
-      const prompt = `
-Pergunta: ${perguntaAtual}
-Resposta do aluno: ${userAnswer}
+    const acertou = index === quiz.correta;
 
-Responda em JSON:
-
-{
-  "resultado": "CORRETA ou INCORRETA",
-  "explicacao": "explicação curta"
-}
-
-REGRAS:
-- Português correto
-- Não juntar palavras
-- Sem texto fora do JSON
-`;
-
-      const respostaIA = await enviarMensagemParaIA(prompt);
-
-      let resultado = "INCORRETA";
-      let explicacao = "Erro ao corrigir.";
-
-      try {
-        const json = JSON.parse(respostaIA);
-        resultado = json.resultado;
-        explicacao = json.explicacao;
-      } catch {
-        explicacao = respostaIA;
-      }
-
-
-      if (resultado === "CORRETA") {
-        await atualizarXP(user.uid, 5);
-      }
-
-      const botMessage = {
-        id: Date.now() + 1,
-        sender: "bot",
-        text: `${resultado}\n${explicacao}`,
-      };
-
-      setMessages((prev) => [...prev, botMessage]);
-
-      setTimeout(() => {
-        gerarPergunta();
-      }, 3000);
-
-    } catch (e) {
-      console.log(e);
+    if (acertou && user) {
+      await atualizarXPPorCategoria(
+        user.uid,
+        categorias[tipo],
+        XP_POR_ACERTO
+      );
     }
+
+    setTimeout(() => {
+      setContador((prev) => prev + 1);
+      gerarPergunta();
+    }, 1500);
   };
 
   return {
-    messages,
+    quiz,
     responder,
-    loading
+    selected,
+    loading,
+    contador,
+    finalizado
   };
 }
