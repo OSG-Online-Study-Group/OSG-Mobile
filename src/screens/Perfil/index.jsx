@@ -1,5 +1,6 @@
 import { ScrollView, Image, ActivityIndicator } from "react-native";
 import { useAuth } from '../../hooks/useAuth';
+import { getTituloLevel } from '../../services/firestore';
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
@@ -28,13 +29,10 @@ import {
 
 export default function Perfil() {
   const navigation = useNavigation();
+  const { usuario, firebaseUser, carregando, logout } = useAuth();
 
-  const {
-    usuario,
-    firebaseUser,
-    carregando,
-    logout
-  } = useAuth();
+  const level = usuario?.level || 1;
+  const titulo = getTituloLevel(level);
 
   async function handleLogout() {
     await logout();
@@ -50,7 +48,7 @@ export default function Perfil() {
 
   return (
     <Container>
-      <ScrollView // permite rolar a tela caso o conteúdo seja maior que a altura disponível
+      <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 40 }}
       >
@@ -60,33 +58,23 @@ export default function Perfil() {
           <Ionicons name="arrow-undo" size={22} color="#B84EF2" />
         </BackButton>
 
-        {/* <ProfileImage // codigo para carregar a foto do usuário, caso exista, ou uma imagem padrão
-          source={
-            usuario?.photo
-              ? { uri: usuario.photo }
-              : require("../../assets/images/profile_photo.jpg")
-          }
-        /> */}
-
         <ProfileImage source={require("../../assets/images/profile_photo.jpg")} />
 
         <Name>{usuario?.name || "Usuário"}</Name>
-
 
         <Username>
           @{usuario?.name?.toLowerCase() || firebaseUser?.email}
         </Username>
 
+        {/* XP e título do level */}
         <PointsCard>
-          <PointsText>
-            Pontos: {usuario?.points ?? usuario?.xp ?? 0}
-          </PointsText>
+          <PointsText>{usuario?.xp || 0} XP — {titulo}</PointsText>
         </PointsCard>
 
         <StatsContainer>
           <Stat>
             <StatNumber>{usuario?.groupIds?.length || 0}</StatNumber>
-            <StatLabel>Matérias</StatLabel>
+            <StatLabel>Grupos</StatLabel>
           </Stat>
 
           <Stat>
@@ -95,8 +83,8 @@ export default function Perfil() {
           </Stat>
 
           <Stat>
-            <StatNumber>{usuario?.level || 1}</StatNumber>
-            <StatLabel>Nível</StatLabel>
+            <StatNumber>{level}</StatNumber>
+            <StatLabel>{titulo}</StatLabel>
           </Stat>
         </StatsContainer>
 
@@ -111,7 +99,7 @@ export default function Perfil() {
 
         <PlusCard>
           <PlusText>
-            Obter Plus? Ganhe o dobro de xp e mais recompensas
+            Obter Plus? Ganhe o dobro de XP e mais recompensas
           </PlusText>
         </PlusCard>
 
@@ -125,11 +113,10 @@ export default function Perfil() {
           <MenuText>Ranking</MenuText>
         </MenuItem>
 
-        <MenuItem>
+        <MenuItem onPress={() => navigation.navigate("Editar_Perfil")}>
           <Image source={require("../../assets/images/edit_icon.jpg")} />
           <MenuText>Editar Perfil</MenuText>
         </MenuItem>
-
 
         <MenuItem>
           <Image source={require("../../assets/images/language_icon.jpg")} />
@@ -145,8 +132,6 @@ export default function Perfil() {
           <Image source={require("../../assets/images/help_icon.jpg")} />
           <MenuText>Ajuda e Suporte</MenuText>
         </MenuItem>
-
-
 
         <Divider />
 
