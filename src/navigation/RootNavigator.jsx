@@ -16,8 +16,7 @@ import Game from '../screens/Game';
 import GrupoChat from '../screens/GrupoChat';
 import ChatList from '../screens/ListaMensagens';
 import SolicitacaoMensagens from '../screens/SolicitacaoMensagens';
-import RankingGeral from '../screens/RankingGeral';
-import RankingGrupos from '../screens/RankingGrupos';
+import Ranking from '../screens/Ranking';
 import Grupos from '../screens/Seus_Grupos';
 import CommunityScreen from '../screens/Comunidade';
 import ConviteDuelo from '../screens/ConviteDuelo';
@@ -26,17 +25,6 @@ import ThemeSelection from '../screens/TemaQuiz';
 import QuizDiario from '../screens/QuizDiario';
 import TreinoScreen from '../screens/TreinoScreen';
 import FiltroEstudo from '../screens/FiltroEstudo';
-import FiltroExatas from '../screens/FiltroExatas';
-import FiltroHumanas from '../screens/FiltroHumanas';
-import FiltroExtras from '../screens/FiltroExtras';
-import FiltroMatematica from '../screens/FiltroMatematica';
-import FiltroHistoria from '../screens/FiltroHistoria';
-import FiltroQuimica from '../screens/FiltroQuimica';
-import FiltroFilosofia from '../screens/FiltroFilosofia';
-import FiltroAstronomia from '../screens/FiltroAstronomia';
-import FiltroSociologia from '../screens/FiltroSociologia';
-import FiltroInformatica from '../screens/FiltroInformatica';
-import FiltroAntropologia from '../screens/FiltroAntropologia';
 
 const Stack = createNativeStackNavigator();
 
@@ -72,8 +60,7 @@ function PrivateStack() {
       <Stack.Screen name="GrupoChat" component={GrupoChat} />
       <Stack.Screen name="ChatList" component={ChatList} />
       <Stack.Screen name="SolicitacaoMensagens" component={SolicitacaoMensagens} />
-      <Stack.Screen name="RankingGeral" component={RankingGeral} />
-      <Stack.Screen name="RankingGrupos" component={RankingGrupos} />
+      <Stack.Screen name="Ranking" component={Ranking} />
       <Stack.Screen name="CommunityScreen" component={CommunityScreen} />
       <Stack.Screen name="ConviteDuelo" component={ConviteDuelo} />
       <Stack.Screen name="DueloAmigo" component={DueloAmigo} />
@@ -81,17 +68,6 @@ function PrivateStack() {
       <Stack.Screen name="QuizDiario" component={QuizDiario} />
       <Stack.Screen name="Treino" component={TreinoScreen} />
       <Stack.Screen name="FiltroEstudo" component={FiltroEstudo} />
-      <Stack.Screen name="FiltroExatas" component={FiltroExatas} />
-      <Stack.Screen name="FiltroHumanas" component={FiltroHumanas} />
-      <Stack.Screen name="FiltroExtras" component={FiltroExtras} />
-      <Stack.Screen name="FiltroMatematica" component={FiltroMatematica} />
-      <Stack.Screen name="FiltroHistoria" component={FiltroHistoria} />
-      <Stack.Screen name="FiltroQuimica" component={FiltroQuimica} />
-      <Stack.Screen name="FiltroFilosofia" component={FiltroFilosofia} />
-      <Stack.Screen name="FiltroAstronomia" component={FiltroAstronomia} />
-      <Stack.Screen name="FiltroSociologia" component={FiltroSociologia} />
-      <Stack.Screen name="FiltroInformatica" component={FiltroInformatica} />
-      <Stack.Screen name="FiltroAntropologia" component={FiltroAntropologia} />
     </Stack.Navigator>
   );
 }
