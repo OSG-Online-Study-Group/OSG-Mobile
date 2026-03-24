@@ -33,7 +33,7 @@ export default function Game() {
         <Text>Quiz diário</Text>
       </GameOption>
 
-      <GameOption onPress={() => navigation.navigate("FiltroEstudo")}>
+      <GameOption onPress={() => navigation.navigate("FiltroTreino")}>
         <Image source={require("../../assets/images/Humanas_background.jpg")} />
         <Text2>Duelo Aleatório</Text2>
       </GameOption>
