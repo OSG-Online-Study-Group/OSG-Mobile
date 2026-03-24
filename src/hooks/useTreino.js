@@ -44,6 +44,16 @@ export function useTreino(categoria) {
   const [carregando, setCarregando] = useState(true);
   const [xpTotal, setXpTotal] = useState(0);
 
+  const MAX_PERGUNTAS = 7;
+  const XP_POR_ACERTO = 5;
+
+  const categorias = {
+    exatas: "exatas",
+    humanas: "humanas",
+    natureza: "natureza",
+    extras: "ti"
+  };
+
   useEffect(() => {
     gerarPergunta();
   }, []);

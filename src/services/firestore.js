@@ -36,8 +36,17 @@ export async function salvarUsuario(uid, nome, email) {
   await setDoc(doc(db, "users", uid), {
     name: nome,
     email: email,
+
     xp: 0,
     level: 1,
+
+    xpByCategory: {
+      humanas: 0,
+      natureza: 0,
+      exatas: 0,
+      ti: 0,
+    },
+
     groupIds: [],
     xpPorGrupo: {},
     lastDailyQuizDate: null,
@@ -74,6 +83,7 @@ export async function atualizarXP(uid, xpGanho, groupId = null) {
 
   return { novoXP, novoLevel };
 }
+
 
 // ─── GRUPOS ────────────────────────────────────────────────
 
