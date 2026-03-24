@@ -113,6 +113,8 @@ REGRAS:
     selected,
     loading,
     contador,
-    finalizado
+    finalizado,
+    perguntaAtual: contador + 1,   // adiciona aqui
+    respostaCorreta: quiz?.correta // também útil
   };
 }
