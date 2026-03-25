@@ -9,7 +9,8 @@ import {
 } from "./styles";
 
 export default function SelecionarMaterias({ navigation }) {
-  const { firebaseUser, refreshUsuario } = useAuth();
+  const { firebaseUser, refreshUsuario, usuario } = useAuth();
+
   const [selecionados, setSelecionados] = useState([]);
   const [carregando, setCarregando] = useState(false);
   const [erro, setErro] = useState("");
@@ -25,19 +26,38 @@ export default function SelecionarMaterias({ navigation }) {
 
   async function handleConfirmar() {
     if (selecionados.length === 0) {
-      setErro("Selecione pelo menos uma matéria para continuar.");
+      setErro("Selecione pelo menos uma matéria.");
       return;
     }
 
     setCarregando(true);
+
     try {
+      // 🔥 junta grupos antigos + novos
+      const gruposFinal = [
+        ...new Set([
+          ...(usuario?.groupIds || []),
+          ...selecionados
+        ])
+      ];
+
+      // 🔥 atualiza UI imediatamente
+      refreshUsuario({
+        groupIds: gruposFinal
+      });
+
+      // 🔥 salva no firestore (apenas novos)
       await entrarNosGrupos(firebaseUser.uid, selecionados);
-      // Atualiza o contexto para refletir os novos groupIds
-      refreshUsuario({ groupIds: selecionados });
-  
+
+      // 🔥 FORÇA SAÍDA DA TELA (resolve 100%)
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "Menu" }],
+      });
+
     } catch (error) {
-      Alert.alert("Erro", "Não foi possível salvar suas matérias. Tente novamente.");
       console.error(error);
+      Alert.alert("Erro", "Não foi possível salvar.");
     } finally {
       setCarregando(false);
     }
@@ -46,11 +66,16 @@ export default function SelecionarMaterias({ navigation }) {
   return (
     <Container>
       <Title>Escolha suas Matérias</Title>
-      <Subtitle>Selecione os grupos que deseja participar.{"\n"}Você pode estar em mais de um!</Subtitle>
+
+      <Subtitle>
+        Selecione os grupos que deseja participar.{"\n"}
+        Você pode estar em mais de um!
+      </Subtitle>
 
       <ScrollView showsVerticalScrollIndicator={false}>
         {GRUPOS.map((grupo) => {
           const selected = selecionados.includes(grupo.id);
+
           return (
             <GrupoCard
               key={grupo.id}
@@ -59,7 +84,11 @@ export default function SelecionarMaterias({ navigation }) {
               activeOpacity={0.8}
             >
               <GrupoEmoji>{grupo.emoji}</GrupoEmoji>
-              <GrupoNome selected={selected}>{grupo.name}</GrupoNome>
+
+              <GrupoNome selected={selected}>
+                {grupo.name}
+              </GrupoNome>
+
               {selected && <CheckIcon>✓</CheckIcon>}
             </GrupoCard>
           );

@@ -100,17 +100,20 @@ export async function atualizarPerfil(uid, dados) {
 export async function entrarNosGrupos(uid, groupIds) {
   if (!groupIds || groupIds.length === 0) return;
 
-  // Atualiza o doc do usuário com os groupIds
+  // usuário
   await updateDoc(doc(db, "users", uid), {
     groupIds: arrayUnion(...groupIds),
   });
 
-  // Adiciona uid ao array members[] de cada grupo
-  const promises = groupIds.map((groupId) =>
-    updateDoc(doc(db, "groups", groupId), {
+  // grupos
+  const promises = groupIds.map(async (groupId) => {
+    const ref = doc(db, "groups", groupId);
+
+    await updateDoc(ref, {
       members: arrayUnion(uid),
-    })
-  );
+    });
+  });
+
   await Promise.all(promises);
 }
 
