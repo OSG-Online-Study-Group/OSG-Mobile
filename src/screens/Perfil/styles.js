@@ -46,6 +46,7 @@ export const Username = styled.Text`
   margin-left: 10px;
 `;
 
+
 export const PointsCard = styled.View`
   background-color: #611b9f;
   border-radius: 15px;

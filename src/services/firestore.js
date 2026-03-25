@@ -37,15 +37,12 @@ export async function salvarUsuario(uid, nome, email) {
     name: nome,
     email: email,
 
+
     xp: 0,
     level: 1,
 
-    xpByCategory: {
-      humanas: 0,
-      natureza: 0,
-      exatas: 0,
-      ti: 0,
-    },
+    photo: null,
+    theme: null,
 
     groupIds: [],
     xpPorGrupo: {},
@@ -84,6 +81,17 @@ export async function atualizarXP(uid, xpGanho, groupId = null) {
   return { novoXP, novoLevel };
 }
 
+// ─── PERFIL ──────────────────────────────────────────────
+
+export async function atualizarPerfil(uid, dados) {
+  try {
+    const ref = doc(db, "users", uid);
+    await updateDoc(ref, dados);
+  } catch (error) {
+    console.error("Erro ao atualizar perfil:", error);
+    throw error;
+  }
+}
 
 // ─── GRUPOS ────────────────────────────────────────────────
 
@@ -133,3 +141,4 @@ export async function buscarMembrosDoGrupo(groupId) {
   const snap = await getDocs(q);
   return snap.docs.map((d) => ({ uid: d.id, ...d.data() }));
 }
+

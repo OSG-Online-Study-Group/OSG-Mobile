@@ -2,6 +2,8 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../services/firebase";
 import { buscarUsuario } from "../services/firestore";
+import { doc, onSnapshot } from "firebase/firestore";
+import { db } from "../services/firebase";
 
 const AuthContext = createContext({});
 
@@ -12,21 +14,31 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     // Escuta mudanças de autenticação em tempo real
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        setFirebaseUser(user);
-        // Busca dados completos do Firestore (xp, level, grupos...)
-        const dados = await buscarUsuario(user.uid);
-        setUsuario(dados);
-      } else {
-        setFirebaseUser(null);
-        setUsuario(null);
-      }
-      setCarregando(false);
-    });
+  const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
+    if (user) {
+      setFirebaseUser(user);
 
-    return () => unsubscribe(); // cleanup ao desmontar
-  }, []);
+      // 🔥 ESCUTA EM TEMPO REAL
+      const unsubscribeFirestore = onSnapshot(
+        doc(db, "users", user.uid),
+        (docSnap) => {
+          if (docSnap.exists()) {
+            setUsuario({ uid: docSnap.id, ...docSnap.data() });
+          }
+          setCarregando(false);
+        }
+      );
+
+      return () => unsubscribeFirestore();
+    } else {
+      setFirebaseUser(null);
+      setUsuario(null);
+      setCarregando(false);
+    }
+  });
+
+  return () => unsubscribeAuth();
+}, []);
 
   async function logout() {
     await signOut(auth);

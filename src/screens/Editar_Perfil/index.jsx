@@ -1,5 +1,9 @@
-import { ScrollView, Image, TouchableOpacity } from "react-native";
+import { ScrollView, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
+import { useNavigation } from "@react-navigation/native";
+import { useAuth } from "../../hooks/useAuth";
+import { useProfile } from "../../hooks/useProfile";
 
 import {
   Container,
@@ -12,154 +16,96 @@ import {
   Section,
   SectionTitle,
   Input,
-  EditIcon,
-  PointsCard,
-  PointsText,
-  StatsContainer,
-  Stat,
-  StatNumber,
-  StatLabel,
-  ItemsContainer,
-  Item,
   FooterButtons,
   CancelButton,
   ConfirmButton,
   FooterText
 } from "./styles";
 
-export default function PersonalizarPerfil() {
+export default function EditarPerfil() {
+  const navigation = useNavigation();
+  const { usuario, firebaseUser } = useAuth();
+
+  const {
+    foto,
+    theme,
+    nome,
+    setTheme,
+    setNome,
+    escolherFoto,
+    salvar
+  } = useProfile(usuario);
+
+  const temas = [
+    ["#ff7e5f", "#feb47b"],
+    ["#6a11cb", "#2575fc"],
+    ["#11998e", "#38ef7d"],
+    ["#fc466b", "#3f5efb"],
+  ];
 
   return (
     <Container>
-
       <ScrollView showsVerticalScrollIndicator={false}>
 
-        <Banner source={require("../../assets/images/profile_banner.jpg")} />
+        {/* BANNER DINÂMICO */}
+        {theme ? (
+          <LinearGradient
+            colors={theme}
+            style={{ width: "100%", height: 220 }}
+          />
+        ) : (
+          <Banner source={require("../../assets/images/profile_banner.jpg")} />
+        )}
 
-        <ProfileImage source={require("../../assets/images/profile_photo.jpg")} />
+        {/* FOTO */}
+        <ProfileImage
+          source={
+            foto
+              ? { uri: foto }
+              : require("../../assets/images/profile_photo.jpg")
+          }
+        />
 
-        <Button>
-          <ButtonText>Mudar Foto de Perfil</ButtonText>
+        <Button onPress={escolherFoto}>
+          <ButtonText>Mudar Foto</ButtonText>
         </Button>
 
-        <Button>
-          <ButtonText>Mudar plano de fundo</ButtonText>
-        </Button>
-
-
-        {/* seleção de temas */}
-
+        {/* CORES */}
         <ThemeSelector>
-
-          <TouchableOpacity>
-            <Ionicons name="arrow-back-circle-outline" size={28} color="#fff" />
-          </TouchableOpacity>
-
-          <ThemeCircle active />
-
-          <ThemeCircle />
-
-          <ThemeCircle />
-
-          <ThemeCircle />
-
-          <TouchableOpacity>
-            <Ionicons name="arrow-forward-circle-outline" size={28} color="#fff" />
-          </TouchableOpacity>
-
+          {temas.map((cores, index) => (
+            <ThemeCircle
+              key={index}
+              color={cores[0]} // 🔥 MOSTRA A COR
+              active={JSON.stringify(theme) === JSON.stringify(cores)}
+              onPress={() => setTheme(cores)}
+            />
+          ))}
         </ThemeSelector>
 
-
-        {/* Nome */}
-
+        {/* NOME */}
         <Section>
-
-          <SectionTitle>Nome de Exibição</SectionTitle>
-
-          <Input>
-            Poker Ghost
-            <EditIcon>
-              <Ionicons name="pencil" size={18} color="#d36df3" />
-            </EditIcon>
-          </Input>
-
-          <Input>
-            @Poker_Ghost111
-            <EditIcon>
-              <Ionicons name="pencil" size={18} color="#d36df3" />
-            </EditIcon>
-          </Input>
-
+          <SectionTitle>Nome</SectionTitle>
+          <Input
+            value={nome}
+            onChangeText={setNome}
+            placeholder="Digite seu nome"
+          />
         </Section>
 
-
-        {/* estatisticas */}
-
-        <Section>
-
-          <SectionTitle>Estatísticas do Perfil</SectionTitle>
-
-          <PointsCard>
-            <PointsText>Pontos: 777.777</PointsText>
-          </PointsCard>
-
-          <StatsContainer>
-
-            <Stat>
-              <StatNumber>5</StatNumber>
-              <StatLabel>Matérias</StatLabel>
-            </Stat>
-
-            <Stat>
-              <StatNumber>1,921</StatNumber>
-              <StatLabel>Últimos Pontos</StatLabel>
-            </Stat>
-
-            <Stat>
-              <StatNumber>12</StatNumber>
-              <StatLabel>Amigos</StatLabel>
-            </Stat>
-
-          </StatsContainer>
-
-        </Section>
-
-
-        {/* conquistas */}
-
-        <Section>
-
-          <SectionTitle>Conquistas e itens Visuais</SectionTitle>
-
-          <ItemsContainer>
-
-            <Item source={require("../../assets/images/badge1.jpg")} />
-            <Item source={require("../../assets/images/badge2.jpg")} />
-            <Item source={require("../../assets/images/badge3.jpg")} />
-            <Item source={require("../../assets/images/badge2.jpg")} />
-            <Item source={require("../../assets/images/badge1.jpg")} />
-
-          </ItemsContainer>
-
-        </Section>
-
-
-        {/* botões */}
-
+        {/* BOTÕES */}
         <FooterButtons>
 
-          <CancelButton>
-            <FooterText>Cancelar alterações</FooterText>
+          <CancelButton onPress={() => navigation.goBack()}>
+            <FooterText>Cancelar</FooterText>
           </CancelButton>
 
-          <ConfirmButton>
-            <FooterText>Confirmar alterações</FooterText>
+          <ConfirmButton onPress={() => salvar(firebaseUser.uid, navigation)}>
+            <FooterText>Salvar</FooterText>
           </ConfirmButton>
 
         </FooterButtons>
 
       </ScrollView>
-
     </Container>
   );
 }
