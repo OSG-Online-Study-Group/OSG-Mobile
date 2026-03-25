@@ -33,7 +33,8 @@ export default function EditarPerfil() {
     setTheme,
     setNome,
     escolherFoto,
-    salvar
+    salvar,
+    removerFoto
   } = useProfile(usuario);
 
   const temas = [
@@ -42,6 +43,7 @@ export default function EditarPerfil() {
     ["#11998e", "#38ef7d"],
     ["#fc466b", "#3f5efb"],
   ];
+
 
   return (
     <Container>
@@ -68,6 +70,14 @@ export default function EditarPerfil() {
 
         <Button onPress={escolherFoto}>
           <ButtonText>Mudar Foto</ButtonText>
+        </Button>
+
+        <Button onPress={removerFoto}>
+          <ButtonText>Voltar foto padrão</ButtonText>
+        </Button>
+
+        <Button onPress={() => setTheme(null)}>
+          <ButtonText>Remover plano de fundo</ButtonText>
         </Button>
 
         {/* CORES */}

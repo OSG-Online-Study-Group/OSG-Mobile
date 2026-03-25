@@ -13,28 +13,26 @@ export function AuthProvider({ children }) {
   const [carregando, setCarregando] = useState(true);
 
   useEffect(() => {
-    // Escuta mudanças de autenticação em tempo real
-  const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
+  const unsubscribe = onAuthStateChanged(auth, async (user) => {
+
     if (user) {
       setFirebaseUser(user);
 
-      // 🔥 ESCUTA EM TEMPO REAL
-      const unsubscribeFirestore = onSnapshot(
-        doc(db, "users", user.uid),
-        (docSnap) => {
-          if (docSnap.exists()) {
-            setUsuario({ uid: docSnap.id, ...docSnap.data() });
-          }
-          setCarregando(false);
-        }
-      );
+      try {
+        const dados = await buscarUsuario(user.uid);
+        setUsuario(dados);
+      } catch (error) {
+        console.log("Erro ao buscar usuário:", error);
+        setUsuario(null);
+      }
 
-      return () => unsubscribeFirestore();
     } else {
+      // 🔥 IMPORTANTE: limpa tudo antes de qualquer chamada
       setFirebaseUser(null);
       setUsuario(null);
-      setCarregando(false);
     }
+
+    setCarregando(false);
   });
 
   return () => unsubscribeAuth();
