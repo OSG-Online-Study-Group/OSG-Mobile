@@ -34,7 +34,7 @@ export default function SelecionarMaterias({ navigation }) {
       await entrarNosGrupos(firebaseUser.uid, selecionados);
       // Atualiza o contexto para refletir os novos groupIds
       refreshUsuario({ groupIds: selecionados });
-      navigation.navigate("Menu");
+  
     } catch (error) {
       Alert.alert("Erro", "Não foi possível salvar suas matérias. Tente novamente.");
       console.error(error);
