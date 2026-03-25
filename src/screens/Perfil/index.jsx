@@ -53,8 +53,10 @@ export default function Perfil() {
 
   return (
     <Container>
-      <ScrollView showsVerticalScrollIndicator={false}>
-
+       <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 40 }}
+      >
         {/* 🔥 BACKGROUND DINÂMICO */}
         {temTemaValido ? (
           <LinearGradient
