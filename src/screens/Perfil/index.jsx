@@ -3,6 +3,7 @@ import { useAuth } from '../../hooks/useAuth';
 import { getTituloLevel } from '../../services/firestore';
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { LinearGradient } from "expo-linear-gradient";
 
 import {
   Container,
@@ -38,6 +39,10 @@ export default function Perfil() {
     await logout();
   }
 
+  // 🔥 PROTEÇÃO DO GRADIENT (evita crash)
+  const temTemaValido =
+    Array.isArray(usuario?.theme) && usuario.theme.length >= 2;
+
   if (carregando) {
     return (
       <Container>
@@ -48,17 +53,33 @@ export default function Perfil() {
 
   return (
     <Container>
-      <ScrollView
+       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 40 }}
       >
-        <BackgroundImage source={require("../../assets/images/profile_banner.jpg")} />
+        {/* 🔥 BACKGROUND DINÂMICO */}
+        {temTemaValido ? (
+          <LinearGradient
+            colors={usuario.theme}
+            style={{ width: "100%", height: 220 }}
+          />
+        ) : (
+          <BackgroundImage source={require("../../assets/images/profile_banner.jpg")} />
+        )}
 
+        {/* BOTÃO VOLTAR */}
         <BackButton onPress={() => navigation.goBack()}>
           <Ionicons name="arrow-undo" size={22} color="#B84EF2" />
         </BackButton>
 
-        <ProfileImage source={require("../../assets/images/profile_photo.jpg")} />
+        {/* 🔥 FOTO DINÂMICA */}
+        <ProfileImage
+          source={
+            usuario?.photo
+              ? { uri: usuario.photo }
+              : require("../../assets/images/profile_photo.jpg")
+          }
+        />
 
         <Name>{usuario?.name || "Usuário"}</Name>
 
@@ -66,11 +87,14 @@ export default function Perfil() {
           @{usuario?.name?.toLowerCase() || firebaseUser?.email}
         </Username>
 
-        {/* XP e título do level */}
+        {/* XP */}
         <PointsCard>
-          <PointsText>{usuario?.xp || 0} XP — {titulo}</PointsText>
+          <PointsText>
+            {usuario?.xp || 0} XP — {titulo}
+          </PointsText>
         </PointsCard>
 
+        {/* STATS */}
         <StatsContainer>
           <Stat>
             <StatNumber>{usuario?.groupIds?.length || 0}</StatNumber>
@@ -88,6 +112,7 @@ export default function Perfil() {
           </Stat>
         </StatsContainer>
 
+        {/* BADGES (mantido como você pediu) */}
         <SectionTitle>Conquistas</SectionTitle>
         <BadgesContainer>
           <Badge source={require("../../assets/images/badge1.jpg")} />
@@ -103,6 +128,7 @@ export default function Perfil() {
           </PlusText>
         </PlusCard>
 
+        {/* MENU (mantido) */}
         <MenuItem onPress={() => navigation.navigate("ChatList")}>
           <Image source={require("../../assets/images/message_icon.jpg")} />
           <MenuText>Mensagem</MenuText>
@@ -113,6 +139,7 @@ export default function Perfil() {
           <MenuText>Ranking</MenuText>
         </MenuItem>
 
+        {/* 🔥 CORREÇÃO AQUI */}
         <MenuItem onPress={() => navigation.navigate("Editar_Perfil")}>
           <Image source={require("../../assets/images/edit_icon.jpg")} />
           <MenuText>Editar Perfil</MenuText>
@@ -139,6 +166,7 @@ export default function Perfil() {
           <Image source={require("../../assets/images/logout_icon.jpg")} />
           <MenuText>Fazer Logout</MenuText>
         </MenuItem>
+
       </ScrollView>
     </Container>
   );

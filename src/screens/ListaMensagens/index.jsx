@@ -57,7 +57,7 @@ export default function ChatList() {
   return (
     <Container>
       <Header>
-        <IconButton onPress={() => navigation.navigate("FiltroEstudo")}>
+        <IconButton onPress={() => navigation.navigate("FiltroTreino")}>
           <Ionicons name="menu" size={35} color="#B84EF2" />
         </IconButton>
         <SearchArea>

@@ -141,7 +141,7 @@ Criado ao enviar convite de duelo.
 |------|--------|
 | `Home` | Tela pública de entrada — ok |
 | `Login` | Auth funcionando — ok |
-| `FiltroEstudo` | Navegação estática — ok |
+| `FiltroTreino` | Navegação estática — ok |
 | `FiltroExatas` | Navegação estática — ok |
 | `FiltroHumanas` | Navegação estática — ok |
 | `FiltroExtras` | Navegação estática — ok |
@@ -356,7 +356,7 @@ Criado ao enviar convite de duelo.
         │
         ▼
   Usuário digita resposta e envia
-        │
+        │  
         ▼
   enviarMensagemParaIA(prompt de correção com pergunta + resposta)
   → Retorna "CORRETA" ou "INCORRETA" + explicação

@@ -18,13 +18,13 @@ import ChatList from '../screens/ListaMensagens';
 import SolicitacaoMensagens from '../screens/SolicitacaoMensagens';
 import Ranking from '../screens/Ranking';
 import Grupos from '../screens/Seus_Grupos';
-import CommunityScreen from '../screens/Comunidade';
 import ConviteDuelo from '../screens/ConviteDuelo';
 import DueloAmigo from '../screens/DueloAmigo';
-import ThemeSelection from '../screens/TemaQuiz';
 import QuizDiario from '../screens/QuizDiario';
+import FiltroTreino from '../screens/FiltroTreino';
 import TreinoScreen from '../screens/TreinoScreen';
-import FiltroEstudo from '../screens/FiltroEstudo';
+
+
 
 const Stack = createNativeStackNavigator();
 
@@ -61,13 +61,11 @@ function PrivateStack() {
       <Stack.Screen name="ChatList" component={ChatList} />
       <Stack.Screen name="SolicitacaoMensagens" component={SolicitacaoMensagens} />
       <Stack.Screen name="Ranking" component={Ranking} />
-      <Stack.Screen name="CommunityScreen" component={CommunityScreen} />
       <Stack.Screen name="ConviteDuelo" component={ConviteDuelo} />
       <Stack.Screen name="DueloAmigo" component={DueloAmigo} />
-      <Stack.Screen name="ThemeSelection" component={ThemeSelection} />
       <Stack.Screen name="QuizDiario" component={QuizDiario} />
       <Stack.Screen name="Treino" component={TreinoScreen} />
-      <Stack.Screen name="FiltroEstudo" component={FiltroEstudo} />
+      <Stack.Screen name="FiltroTreino" component={FiltroTreino} />
     </Stack.Navigator>
   );
 }

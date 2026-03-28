@@ -36,8 +36,14 @@ export async function salvarUsuario(uid, nome, email) {
   await setDoc(doc(db, "users", uid), {
     name: nome,
     email: email,
+
+
     xp: 0,
     level: 1,
+
+    photo: null,
+    theme: null,
+
     groupIds: [],
     xpPorGrupo: {},
     lastDailyQuizDate: null,
@@ -75,6 +81,18 @@ export async function atualizarXP(uid, xpGanho, groupId = null) {
   return { novoXP, novoLevel };
 }
 
+// ─── PERFIL ──────────────────────────────────────────────
+
+export async function atualizarPerfil(uid, dados) {
+  try {
+    const ref = doc(db, "users", uid);
+    await updateDoc(ref, dados);
+  } catch (error) {
+    console.error("Erro ao atualizar perfil:", error);
+    throw error;
+  }
+}
+
 // ─── GRUPOS ────────────────────────────────────────────────
 
 // Adiciona usuário aos grupos selecionados no cadastro
@@ -82,17 +100,20 @@ export async function atualizarXP(uid, xpGanho, groupId = null) {
 export async function entrarNosGrupos(uid, groupIds) {
   if (!groupIds || groupIds.length === 0) return;
 
-  // Atualiza o doc do usuário com os groupIds
+  // usuário
   await updateDoc(doc(db, "users", uid), {
     groupIds: arrayUnion(...groupIds),
   });
 
-  // Adiciona uid ao array members[] de cada grupo
-  const promises = groupIds.map((groupId) =>
-    updateDoc(doc(db, "groups", groupId), {
+  // grupos
+  const promises = groupIds.map(async (groupId) => {
+    const ref = doc(db, "groups", groupId);
+
+    await updateDoc(ref, {
       members: arrayUnion(uid),
-    })
-  );
+    });
+  });
+
   await Promise.all(promises);
 }
 
@@ -123,3 +144,4 @@ export async function buscarMembrosDoGrupo(groupId) {
   const snap = await getDocs(q);
   return snap.docs.map((d) => ({ uid: d.id, ...d.data() }));
 }
+

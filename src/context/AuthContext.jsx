@@ -1,31 +1,50 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { onAuthStateChanged, signOut } from "firebase/auth";
-import { auth } from "../services/firebase";
-import { buscarUsuario } from "../services/firestore";
+import { auth, db } from "../services/firebase";
+import { doc, onSnapshot } from "firebase/firestore";
 
 const AuthContext = createContext({});
 
 export function AuthProvider({ children }) {
-  const [usuario, setUsuario] = useState(null);   // dados do Firestore
-  const [firebaseUser, setFirebaseUser] = useState(null); // objeto do Auth
+  const [usuario, setUsuario] = useState(null);
+  const [firebaseUser, setFirebaseUser] = useState(null);
   const [carregando, setCarregando] = useState(true);
 
   useEffect(() => {
-    // Escuta mudanças de autenticação em tempo real
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+    let unsubscribeSnapshot = null;
+
+    const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
       if (user) {
         setFirebaseUser(user);
-        // Busca dados completos do Firestore (xp, level, grupos...)
-        const dados = await buscarUsuario(user.uid);
-        setUsuario(dados);
+
+        const userRef = doc(db, "users", user.uid);
+
+        unsubscribeSnapshot = onSnapshot(userRef, (snap) => {
+          if (snap.exists()) {
+            setUsuario((prev) => ({
+              ...prev,          // 🔥 mantém update local
+              ...snap.data(),   // 🔥 sobrescreve com firestore
+              uid: user.uid,
+            }));
+          } else {
+            setUsuario(null);
+          }
+          setCarregando(false);
+        });
+
       } else {
         setFirebaseUser(null);
         setUsuario(null);
+        setCarregando(false);
+
+        if (unsubscribeSnapshot) unsubscribeSnapshot();
       }
-      setCarregando(false);
     });
 
-    return () => unsubscribe(); // cleanup ao desmontar
+    return () => {
+      unsubscribeAuth();
+      if (unsubscribeSnapshot) unsubscribeSnapshot();
+    };
   }, []);
 
   async function logout() {
@@ -34,19 +53,24 @@ export function AuthProvider({ children }) {
     setFirebaseUser(null);
   }
 
-  // Atualiza o estado local após salvar XP no banco
+  // 🔥 IMPORTANTE: optimistic update
   function refreshUsuario(novosDados) {
-    setUsuario((prev) => ({ ...prev, ...novosDados }));
+    setUsuario((prev) => ({
+      ...prev,
+      ...novosDados,
+    }));
   }
 
   return (
-    <AuthContext.Provider value={{
-      usuario,        // { name, email, xp, level, groupIds, ... }
-      firebaseUser,   // objeto Firebase (uid, email, etc.)
-      carregando,
-      logout,
-      refreshUsuario,
-    }}>
+    <AuthContext.Provider
+      value={{
+        usuario,
+        firebaseUser,
+        carregando,
+        logout,
+        refreshUsuario,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
