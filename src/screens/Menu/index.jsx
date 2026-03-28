@@ -2,10 +2,10 @@ import { ScrollView, TouchableOpacity, ActivityIndicator, Image } from "react-na
 import {
   Container, Header, Title, MenuIcon, SearchBar,
   ProfileIcon, Banner, SectionTitle, GroupItem,
-  GroupText, MenuButton, MenuText, BottomMenu,
+  GroupText
 } from "./styles";
-import { Ionicons } from "@expo/vector-icons";
 import { useMenu } from "./useMenu";
+import BottomNav from "../../components/BottomNav";
 
 const GROUP_IMAGES = {
   matematica: require("../../assets/images/icon_OSG.jpg"),
@@ -71,24 +71,7 @@ export default function Menu({ navigation }) {
           </>
         )}
       </ScrollView>
-      <BottomMenu>
-        <MenuButton onPress={() => navigation.navigate("Menu")}>
-          <Ionicons name="home-outline" size={20} color="#fff" />
-          <MenuText>Home</MenuText>
-        </MenuButton>
-        <MenuButton onPress={() => navigation.navigate("Game")}>
-          <Ionicons name="game-controller-outline" size={20} color="#fff" />
-          <MenuText>Game</MenuText>
-        </MenuButton>
-        <MenuButton active>
-          <Ionicons name="chatbubble-ellipses" size={22} color="#fff" />
-          <MenuText>Grupos</MenuText>
-        </MenuButton>
-        <MenuButton onPress={() => navigation.navigate("Perfil")}>
-          <Ionicons name="person-outline" size={20} color="#fff" />
-          <MenuText>Perfil</MenuText>
-        </MenuButton>
-      </BottomMenu>
+      <BottomNav />
     </Container>
   );
 }

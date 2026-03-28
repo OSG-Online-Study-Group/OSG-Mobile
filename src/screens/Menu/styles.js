@@ -72,27 +72,3 @@ export const GroupText = styled.Text`
   font-size: 16px;
   margin-left: 10px;
 `;
-
-export const BottomMenu = styled.View`
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  background-color: #3a1f54;
-  padding: 13px 0;
-  border-top-width: 1px;
-  border-color: #4b2e83;
-  margin-bottom: 25px;
-  border-radius: 15px;
-  gap: 45px;
-`;
-
-export const MenuButton = styled.TouchableOpacity`
-  align-items: center;
-  opacity: ${(props) => (props.active ? 1 : 0.7)};
-`;
-
-export const MenuText = styled.Text`
-  color: #fff;
-  font-size: 12px;
-  margin-top: 2px;
-`;
