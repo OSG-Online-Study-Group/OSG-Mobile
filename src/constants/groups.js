@@ -1,4 +1,4 @@
-export const GRUPOS = [
+export const GROUPS = [
   {
     id: "group_matematica",
     name: "Matemática",
@@ -26,5 +26,5 @@ export const GRUPOS = [
   },
 ];
 
-export const GROUP_BY_ID = Object.fromEntries(GRUPOS.map((g) => [g.id, g]));
-export const SUBJECT_TO_GROUP_ID = Object.fromEntries(GRUPOS.map((g) => [g.subject, g.id]));
+export const GROUP_BY_ID = Object.fromEntries(GROUPS.map((g) => [g.id, g]));
+export const SUBJECT_TO_GROUP_ID = Object.fromEntries(GROUPS.map((g) => [g.subject, g.id]));

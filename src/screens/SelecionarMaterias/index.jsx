@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Alert, ScrollView, ActivityIndicator } from "react-native";
-import { GRUPOS } from "../../constants/grupos";
+import { GROUPS } from "../../constants/groups";
 import { entrarNosGrupos } from "../../services/firestore";
 import { useAuth } from "../../hooks/useAuth";
 import {
@@ -73,7 +73,7 @@ export default function SelecionarMaterias({ navigation }) {
       </Subtitle>
 
       <ScrollView showsVerticalScrollIndicator={false}>
-        {GRUPOS.map((grupo) => {
+        {GROUPS.map((grupo) => {
           const selected = selecionados.includes(grupo.id);
 
           return (

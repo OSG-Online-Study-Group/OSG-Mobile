@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { db } from "../services/firebase";
-import { GRUPOS } from "../constants/grupos";
+import { GROUPS } from "../constants/groups";
 import {
   collection, query, orderBy, limit, onSnapshot, getDocs
 } from "firebase/firestore";
@@ -62,7 +62,7 @@ export function useRankingTodosGrupos() {
     const unsub = onSnapshot(q, (snap) => {
       const usuarios = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
 
-      const totais = GRUPOS.map((grupo) => {
+      const totais = GROUPS.map((grupo) => {
         const totalXP = usuarios.reduce(
           (acc, u) => acc + (u.xpPorGrupo?.[grupo.id] || 0), 0
         );
