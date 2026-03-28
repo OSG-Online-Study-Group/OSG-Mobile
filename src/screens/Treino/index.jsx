@@ -10,7 +10,7 @@ import {
   SendButton, AddButton, BottomMenu, MenuText, Input,
 } from "./styles";
 
-export default function TreinoScreen({ route, navigation }) {
+export default function Treino({ route, navigation }) {
   const { categoria } = route.params;
   const {
     messages, newMessage, setNewMessage,

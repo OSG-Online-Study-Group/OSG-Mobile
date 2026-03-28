@@ -140,7 +140,7 @@ export default function Perfil() {
         </MenuItem>
 
         {/* 🔥 CORREÇÃO AQUI */}
-        <MenuItem onPress={() => navigation.navigate("Editar_Perfil")}>
+        <MenuItem onPress={() => navigation.navigate("EditarPerfil")}>
           <Image source={require("../../assets/images/edit_icon.jpg")} />
           <MenuText>Editar Perfil</MenuText>
         </MenuItem>
