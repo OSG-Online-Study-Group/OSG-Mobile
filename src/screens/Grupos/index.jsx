@@ -148,12 +148,12 @@ export default function Grupos({ navigation }) {
         </MenuButton>
 
 
-        <CenterButton>
-          <Ionicons name="chatbubble-ellipses" size={28} color="#fff" />
-        </CenterButton>
+         <CenterButton onPress={() => navigation.navigate("Ranking")}>
+                  <Ionicons name="trophy" size={28} color="#fff" />
+         </CenterButton>
 
 
-        <MenuButton onPress={() => navigation.navigate("FiltroEstudo")}>
+        <MenuButton onPress={() => navigation.navigate("Grupos")}>
           <Ionicons name="grid-outline" size={22} color="#fff" />
           <MenuText>Grupos</MenuText>
         </MenuButton>
