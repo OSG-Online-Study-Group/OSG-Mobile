@@ -2,7 +2,7 @@ import styled from "styled-components/native";
 
 export const Container = styled.View`
   flex: 1;
-  background-color: #2b0d3f;
+  background-color: #1f0236;
 `;
 
 export const Header = styled.View`
