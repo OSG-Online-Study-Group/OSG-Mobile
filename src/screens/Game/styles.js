@@ -20,7 +20,7 @@ export const BackButton = styled.TouchableOpacity`
 
 export const Title = styled.Text`
   color: white;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
   margin-left: 50px;
   margin-top: 20px;
@@ -28,34 +28,20 @@ export const Title = styled.Text`
 
 export const GameOption = styled.TouchableOpacity`
   background-color: #2a0d4d;
-  border-radius: 20px;
-  width: 75%;
+  border-radius: 00px;
+  width: 380px;
   padding: 15px;
   margin: 10px 0;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  right: -20px;
+  right: -10px;
 `;
 
 export const OptionText = styled.Text`
   color: #fff;
   font-size: 18px;
   margin-left: 15px;
-`;
-
-export const BottomMenu = styled.View`
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  background-color: #3a1f54;
-  padding: 10px 0;
-  border-top-width: 1px;
-  border-color: #4b2e83;
-  margin-bottom: 25px;
-  margin-top: 25px;
-  gap: 50px;
-  border-radius: 10px;
 `;
 
 export const MenuButton = styled.TouchableOpacity`
@@ -72,12 +58,12 @@ export const MenuText = styled.Text`
 export const Text = styled.Text`
 color: white;
 font-size: 20px;
-margin-left: 37px;
+margin-left: 30px;
 `
 
 export const Text2 = styled.Text`
 text-align: center;
-left: -235px;
+left: 20px;
 font-size: 20px;
 color: white;
 z-index: 1;
