@@ -25,7 +25,6 @@ import {
   CardText,
   TextContainer,
   Points,
-  Crown,
   ListCard,
   Avatar,
   Username,
@@ -59,7 +58,6 @@ function RankingPessoas() {
   const top3 = usuarios.slice(0, 3);
   const resto = usuarios.slice(3);
 
-  // ordem do pódio (2º, 1º, 3º)
   const podio = [top3[1], top3[0], top3[2]];
 
   return (
@@ -71,11 +69,6 @@ function RankingPessoas() {
           {podio.map((user, index) =>
             user ? (
               <TopUser key={user.id}>
-                {index === 1 && (
-                  <Crown source={require("../../assets/images/crown.png")} />
-                )}
-
-                {/* FOTO DINÂMICA */}
                 <AvatarTop
                   source={
                     user?.photo && user.photo.startsWith("http")
@@ -94,14 +87,12 @@ function RankingPessoas() {
         </TopUsers>
       </TopBox>
 
-      {/* LISTA */}
       <FlatList
         data={resto}
         keyExtractor={(item) => item.id}
         showsVerticalScrollIndicator={false}
         renderItem={({ item, index }) => (
           <ListCard>
-            {/* FOTO DINÂMICA */}
             <Avatar
               source={
                 item?.photo && item.photo.startsWith("http")
@@ -112,7 +103,6 @@ function RankingPessoas() {
 
             <Username>{index + 4}. {item.name}</Username>
 
-            {/* XP MANTIDO NORMAL */}
             <Points>{item.xp} XP</Points>
           </ListCard>
         )}
@@ -134,13 +124,9 @@ function RankingGruposLista() {
       data={grupos}
       keyExtractor={(item) => item.id}
       showsVerticalScrollIndicator={false}
-      renderItem={({ item, index }) => (
+      renderItem={({ item }) => (
         <Card>
           <IconCircle>
-            {index === 0 && (
-              <Crown source={require("../../assets/images/crown.png")} />
-            )}
-
             <CardIcon
               source={GROUP_IMAGES[item.subject] || DEFAULT_AVATAR}
             />
@@ -179,7 +165,6 @@ export default function Ranking() {
 
       <Title>Ranking</Title>
 
-      {/* TOGGLE */}
       <View style={styles.toggle}>
         <TouchableOpacity
           style={[styles.toggleBtn, modo === "pessoas" && styles.toggleAtivo]}
@@ -215,7 +200,6 @@ export default function Ranking() {
   );
 }
 
-// ───────────── STYLES ─────────────
 const styles = StyleSheet.create({
   toggle: {
     flexDirection: "row",

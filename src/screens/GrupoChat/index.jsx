@@ -1,13 +1,15 @@
 import React from "react";
 import { FlatList } from "react-native";
-import {
-  Container, Header, Title, MessageBubble, InputArea,
-  Input, SendButton, MessageText, AddButton, TopBar,
-  TopBarTitle, Logo, BackButton, OptionText, Image,
-  BottomMenu, MenuText, MenuButton
-} from "./styles";
 import { Ionicons } from "@expo/vector-icons";
 import { useChat } from "../../hooks/useChat";
+
+import {
+  Container, TopBar, TopRow, Title, Header,
+  TopBarTitle, MessageBubble, MessageText,
+  InputArea, Input, SendButton, AddButton,
+  Logo, BottomMenu, MenuButton, MenuText,
+  CenterButton, SearchBar
+} from "./styles";
 
 const GROUP_IMAGES = {
   matematica: require("../../assets/images/icon_OSG.jpg"),
@@ -20,21 +22,30 @@ const GROUP_IMAGES = {
 export default function GrupoChat({ route, navigation }) {
   const { groupId, name, subject } = route.params;
   const { messages, newMessage, setNewMessage, handleSend, user } = useChat(groupId);
+
   const image = GROUP_IMAGES[subject];
 
   return (
     <Container>
+
+      {/* TOPO IGUAL IMAGEM */}
       <TopBar>
-        <BackButton onPress={() => navigation.goBack()}>
-          <OptionText style={{ color: "#C67AFC" }}>Voltar</OptionText>
-        </BackButton>
-        <Title>OSG</Title>
-        <Image source={require("../../assets/images/libras.jpg")} />
+        <TopRow>
+          <Ionicons name="menu" size={26} color="#C67AFC"  onPress={() => navigation.navigate("FiltroTreino")}/>
+          <Title>OSG</Title>
+          <Ionicons name="search" size={22} color="#C67AFC" />
+        </TopRow>
+
+        <SearchBar placeholder="Pesquisar..." placeholderTextColor="#aaa" />
       </TopBar>
+
+      {/* HEADER DO GRUPO */}
       <Header>
         {image && <Logo source={image} />}
         <TopBarTitle>{name}</TopBarTitle>
       </Header>
+
+      {/* CHAT */}
       <FlatList
         data={messages}
         keyExtractor={(item) => item.id}
@@ -43,40 +54,56 @@ export default function GrupoChat({ route, navigation }) {
             <MessageText>{item.text}</MessageText>
           </MessageBubble>
         )}
-        contentContainerStyle={{ padding: 20 }}
+        contentContainerStyle={{ padding: 20, paddingBottom: 150 }}
       />
+
+      {/* INPUT */}
       <InputArea>
         <AddButton>
-          <Title style={{ color: "#fff", fontSize: 22 }}>+</Title>
+          <Ionicons name="add" size={20} color="#fff" />
         </AddButton>
+
         <Input
           placeholder="Digite aqui!"
           placeholderTextColor="#DCDCDC"
           value={newMessage}
           onChangeText={setNewMessage}
         />
+
         <SendButton onPress={handleSend}>
-          <Title style={{ color: "#fff", fontSize: 20 }}>➤</Title>
+          <Ionicons name="send" size={18} color="#fff" />
         </SendButton>
       </InputArea>
+
+      {/* NAVBAR IGUAL IMAGEM */}
       <BottomMenu>
+
         <MenuButton onPress={() => navigation.navigate("Menu")}>
-          <Ionicons name="home-outline" size={20} color="#fff" />
+          <Ionicons name="home-outline" size={22} color="#fff" />
           <MenuText>Home</MenuText>
         </MenuButton>
+
         <MenuButton onPress={() => navigation.navigate("Game")}>
-          <Ionicons name="game-controller-outline" size={20} color="#fff" />
+          <Ionicons name="game-controller-outline" size={22} color="#fff" />
           <MenuText>Game</MenuText>
         </MenuButton>
-        <MenuButton active>
-          <Ionicons name="chatbubble-ellipses" size={22} color="#fff" />
+
+        <CenterButton onPress={() => navigation.navigate("Ranking")}>
+          <Ionicons name="trophy" size={28} color="#fff" />
+        </CenterButton>
+
+        <MenuButton onPress={() => navigation.navigate("Grupos")}>
+          <Ionicons name="grid-outline" size={22} color="#fff" />
           <MenuText>Grupos</MenuText>
         </MenuButton>
+
         <MenuButton onPress={() => navigation.navigate("Perfil")}>
-          <Ionicons name="person-outline" size={20} color="#fff" />
+          <Ionicons name="person-outline" size={22} color="#fff" />
           <MenuText>Perfil</MenuText>
         </MenuButton>
+
       </BottomMenu>
+
     </Container>
   );
 }

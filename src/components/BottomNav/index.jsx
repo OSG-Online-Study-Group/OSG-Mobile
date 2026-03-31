@@ -1,66 +1,91 @@
 import React from "react";
-import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import { COLORS } from "../../constants/colors";
-
-const TABS = [
-  { name: "Menu",         icon: "home-outline",              activeIcon: "home"              },
-  { name: "Game",         icon: "game-controller-outline",   activeIcon: "game-controller"   },
-  { name: "FiltroTreino", icon: "book-outline",              activeIcon: "book"              },
-  { name: "Ranking",      icon: "trophy-outline",            activeIcon: "trophy"            },
-  { name: "Perfil",       icon: "person-outline",            activeIcon: "person"            },
-];
+import { useNavigation } from "@react-navigation/native";
+import styled from "styled-components/native";
 
 export default function BottomNav() {
   const navigation = useNavigation();
-  const route = useRoute();
 
   return (
-    <View style={styles.container}>
-      {TABS.map((tab) => {
-        const isActive = route.name === tab.name;
-        return (
-          <TouchableOpacity
-            key={tab.name}
-            style={styles.tab}
-            onPress={() => navigation.navigate(tab.name)}
-          >
-            <Ionicons
-              name={isActive ? tab.activeIcon : tab.icon}
-              size={22}
-              color={isActive ? COLORS.primary : COLORS.textMuted}
-            />
-            <Text style={[styles.label, isActive && styles.labelActive]}>
-              {tab.name === "FiltroTreino" ? "Treinar" : tab.name}
-            </Text>
-          </TouchableOpacity>
-        );
-      })}
-    </View>
+    <Container>
+      <BottomMenu>
+
+        <MenuButton onPress={() => navigation.navigate("Menu")}>
+          <Ionicons name="home-outline" size={22} color="#fff" />
+          <MenuText>Home</MenuText>
+        </MenuButton>
+
+        <MenuButton onPress={() => navigation.navigate("Game")}>
+          <Ionicons name="game-controller-outline" size={22} color="#fff" />
+          <MenuText>Game</MenuText>
+        </MenuButton>
+
+        <CenterButton onPress={() => navigation.navigate("Ranking")}>
+          <Ionicons name="trophy" size={28} color="#fff" />
+        </CenterButton>
+
+        <MenuButton onPress={() => navigation.navigate("Grupos")}>
+          <Ionicons name="grid-outline" size={22} color="#fff" />
+          <MenuText>Grupos</MenuText>
+        </MenuButton>
+
+        <MenuButton onPress={() => navigation.navigate("Perfil")}>
+          <Ionicons name="person-outline" size={22} color="#fff" />
+          <MenuText>Perfil</MenuText>
+        </MenuButton>
+
+      </BottomMenu>
+    </Container>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    backgroundColor: COLORS.secondary,
-    paddingVertical: 10,
-    paddingHorizontal: 8,
-    borderTopWidth: 1,
-    borderTopColor: COLORS.border,
-  },
-  tab: {
-    flex: 1,
-    alignItems: "center",
-    gap: 3,
-  },
-  label: {
-    fontSize: 11,
-    color: COLORS.textMuted,
-  },
-  labelActive: {
-    color: COLORS.primary,
-    fontWeight: "bold",
-  },
-});
+/* ================== STYLES ================== */
+
+const Container = styled.View`
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+`;
+
+const BottomMenu = styled.View`
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+
+  background-color: #3a1f54;
+
+  padding: 14px 0;
+
+  border-radius: 20px;
+
+  margin: 15px;
+  width: 92%;
+`;
+
+const MenuButton = styled.TouchableOpacity`
+  align-items: center;
+  justify-content: center;
+`;
+
+const MenuText = styled.Text`
+  color: white;
+  font-size: 11px;
+  margin-top: 3px;
+`;
+
+const CenterButton = styled.TouchableOpacity`
+  background-color: #6a2cff;
+
+  width: 55px;
+  height: 55px;
+
+  border-radius: 28px;
+
+  align-items: center;
+  justify-content: center;
+
+  margin-top: -30px;
+`;

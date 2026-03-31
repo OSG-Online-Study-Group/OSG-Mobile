@@ -3,7 +3,7 @@ import { ScrollView } from "react-native";
 
 export const Container = styled.View`
   flex: 1;
-  background-color: #2C173C;
+  background-color: #1f0236;
   padding: 20px;
 `;
 
@@ -12,7 +12,8 @@ export const Header = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
+  margin-top: 20px;
 `;
 
 export const MenuIcon = styled.Image`
@@ -21,22 +22,21 @@ export const MenuIcon = styled.Image`
 `;
 
 export const Title = styled.Text`
-  color: #fff;
+  color: #c644e0;
   font-size: 22px;
   font-weight: bold;
-  color: #C644E0;
 `;
 
 export const BackButton = styled.TouchableOpacity``;
 
 export const BackText = styled.Text`
-  color: #C644E0;
+  color: #c644e0;
   font-size: 16px;
 `;
 
 export const QuestionCard = styled.View`
   width: 100%;
-  background-color: #8A3DE3;
+  background-color: #8a3de3;
   border-radius: 25px;
   padding: 20px;
   margin-bottom: 25px;
@@ -79,7 +79,7 @@ export const Avatar = styled.Image`
 
 export const MessageBubble = styled.View`
   max-width: 70%;
-  background-color: #4C2D6F;
+  background-color: #4c2d6f;
   padding: 12px;
   border-radius: 15px;
   margin: 0 10px;
@@ -90,103 +90,24 @@ export const MessageText = styled.Text`
   font-size: 16px;
 `;
 
-export const LifeBox = styled.View`
-  align-items: center;
-  margin-bottom: 8px;
-`;
-
-export const LifeNumber = styled.Text`
-  color: #fff;
-  font-size: 32px;
-  font-weight: bold;
-`;
-
-export const LifeLabel = styled.Text`
-  color: #aaa;
-`;
-
-export const LifeBar = styled.View`
-  flex-direction: row;
-  margin-bottom: 20px;
-  margin-left: 110px;
-`;
-
-export const LifeSegment = styled.View`
-  width: 25px;
-  height: 16px;
-  background-color: #8A3DE3;
-  border-radius: 8px;
-  margin-right: 6px;
-`;
-
-export const InputRow = styled.View`
-  width: 100%;
-  flex-direction: row;
-  align-items: center;
-  background-color: #fff;
-  border-radius: 25px;
-  padding: 5px 10px;
-  margin-bottom: 25px;
-`;
-
-export const TextInputStyled = styled.TextInput`
-  flex: 1;
-  padding-left: 10px;
-  font-size: 16px;
-`;
-
-export const SendButton = styled.TouchableOpacity`
-  padding: 8px;
-`;
-
-export const SendIcon = styled.Image`
-  width: 28px;
-  height: 28px;
-`;
-
-export const BottomTabs = styled.View`
-  width: 100%;
-  flex-direction: row;
-  justify-content: space-between;
-  background-color: #502473;
-  padding: 10px 15px;
-  border-radius: 20px;
-`;
-
-export const TabItem = styled.TouchableOpacity`
-  align-items: center;
-`;
-
-export const TabIcon = styled.Image`
-  width: 22px;
-  height: 22px;
-`;
-
-export const TabLabel = styled.Text`
-  color: #fff;
-  font-size: 12px;
-  margin-top: 5px;
-`;
+/* INPUT */
 
 export const InputArea = styled.View`
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
   background-color: #2c173c;
   padding: 10px;
   margin: 10px;
   border-radius: 30px;
   border-width: 1px;
   border-color: #4b2e83;
-  margin-bottom: 25px;
+  margin-bottom: 110px;
 `;
 
 export const Input = styled.TextInput`
   flex: 1;
-  background-color: transparent;
-  padding: 10px 15px;
   color: #fff;
-  font-size: 14px;
+  padding: 10px;
 `;
 
 export const AddButton = styled.TouchableOpacity`
@@ -199,25 +120,45 @@ export const AddButton = styled.TouchableOpacity`
   margin-right: 8px;
 `;
 
+export const SendButton = styled.TouchableOpacity`
+  padding: 8px;
+`;
+
+/* ================= NAVBAR ================= */
+
 export const BottomMenu = styled.View`
+  position: absolute;
+  bottom: 0;
+  width: 92%;
+  align-self: center;
+
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
+
   background-color: #3a1f54;
-  padding: 10px 0;
-  border-top-width: 1px;
-  border-color: #4b2e83;
-  margin-bottom: 15px;
+  padding: 14px 0;
   border-radius: 20px;
+  margin-bottom: 15px;
 `;
 
 export const MenuButton = styled.TouchableOpacity`
   align-items: center;
-  opacity: ${(props) => (props.active ? 1 : 0.7)};
+  justify-content: center;
 `;
 
 export const MenuText = styled.Text`
-  color: #fff;
-  font-size: 12px;
-  margin-top: 2px;
+  color: white;
+  font-size: 11px;
+  margin-top: 3px;
+`;
+
+export const CenterButton = styled.TouchableOpacity`
+  background-color: #6a2cff;
+  width: 55px;
+  height: 55px;
+  border-radius: 28px;
+  align-items: center;
+  justify-content: center;
+  margin-top: -30px;
 `;

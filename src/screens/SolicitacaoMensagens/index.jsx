@@ -17,8 +17,10 @@ import {
   MenuText,
 } from "./styles";
 import { Ionicons } from "@expo/vector-icons";
+import BottomNav from "../../components/BottomNav";
+import  COLORS  from "../../constants/colors";
 
-export default function SolicitacaoMensagens() {
+export default function SolicitacaoMensagens({ navigation }) {
   const mensagens = [
     {
       id: 1,
@@ -46,7 +48,7 @@ export default function SolicitacaoMensagens() {
   return (
     <Container>
       <Header>
-        <IconButton>
+        <IconButton onPress={() => navigation.navigate("FiltroTreino")}>
           <Ionicons name="menu" size={35} color="#B84EF2" />
         </IconButton>
 
@@ -55,13 +57,13 @@ export default function SolicitacaoMensagens() {
         </SearchArea>
 
         <IconButton>
-          <Ionicons name="hand-left" size={24} color="#B84EF2" />
+          <Ionicons name="" size={24} color="#B84EF2" />
         </IconButton>
       </Header>
 
       <Title>OSG</Title>
 
-      <BackButton>
+      <BackButton onPress={() => navigation.goBack()}>
         <Ionicons name="arrow-undo" size={22} color="#B84EF2" />
       </BackButton>
 
@@ -88,32 +90,7 @@ export default function SolicitacaoMensagens() {
         )}
       />
 
-      <BottomMenu>
-        <MenuButton>
-          <Ionicons name="home-outline" size={20} color="#fff" />
-          <MenuText>Home</MenuText>
-        </MenuButton>
-
-        <MenuButton>
-          <Ionicons name="game-controller-outline" size={20} color="#fff" />
-          <MenuText>Game</MenuText>
-        </MenuButton>
-
-        <MenuButton active>
-          <Ionicons name="chatbubble-ellipses" size={22} color="#fff" />
-          <MenuText>Grupos</MenuText>
-        </MenuButton>
-
-        <MenuButton>
-          <Ionicons name="book-outline" size={20} color="#fff" />
-          <MenuText>Grupos</MenuText>
-        </MenuButton>
-
-        <MenuButton>
-          <Ionicons name="person-outline" size={20} color="#fff" />
-          <MenuText>Perfil</MenuText>
-        </MenuButton>
-      </BottomMenu>
+      <BottomNav />
     </Container>
   );
 }

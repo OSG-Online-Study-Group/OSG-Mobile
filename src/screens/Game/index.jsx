@@ -34,46 +34,21 @@ export default function Game() {
       </GameOption>
 
       <GameOption onPress={() => navigation.navigate("FiltroTreino")}>
-        <Image source={require("../../assets/images/Humanas_background.jpg")} />
+        <Image source={require("../../assets/images/icon_versus.jpg")} />
         <Text2>Duelo Aleatório</Text2>
       </GameOption>
 
       <GameOption onPress={() => navigation.navigate("ConviteDuelo")}>
-        <Image source={require("../../assets/images/duelo_amigos.jpg")} />
-        <Text3>Duelo com Amigos</Text3>
+        <Image source={require("../../assets/images/icon duelo amigo.png")} />
+        <Text3>Duelo Amigo</Text3>
       </GameOption>
 
       <GameOption onPress={() => navigation.navigate("FiltroTreino")}>
-        <Image source={require("../../assets/images/treino_icon.jpg")} />
+        <Image source={require("../../assets/images/icon treino.png")} />
         <Text>Treino</Text>
       </GameOption>
 
-      <BottomMenu>
-        <MenuButton onPress={() => navigation.navigate("Menu")}>
-          <Ionicons name="home-outline" size={20} color="#fff" />
-          <MenuText>Home</MenuText>
-        </MenuButton>
 
-        <MenuButton onPress={() => navigation.navigate("Game")}>
-          <Ionicons name="game-controller-outline" size={20} color="#fff" />
-          <MenuText>Game</MenuText>
-        </MenuButton>
-
-        <MenuButton active>
-          <Ionicons name="chatbubble-ellipses" size={22} color="#fff" />
-          <MenuText>Grupos</MenuText>
-        </MenuButton>
-
-        <MenuButton onPress={() => navigation.navigate("Perfil")}>
-          <Ionicons name="person-outline" size={20} color="#fff" />
-          <MenuText>Grupos</MenuText>
-        </MenuButton>
-
-        <MenuButton onPress={() => navigation.navigate("Perfil")}>
-          <Ionicons name="person-outline" size={20} color="#fff" />
-          <MenuText>Perfil</MenuText>
-        </MenuButton>
-      </BottomMenu>
       </ScrollView>
     </Container>
   );

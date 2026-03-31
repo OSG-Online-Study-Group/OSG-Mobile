@@ -27,7 +27,8 @@ export const LeftHeader = styled.View`
 export const Logo = styled.Image`
   width: 120px;
   height: 120px;
-  margin-left: 50px;
+  margin-left: 85px;
+  margin-top: 40px;
 `;
 
 export const BackButton = styled.TouchableOpacity`
@@ -54,7 +55,7 @@ export const SubTitle = styled.Text`
   margin-bottom: 20px;
 `;
 
-// ─── Pódio (Ranking Pessoas) ─────────────────────────
+// ─── Pódio ─────────────────────────
 export const TopBox = styled(LinearGradient).attrs({
   colors: ["#6A00F4", "#E040FB"],
 })`
@@ -119,7 +120,7 @@ export const Username = styled.Text`
   flex: 1;
 `;
 
-// ─── Cards (Ranking Grupos) ──────────────────────────
+// ─── Cards ─────────────────────────
 export const Card = styled.View`
   width: 85%;
   height: 80px;
@@ -161,12 +162,4 @@ export const Points = styled.Text`
   color: #220c30;
   font-size: 13px;
   font-weight: bold;
-`;
-
-export const Crown = styled.Image`
-  width: 28px;
-  height: 28px;
-  position: absolute;
-  top: -18px;
-  left: 5px;
 `;
