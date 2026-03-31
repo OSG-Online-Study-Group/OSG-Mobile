@@ -1,9 +1,18 @@
 import React from "react";
+import { Image } from "react-native";
 import {
   Container, Header, Logo, HeaderCenterIcon,
-  BackButton, BackText, Card, CardBackground,
-  CardText, CardBackground2, CardText2,
+  BackButton, BackText, Card, CardText, CardText2
 } from "./styles";
+
+// 🔥 ícones
+const GROUP_IMAGES = {
+  matematica: require("../../assets/images/icon mat.png"),
+  ciencias_natureza: require("../../assets/images/icon natural science.png"),
+  linguagens: require("../../assets/images/icon linguagens.png"),
+  ciencias_humanas: require("../../assets/images/icon ciencias humanas.png"),
+  informatica: require("../../assets/images/icon hacker.png"),
+};
 
 export default function FiltroTreino({ navigation }) {
   return (
@@ -16,30 +25,36 @@ export default function FiltroTreino({ navigation }) {
         </BackButton>
       </Header>
 
+      {/* Matemática */}
       <Card onPress={() => navigation.navigate("Treino", { categoria: "matematica" })}>
-        <CardBackground source={require("../../assets/images/Exatas_background.jpg")} />
+        <Image source={GROUP_IMAGES.matematica} style={{ width: 40, height: 40, marginRight: 15 }} />
         <CardText>Matemática</CardText>
       </Card>
 
+      {/* Ciências da Natureza */}
       <Card onPress={() => navigation.navigate("Treino", { categoria: "ciencias_natureza" })}>
-        <CardBackground source={require("../../assets/images/Humanas_background.jpg")} />
+        <Image source={GROUP_IMAGES.ciencias_natureza} style={{ width: 40, height: 40, marginRight: 15 }} />
         <CardText>Ciências da Natureza</CardText>
       </Card>
 
+      {/* Ciências Humanas */}
       <Card onPress={() => navigation.navigate("Treino", { categoria: "ciencias_humanas" })}>
-        <CardBackground source={require("../../assets/images/Humanas_background.jpg")} />
+        <Image source={GROUP_IMAGES.ciencias_humanas} style={{ width: 40, height: 40, marginRight: 15 }} />
         <CardText>Ciências Humanas</CardText>
       </Card>
 
+      {/* Linguagens */}
       <Card onPress={() => navigation.navigate("Treino", { categoria: "linguagens" })}>
-        <CardBackground source={require("../../assets/images/Humanas_background.jpg")} />
+        <Image source={GROUP_IMAGES.linguagens} style={{ width: 40, height: 40, marginRight: 15 }} />
         <CardText>Linguagens</CardText>
       </Card>
 
+      {/* Informática */}
       <Card onPress={() => navigation.navigate("Treino", { categoria: "informatica" })}>
-        <CardBackground2 source={require("../../assets/images/Exatas_background.jpg")} />
+        <Image source={GROUP_IMAGES.informatica} style={{ width: 40, height: 40, marginRight: 15 }} />
         <CardText2>Informática</CardText2>
       </Card>
+
     </Container>
   );
 }
