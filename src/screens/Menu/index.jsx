@@ -8,11 +8,11 @@ import { useMenu } from "./useMenu";
 import BottomNav from "../../components/BottomNav";
 
 const GROUP_IMAGES = {
-  matematica: require("../../assets/images/icon_OSG.jpg"),
-  ciencias_natureza: require("../../assets/images/icon_OSG.jpg"),
-  linguagens: require("../../assets/images/icon_OSG.jpg"),
-  ciencias_humanas: require("../../assets/images/icon_OSG.jpg"),
-  informatica: require("../../assets/images/icon_OSG.jpg"),
+  matematica: require("../../assets/images/icon mat.png"),
+  ciencias_natureza: require("../../assets/images/icon natural science.png"),
+  linguagens: require("../../assets/images/icon linguagens.png"),
+  ciencias_humanas: require("../../assets/images/icon ciencias humanas.png"),
+  informatica: require("../../assets/images/icon hacker.png"),
 };
 
 export default function Menu({ navigation }) {
