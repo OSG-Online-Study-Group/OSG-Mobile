@@ -20,7 +20,7 @@ export default function BottomNav() {
           <MenuText>Game</MenuText>
         </MenuButton>
 
-        <CenterButton onPress={() => navigation.navigate("ChatList")}>
+        <CenterButton onPress={() => navigation.navigate("Ranking")}>
           <Ionicons name="trophy" size={28} color="#fff" />
         </CenterButton>
 
@@ -46,6 +46,8 @@ const Container = styled.View`
   bottom: 0;
   width: 100%;
   align-items: center;
+  justify-content: center;
+  position: absolute;
 `;
 
 const BottomMenu = styled.View`
@@ -65,6 +67,7 @@ const BottomMenu = styled.View`
 
 const MenuButton = styled.TouchableOpacity`
   align-items: center;
+  justify-content: center;
 `;
 
 const MenuText = styled.Text`
