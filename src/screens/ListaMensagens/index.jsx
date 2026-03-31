@@ -20,6 +20,7 @@ import {
 } from "./styles";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import BottomNav from "../../components/BottomNav";
 
 export default function ChatList() {
   const navigation = useNavigation();
@@ -64,7 +65,7 @@ export default function ChatList() {
           <Ionicons name="search" size={18} color="#B84EF2" />
         </SearchArea>
         <IconButton>
-          <Ionicons name="hand-left" size={24} color="#B84EF2" />
+          <Ionicons name="" size={24} color="#B84EF2" />
         </IconButton>
       </Header>
 
@@ -95,32 +96,7 @@ export default function ChatList() {
         )}
       />
 
-      <BottomMenu>
-        <MenuButton onPress={() => navigation.navigate("Menu")}>
-          <Ionicons name="home-outline" size={20} color="#fff" />
-          <MenuText>Home</MenuText>
-        </MenuButton>
-
-        <MenuButton onPress={() => navigation.navigate("Game")}>
-          <Ionicons name="game-controller-outline" size={20} color="#fff" />
-          <MenuText>Game</MenuText>
-        </MenuButton>
-
-        <MenuButton active>
-          <Ionicons name="chatbubble-ellipses" size={22} color="#fff" />
-          <MenuText>Grupos</MenuText>
-        </MenuButton>
-
-        <MenuButton onPress={() => navigation.navigate("FiltroEstudo")}>
-          <Ionicons name="book-outline" size={20} color="#fff" />
-          <MenuText>Grupos</MenuText>
-        </MenuButton>
-
-        <MenuButton onPress={() => navigation.navigate("Perfil")}>
-          <Ionicons name="person-outline" size={20} color="#fff" />
-          <MenuText>Perfil</MenuText>
-        </MenuButton>
-      </BottomMenu>
+     <BottomNav />
     </Container>
   );
 }
