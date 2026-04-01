@@ -63,6 +63,7 @@ const BottomMenu = styled.View`
 
   margin: 15px;
   width: 92%;
+  margin-bottom: 25px;
 `;
 
 const MenuButton = styled.TouchableOpacity`

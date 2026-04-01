@@ -129,7 +129,7 @@ export const SendButton = styled.TouchableOpacity`
 export const BottomMenu = styled.View`
   position: absolute;
   bottom: 0;
-  width: 92%;
+  width: 100%;
   align-self: center;
 
   flex-direction: row;
@@ -139,7 +139,7 @@ export const BottomMenu = styled.View`
   background-color: #3a1f54;
   padding: 14px 0;
   border-radius: 20px;
-  margin-bottom: 15px;
+  margin-bottom: 25px;
 `;
 
 export const MenuButton = styled.TouchableOpacity`

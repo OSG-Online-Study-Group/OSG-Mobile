@@ -18,6 +18,9 @@ const GROUP_IMAGES = {
 export default function Menu({ navigation }) {
   const { grupos, carregando } = useMenu();
 
+  // 👇 pega apenas os 3 primeiros grupos
+  const gruposLimitados = grupos.slice(0, 3);
+
   return (
     <Container>
       <Header>
@@ -29,9 +32,12 @@ export default function Menu({ navigation }) {
           <ProfileIcon source={require("../../assets/images/libras.jpg")} />
         </TouchableOpacity>
       </Header>
+
       <SearchBar placeholder="Pesquisar" placeholderTextColor="#A086CC" />
       <Banner source={require("../../assets/images/banner.jpg")} />
+
       <SectionTitle>Seus Grupos</SectionTitle>
+
       <ScrollView>
         {carregando ? (
           <ActivityIndicator color="#B84EF2" style={{ marginTop: 20 }} />
@@ -43,7 +49,7 @@ export default function Menu({ navigation }) {
           </TouchableOpacity>
         ) : (
           <>
-            {grupos.map((grupo) => {
+            {gruposLimitados.map((grupo) => {
               const image = GROUP_IMAGES[grupo.subject];
               return (
                 <TouchableOpacity
@@ -63,6 +69,8 @@ export default function Menu({ navigation }) {
                 </TouchableOpacity>
               );
             })}
+
+            {/* 👇 botão sempre visível */}
             <TouchableOpacity onPress={() => navigation.navigate("SelecionarMaterias")}>
               <GroupItem>
                 <GroupText>+ Adicionar matéria</GroupText>
@@ -71,6 +79,7 @@ export default function Menu({ navigation }) {
           </>
         )}
       </ScrollView>
+
       <BottomNav />
     </Container>
   );
