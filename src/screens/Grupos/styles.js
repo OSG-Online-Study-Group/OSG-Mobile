@@ -114,6 +114,9 @@ export const BottomMenu = styled.View`
   border-radius: 20px;
 
   margin: 15px;
+
+  margin-bottom: 25px;
+  
 `;
 
 export const MenuButton = styled.TouchableOpacity`

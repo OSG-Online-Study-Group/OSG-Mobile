@@ -56,8 +56,8 @@ export const TopBarTitle = styled.Text`
 `;
 
 export const Logo = styled.Image`
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
 `;
 
 /* ================= CHAT ================= */
@@ -90,7 +90,7 @@ export const InputArea = styled.View`
   border-color: #4b2e83;
 
   /* 🔥 AJUSTE PRA NÃO FICAR ATRÁS DA NAVBAR */
-  margin-bottom: 110px;
+  margin-bottom: 115px;
 `;
 
 export const Input = styled.TextInput`
@@ -158,7 +158,7 @@ export const BottomMenu = styled.View`
   background-color: #3a1f54;
   padding: 14px 0;
   border-radius: 20px;
-  margin-bottom: 15px;
+  margin-bottom: 25px;
 `;
 
 export const MenuButton = styled.TouchableOpacity`
