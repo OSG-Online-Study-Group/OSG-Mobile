@@ -7,118 +7,153 @@ import {
 } from "react-native";
 import { io } from "socket.io-client";
 import { getAuth } from "firebase/auth";
+import { getFirestore, doc, getDoc } from "firebase/firestore"; 
 import styles from "./styles";
 
 export default function DueloAleatorio() {
   const [socket, setSocket] = useState(null);
-  const [conectado, setConectado] = useState(false);
-  const [perguntas, setPerguntas] = useState([]);
-  const [perguntaAtual, setPerguntaAtual] = useState(0);
-  const [pontuacao, setPontuacao] = useState(0);
-  const [oponentePontos, setOponentePontos] = useState(0);
-  const [carregando, setCarregando] = useState(true);
+  const [pergunta, setPergunta] = useState(null);
+  const [tempo, setTempo] = useState(0);
+  const [selecionada, setSelecionada] = useState(null);
+  const [correta, setCorreta] = useState(null);
+  const [pontuacao, setPontuacao] = useState({});
+  const [nomes, setNomes] = useState({}); // 🔥 NOVO
+  const [fim, setFim] = useState(false);
 
   const salaId = "duelo-aleatorio";
 
   useEffect(() => {
     const auth = getAuth();
 
-    const newSocket = io("https://osg-duelo.onrender.com", {
+    const s = io("https://osg-duelo.onrender.com", {
       transports: ["websocket"],
     });
 
-    setSocket(newSocket);
+    setSocket(s);
 
-    newSocket.on("connect", async () => {
-      console.log("Conectado!");
-
+    s.on("connect", async () => {
       const user = auth.currentUser;
       if (!user) return;
 
       const token = await user.getIdToken();
 
-      newSocket.emit("entrarDuelo", {
-        token,
-        salaId,
-      });
-
-      setConectado(true);
+      s.emit("entrarDuelo", { token, salaId });
     });
 
-    newSocket.on("perguntas", (data) => {
-      console.log("Perguntas recebidas");
-      setPerguntas(data);
-      setCarregando(false);
+    s.on("novaPergunta", ({ pergunta, tempo }) => {
+      setPergunta(pergunta);
+      setTempo(tempo);
+      setSelecionada(null);
+      setCorreta(null);
     });
 
-    newSocket.on("dueloAtualizado", (data) => {
-      const user = auth.currentUser;
-      if (!user) return;
-
-      const jogadores = data.pontuacao || {};
-
-      Object.keys(jogadores).forEach((uid) => {
-        if (uid !== user.uid) {
-          setOponentePontos(jogadores[uid]);
-        }
-      });
+    s.on("resultadoResposta", ({ correta, pontuacao }) => {
+      setCorreta(correta);
+      setPontuacao(pontuacao);
     });
 
-    newSocket.on("connect_error", (err) => {
-      console.log("Erro conexão:", err.message);
+    s.on("fimDeJogo", async ({ pontuacao }) => {
+      setFim(true);
+      setPontuacao(pontuacao);
+      await carregarNomes(pontuacao); // 🔥 NOVO
     });
 
-    return () => {
-      newSocket.disconnect();
-    };
+    return () => s.disconnect();
   }, []);
 
-  function responder() {
-    if (!socket) return;
+  // 🔥 BUSCAR NOMES NO FIRESTORE
+  async function carregarNomes(pontuacao) {
+    const db = getFirestore();
+    const novosNomes = {};
 
-    const pontos = 10;
+    for (const uid of Object.keys(pontuacao)) {
+      try {
+        const ref = doc(db, "users", uid);
+        const snap = await getDoc(ref);
 
-    setPontuacao((prev) => prev + pontos);
+        if (snap.exists()) {
+          novosNomes[uid] = snap.data().name;
+        } else {
+          novosNomes[uid] = "Desconhecido";
+        }
+      } catch {
+        novosNomes[uid] = "Erro";
+      }
+    }
+
+    setNomes(novosNomes);
+  }
+
+  // ⏱ contador
+  useEffect(() => {
+    if (tempo <= 0) return;
+
+    const interval = setInterval(() => {
+      setTempo((t) => t - 1);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [tempo]);
+
+  function responder(index) {
+    if (!socket || selecionada !== null) return;
+
+    setSelecionada(index);
 
     socket.emit("resposta", {
       salaId,
-      pontos,
+      respostaIndex: index,
     });
-
-    if (perguntaAtual < perguntas.length - 1) {
-      setPerguntaAtual((prev) => prev + 1);
-    }
   }
 
-  if (!conectado || carregando) {
+  if (!pergunta && !fim) {
     return (
-      <View style={styles.loadingContainer}>
+      <View style={styles.loading}>
         <ActivityIndicator size="large" color="#8A2BE2" />
-        <Text style={styles.loadingText}>
-          Aguardando outro jogador...
-        </Text>
+        <Text style={styles.text}>Procurando adversário...</Text>
+      </View>
+    );
+  }
+
+  if (fim) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.title}>🏁 Fim de jogo</Text>
+        <Text style={styles.text}>Pontuação final:</Text>
+
+        {Object.entries(pontuacao).map(([uid, pontos]) => (
+          <Text key={uid} style={styles.score}>
+            {nomes[uid] || "Carregando..."}: {pontos}
+          </Text>
+        ))}
       </View>
     );
   }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>⚔️ Duelo</Text>
+      <Text style={styles.timer}>⏱ {tempo}s</Text>
 
-      <View style={styles.scoreContainer}>
-        <Text style={styles.score}>Você: {pontuacao}</Text>
-        <Text style={styles.score}>Oponente: {oponentePontos}</Text>
-      </View>
+      <Text style={styles.pergunta}>{pergunta?.pergunta}</Text>
 
-      <View style={styles.perguntaBox}>
-        <Text style={styles.pergunta}>
-          {perguntas[perguntaAtual]}
-        </Text>
-      </View>
+      {pergunta?.alternativas.map((alt, index) => {
+        let bg = "#2a1747";
 
-      <TouchableOpacity style={styles.button} onPress={responder}>
-        <Text style={styles.buttonText}>Responder</Text>
-      </TouchableOpacity>
+        if (correta !== null) {
+          if (index === correta) bg = "#16a34a";
+          else if (index === selecionada) bg = "#dc2626";
+        }
+
+        return (
+          <TouchableOpacity
+            key={index}
+            style={[styles.alt, { backgroundColor: bg }]}
+            onPress={() => responder(index)}
+          >
+            <Text style={styles.altText}>{alt}</Text>
+          </TouchableOpacity>
+        );
+      })}
     </View>
   );
 }

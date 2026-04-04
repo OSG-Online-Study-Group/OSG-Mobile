@@ -8,82 +8,57 @@ export default StyleSheet.create({
     justifyContent: "center",
   },
 
-  title: {
-    fontSize: 28,
+  pergunta: {
+    color: "#ffffff",
+    fontSize: 20,
+    textAlign: "center",
+    marginBottom: 20,
+  },
+
+  alt: {
+    padding: 15,
+    borderRadius: 10,
+    marginTop: 10,
+  },
+
+  altText: {
+    color: "#ffffff",
+    textAlign: "center",
+    fontSize: 16,
+  },
+
+  timer: {
     color: "#c084fc",
     textAlign: "center",
-    marginBottom: 30,
+    fontSize: 18,
+    marginBottom: 10,
+  },
+
+  loading: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#140a24",
+  },
+
+  text: {
+    color: "#ffffff",
+    marginTop: 10,
+    textAlign: "center",
+  },
+
+  title: {
+    color: "#c084fc",
+    fontSize: 26,
+    textAlign: "center",
+    marginBottom: 20,
     fontWeight: "bold",
-  },
-
-  scoreContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 30,
-  },
-
-  scoreBox: {
-    alignItems: "center",
-    backgroundColor: "#2a1747",
-    padding: 15,
-    borderRadius: 12,
-    width: 110,
-  },
-
-  scoreLabel: {
-    color: "#c4b5fd",
-    fontSize: 14,
-    marginBottom: 5,
   },
 
   score: {
-    color: "#ffffff",
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-
-  vs: {
-    color: "#a78bfa",
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-
-  perguntaBox: {
-    backgroundColor: "#2e1a47",
-    padding: 25,
-    borderRadius: 16,
-    marginBottom: 30,
-  },
-
-  pergunta: {
-    color: "#f5f3ff",
-    fontSize: 18,
+    color: "#e9d5ff",
     textAlign: "center",
-  },
-
-  button: {
-    backgroundColor: "#7c3aed",
-    padding: 16,
-    borderRadius: 12,
-    alignItems: "center",
-  },
-
-  buttonText: {
-    color: "#fff",
+    marginTop: 5,
     fontSize: 16,
-    fontWeight: "bold",
-  },
-
-  loadingContainer: {
-    flex: 1,
-    backgroundColor: "#140a24",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-
-  loadingText: {
-    color: "#c084fc",
-    marginTop: 10,
   },
 });
