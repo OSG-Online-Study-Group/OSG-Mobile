@@ -20,6 +20,7 @@ import Ranking from '../screens/Ranking';
 import Grupos from '../screens/Grupos';
 import ConviteDuelo from '../screens/ConviteDuelo';
 import DueloAmigo from '../screens/DueloAmigo';
+import DueloAleatorio from '../screens/DueloAleatorio';
 import QuizDiario from '../screens/QuizDiario';
 import FiltroTreino from '../screens/FiltroTreino';
 import Treino from '../screens/Treino';
@@ -60,6 +61,7 @@ function PrivateStack() {
       <Stack.Screen name="Ranking" component={Ranking} />
       <Stack.Screen name="ConviteDuelo" component={ConviteDuelo} />
       <Stack.Screen name="DueloAmigo" component={DueloAmigo} />
+      <Stack.Screen name="DueloAleatorio" component={DueloAleatorio} />
       <Stack.Screen name="QuizDiario" component={QuizDiario} />
       <Stack.Screen name="Treino" component={Treino} />
       <Stack.Screen name="FiltroTreino" component={FiltroTreino} />
