@@ -7,7 +7,8 @@ import {
 } from "react-native";
 import { io } from "socket.io-client";
 import { getAuth } from "firebase/auth";
-import { getFirestore, doc, getDoc } from "firebase/firestore"; 
+import { getFirestore, doc, getDoc } from "firebase/firestore";
+import { useNavigation } from "@react-navigation/native"; // 🔥 NOVO
 import styles from "./styles";
 
 export default function DueloAleatorio() {
@@ -17,8 +18,12 @@ export default function DueloAleatorio() {
   const [selecionada, setSelecionada] = useState(null);
   const [correta, setCorreta] = useState(null);
   const [pontuacao, setPontuacao] = useState({});
-  const [nomes, setNomes] = useState({}); // 🔥 NOVO
+  const [nomes, setNomes] = useState({});
   const [fim, setFim] = useState(false);
+
+  const [tempoVoltar, setTempoVoltar] = useState(5); // 🔥 NOVO
+
+  const navigation = useNavigation(); // 🔥 NOVO
 
   const salaId = "duelo-aleatorio";
 
@@ -55,13 +60,31 @@ export default function DueloAleatorio() {
     s.on("fimDeJogo", async ({ pontuacao }) => {
       setFim(true);
       setPontuacao(pontuacao);
-      await carregarNomes(pontuacao); // 🔥 NOVO
+      await carregarNomes(pontuacao);
     });
 
     return () => s.disconnect();
   }, []);
 
-  // 🔥 BUSCAR NOMES NO FIRESTORE
+  // 🔥 VOLTAR PRA HOME AUTOMÁTICO
+  useEffect(() => {
+    if (!fim) return;
+
+    const interval = setInterval(() => {
+      setTempoVoltar((t) => t - 1);
+    }, 1000);
+
+    const timeout = setTimeout(() => {
+      navigation.navigate("Menu"); // ⚠️ CONFERE O NOME DA SUA TELA
+    }, 5000);
+
+    return () => {
+      clearInterval(interval);
+      clearTimeout(timeout);
+    };
+  }, [fim]);
+
+  // 🔥 BUSCAR NOMES
   async function carregarNomes(pontuacao) {
     const db = getFirestore();
     const novosNomes = {};
@@ -84,7 +107,7 @@ export default function DueloAleatorio() {
     setNomes(novosNomes);
   }
 
-  // ⏱ contador
+  // ⏱ contador da pergunta
   useEffect(() => {
     if (tempo <= 0) return;
 
@@ -126,6 +149,11 @@ export default function DueloAleatorio() {
             {nomes[uid] || "Carregando..."}: {pontos}
           </Text>
         ))}
+
+        {/* 🔥 CONTADOR VISUAL */}
+        <Text style={styles.text}>
+          Voltando para o menu em {tempoVoltar}s...
+        </Text>
       </View>
     );
   }
