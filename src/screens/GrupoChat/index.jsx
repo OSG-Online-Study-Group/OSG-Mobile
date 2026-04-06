@@ -4,15 +4,28 @@ import { Ionicons } from "@expo/vector-icons";
 import { useChat } from "../../hooks/useChat";
 
 import {
-  Container, TopBar, TopRow, Title, Header,
-  TopBarTitle, MessageBubble, MessageText,
-  InputArea, Input, SendButton, AddButton,
-  Logo, BottomMenu, MenuButton, MenuText,
-  CenterButton, SearchBar
+  Container,
+  TopBar,
+  TopRow,
+  Title,
+  Header,
+  TopBarTitle,
+  MessageBubble,
+  MessageText,
+  InputArea,
+  Input,
+  SendButton,
+  AddButton,
+  Logo,
+  BottomMenu,
+  MenuButton,
+  MenuText,
+  CenterButton,
+  SearchBar,
 } from "./styles";
 
 const GROUP_IMAGES = {
-   matematica: require("../../assets/images/icon mat.png"),
+  matematica: require("../../assets/images/icon mat.png"),
   ciencias_natureza: require("../../assets/images/icon natural science.png"),
   linguagens: require("../../assets/images/icon linguagens.png"),
   ciencias_humanas: require("../../assets/images/icon ciencias humanas.png"),
@@ -21,17 +34,29 @@ const GROUP_IMAGES = {
 
 export default function GrupoChat({ route, navigation }) {
   const { groupId, name, subject } = route.params;
-  const { messages, newMessage, setNewMessage, handleSend, user } = useChat(groupId);
+
+  const {
+    messages,
+    usuariosMap,
+    newMessage,
+    setNewMessage,
+    handleSend,
+    user,
+  } = useChat(groupId);
 
   const image = GROUP_IMAGES[subject];
 
   return (
     <Container>
-
-      {/* TOPO IGUAL IMAGEM */}
+      {/* 🔝 TOPO */}
       <TopBar>
         <TopRow>
-          <Ionicons name="menu" size={26} color="#C67AFC"  onPress={() => navigation.navigate("FiltroTreino")}/>
+          <Ionicons
+            name="menu"
+            size={26}
+            color="#C67AFC"
+            onPress={() => navigation.navigate("FiltroTreino")}
+          />
           <Title>OSG</Title>
           <Ionicons name="search" size={22} color="#C67AFC" />
         </TopRow>
@@ -39,25 +64,45 @@ export default function GrupoChat({ route, navigation }) {
         <SearchBar placeholder="Pesquisar..." placeholderTextColor="#aaa" />
       </TopBar>
 
-      {/* HEADER DO GRUPO */}
+      {/* 📌 HEADER DO GRUPO */}
       <Header>
         {image && <Logo source={image} />}
         <TopBarTitle>{name}</TopBarTitle>
       </Header>
 
-      {/* CHAT */}
+      {/* 💬 CHAT */}
       <FlatList
         data={messages}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <MessageBubble isUser={item.senderId === user?.uid}>
-            <MessageText>{item.text}</MessageText>
-          </MessageBubble>
-        )}
+        renderItem={({ item }) => {
+          const isUser = item.senderId === user?.uid;
+          const usuario = usuariosMap[item.senderId];
+
+          return (
+            <MessageBubble isUser={isUser}>
+              {/* 🔥 NOME (só para outros usuários) */}
+              {!isUser && (
+                <MessageText
+                  style={{
+                    fontSize: 12,
+                    color: "#aaa",
+                    marginBottom: 4,
+                  }}
+                >
+                  {usuario?.name || "Carregando..."}
+                </MessageText>
+              )}
+
+              {/* 💬 TEXTO */}
+              <MessageText>{item.text}</MessageText>
+            </MessageBubble>
+          );
+        }}
         contentContainerStyle={{ padding: 20, paddingBottom: 150 }}
+        showsVerticalScrollIndicator={false}
       />
 
-      {/* INPUT */}
+      {/* ✍️ INPUT */}
       <InputArea>
         <AddButton>
           <Ionicons name="add" size={20} color="#fff" />
@@ -75,9 +120,8 @@ export default function GrupoChat({ route, navigation }) {
         </SendButton>
       </InputArea>
 
-      {/* NAVBAR IGUAL IMAGEM */}
+      {/* 🔻 NAVBAR */}
       <BottomMenu>
-
         <MenuButton onPress={() => navigation.navigate("Menu")}>
           <Ionicons name="home-outline" size={22} color="#fff" />
           <MenuText>Home</MenuText>
@@ -101,9 +145,7 @@ export default function GrupoChat({ route, navigation }) {
           <Ionicons name="person-outline" size={22} color="#fff" />
           <MenuText>Perfil</MenuText>
         </MenuButton>
-
       </BottomMenu>
-
     </Container>
   );
 }
