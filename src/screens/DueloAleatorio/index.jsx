@@ -8,7 +8,7 @@ import {
 import { io } from "socket.io-client";
 import { getAuth } from "firebase/auth";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
-import { useNavigation } from "@react-navigation/native"; // 🔥 NOVO
+import { useNavigation } from "@react-navigation/native";
 import styles from "./styles";
 
 export default function DueloAleatorio() {
@@ -21,9 +21,9 @@ export default function DueloAleatorio() {
   const [nomes, setNomes] = useState({});
   const [fim, setFim] = useState(false);
 
-  const [tempoVoltar, setTempoVoltar] = useState(5); // 🔥 NOVO
+  const [tempoVoltar, setTempoVoltar] = useState(5);
 
-  const navigation = useNavigation(); // 🔥 NOVO
+  const navigation = useNavigation();
 
   const salaId = "duelo-aleatorio";
 
@@ -75,7 +75,7 @@ export default function DueloAleatorio() {
     }, 1000);
 
     const timeout = setTimeout(() => {
-      navigation.navigate("Menu"); // ⚠️ CONFERE O NOME DA SUA TELA
+      navigation.navigate("Menu");
     }, 5000);
 
     return () => {
@@ -150,7 +150,6 @@ export default function DueloAleatorio() {
           </Text>
         ))}
 
-        {/* 🔥 CONTADOR VISUAL */}
         <Text style={styles.text}>
           Voltando para o menu em {tempoVoltar}s...
         </Text>
@@ -167,6 +166,14 @@ export default function DueloAleatorio() {
       {pergunta?.alternativas.map((alt, index) => {
         let bg = "#2a1747";
 
+        // 🔥 FEEDBACK IMEDIATO (clicou, mas ainda não recebeu resultado)
+        if (selecionada !== null && correta === null) {
+          if (index === selecionada) {
+            bg = "#7c3aed";
+          }
+        }
+
+        // 🔥 RESULTADO FINAL
         if (correta !== null) {
           if (index === correta) bg = "#16a34a";
           else if (index === selecionada) bg = "#dc2626";
@@ -175,8 +182,16 @@ export default function DueloAleatorio() {
         return (
           <TouchableOpacity
             key={index}
-            style={[styles.alt, { backgroundColor: bg }]}
+            style={[
+              styles.alt,
+              {
+                backgroundColor: bg,
+                borderWidth: index === selecionada ? 2 : 0,
+                borderColor: "#fff",
+              },
+            ]}
             onPress={() => responder(index)}
+            disabled={selecionada !== null}
           >
             <Text style={styles.altText}>{alt}</Text>
           </TouchableOpacity>

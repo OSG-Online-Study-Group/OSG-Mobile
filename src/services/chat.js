@@ -41,7 +41,7 @@ export function ouvirMensagens(groupId, callback) {
   });
 }
 
-// 🔥 DELETAR MENSAGEM (soft delete)
+//  DELETAR MENSAGEM (soft delete)
 export async function deletarMensagem(groupId, messageId) {
   await updateDoc(doc(db, "groups", groupId, "messages", messageId), {
     deleted: true,
