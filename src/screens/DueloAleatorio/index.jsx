@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  ActivityIndicator,
-} from "react-native";
+import { View, Text, TouchableOpacity, ActivityIndicator } from "react-native";
 import { io } from "socket.io-client";
 import { getAuth } from "firebase/auth";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
@@ -21,10 +16,10 @@ export default function DueloAleatorio() {
   const [nomes, setNomes] = useState({});
   const [fim, setFim] = useState(false);
 
+  // 🔥 NOVO
   const [tempoVoltar, setTempoVoltar] = useState(5);
 
   const navigation = useNavigation();
-
   const salaId = "duelo-aleatorio";
 
   useEffect(() => {
@@ -41,7 +36,6 @@ export default function DueloAleatorio() {
       if (!user) return;
 
       const token = await user.getIdToken();
-
       s.emit("entrarDuelo", { token, salaId });
     });
 
@@ -66,7 +60,18 @@ export default function DueloAleatorio() {
     return () => s.disconnect();
   }, []);
 
-  // 🔥 VOLTAR PRA HOME AUTOMÁTICO
+  // ⏱ contador da pergunta
+  useEffect(() => {
+    if (tempo <= 0) return;
+
+    const interval = setInterval(() => {
+      setTempo((t) => t - 1);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [tempo]);
+
+  // 🔥 CONTADOR + VOLTAR MENU
   useEffect(() => {
     if (!fim) return;
 
@@ -84,39 +89,21 @@ export default function DueloAleatorio() {
     };
   }, [fim]);
 
-  // 🔥 BUSCAR NOMES
   async function carregarNomes(pontuacao) {
     const db = getFirestore();
     const novosNomes = {};
 
     for (const uid of Object.keys(pontuacao)) {
-      try {
-        const ref = doc(db, "users", uid);
-        const snap = await getDoc(ref);
+      const ref = doc(db, "users", uid);
+      const snap = await getDoc(ref);
 
-        if (snap.exists()) {
-          novosNomes[uid] = snap.data().name;
-        } else {
-          novosNomes[uid] = "Desconhecido";
-        }
-      } catch {
-        novosNomes[uid] = "Erro";
-      }
+      novosNomes[uid] = snap.exists()
+        ? snap.data().name
+        : "Desconhecido";
     }
 
     setNomes(novosNomes);
   }
-
-  // ⏱ contador da pergunta
-  useEffect(() => {
-    if (tempo <= 0) return;
-
-    const interval = setInterval(() => {
-      setTempo((t) => t - 1);
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [tempo]);
 
   function responder(index) {
     if (!socket || selecionada !== null) return;
@@ -129,6 +116,7 @@ export default function DueloAleatorio() {
     });
   }
 
+  // 🔄 LOADING
   if (!pergunta && !fim) {
     return (
       <View style={styles.loading}>
@@ -138,11 +126,11 @@ export default function DueloAleatorio() {
     );
   }
 
+  // 🏁 FIM
   if (fim) {
     return (
-      <View style={styles.container}>
+      <View style={styles.containerCenter}>
         <Text style={styles.title}>🏁 Fim de jogo</Text>
-        <Text style={styles.text}>Pontuação final:</Text>
 
         {Object.entries(pontuacao).map(([uid, pontos]) => (
           <Text key={uid} style={styles.score}>
@@ -150,53 +138,60 @@ export default function DueloAleatorio() {
           </Text>
         ))}
 
+        {/* 🔥 CONTADOR VISUAL */}
         <Text style={styles.text}>
-          Voltando para o menu em {tempoVoltar}s...
+          Voltando ao menu em {tempoVoltar}s...
         </Text>
       </View>
     );
   }
 
+  // 🎯 JOGO
   return (
     <View style={styles.container}>
-      <Text style={styles.timer}>⏱ {tempo}s</Text>
 
-      <Text style={styles.pergunta}>{pergunta?.pergunta}</Text>
+      <View style={styles.topSpace} />
 
-      {pergunta?.alternativas.map((alt, index) => {
-        let bg = "#2a1747";
+      <View style={styles.header}>
+        <View style={styles.badgeMateria}>
+          <Text style={styles.badgeText}>
+            {pergunta?.materia?.toUpperCase()}
+          </Text>
+        </View>
 
-        // 🔥 FEEDBACK IMEDIATO (clicou, mas ainda não recebeu resultado)
-        if (selecionada !== null && correta === null) {
-          if (index === selecionada) {
-            bg = "#7c3aed";
+        <Text style={styles.timer}>⏱ {tempo}s</Text>
+      </View>
+
+      <View style={styles.content}>
+        <Text style={styles.pergunta}>{pergunta?.pergunta}</Text>
+
+        {pergunta?.alternativas.map((alt, index) => {
+          let bg = "#2a1747";
+
+          if (selecionada !== null && correta === null) {
+            if (index === selecionada) bg = "#7c3aed";
           }
-        }
 
-        // 🔥 RESULTADO FINAL
-        if (correta !== null) {
-          if (index === correta) bg = "#16a34a";
-          else if (index === selecionada) bg = "#dc2626";
-        }
+          if (correta !== null) {
+            if (index === correta) bg = "#16a34a";
+            else if (index === selecionada) bg = "#dc2626";
+          }
 
-        return (
-          <TouchableOpacity
-            key={index}
-            style={[
-              styles.alt,
-              {
-                backgroundColor: bg,
-                borderWidth: index === selecionada ? 2 : 0,
-                borderColor: "#fff",
-              },
-            ]}
-            onPress={() => responder(index)}
-            disabled={selecionada !== null}
-          >
-            <Text style={styles.altText}>{alt}</Text>
-          </TouchableOpacity>
-        );
-      })}
+          return (
+            <TouchableOpacity
+              key={index}
+              style={[styles.alt, { backgroundColor: bg }]}
+              onPress={() => responder(index)}
+              disabled={selecionada !== null}
+            >
+              <Text style={styles.altText}>{alt}</Text>
+            </TouchableOpacity>
+          );
+        })}
+      </View>
+
+      <View style={styles.bottomSpace} />
+
     </View>
   );
 }

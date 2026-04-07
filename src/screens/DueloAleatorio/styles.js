@@ -3,62 +3,95 @@ import { StyleSheet } from "react-native";
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#140a24",
-    padding: 20,
+    backgroundColor: "#1a1033",
+    paddingHorizontal: 20,
+  },
+
+  topSpace: {
+    flex: 1,
+  },
+
+  bottomSpace: {
+    flex: 1,
+  },
+
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+
+  badgeMateria: {
+    backgroundColor: "#7c3aed",
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    borderRadius: 25,
+  },
+
+  badgeText: {
+    color: "#fff",
+    fontSize: 14,
+    fontWeight: "bold",
+  },
+
+  timer: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+
+  content: {
+    flex: 2,
     justifyContent: "center",
   },
 
   pergunta: {
-    color: "#ffffff",
-    fontSize: 20,
+    fontSize: 22,
+    color: "#fff",
+    marginBottom: 25,
     textAlign: "center",
-    marginBottom: 20,
   },
 
   alt: {
-    padding: 15,
-    borderRadius: 10,
-    marginTop: 10,
+    padding: 16,
+    borderRadius: 12,
+    marginVertical: 6,
   },
 
   altText: {
-    color: "#ffffff",
-    textAlign: "center",
+    color: "#fff",
     fontSize: 16,
+    textAlign: "center",
   },
 
-  timer: {
-    color: "#c084fc",
-    textAlign: "center",
-    fontSize: 18,
-    marginBottom: 10,
+  containerCenter: {
+    flex: 1,
+    backgroundColor: "#1a1033",
+    justifyContent: "center",
+    alignItems: "center",
   },
 
   loading: {
     flex: 1,
+    backgroundColor: "#1a1033",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#140a24",
-  },
-
-  text: {
-    color: "#ffffff",
-    marginTop: 10,
-    textAlign: "center",
   },
 
   title: {
-    color: "#c084fc",
-    fontSize: 26,
-    textAlign: "center",
+    fontSize: 24,
+    color: "#fff",
     marginBottom: 20,
-    fontWeight: "bold",
   },
 
   score: {
-    color: "#e9d5ff",
-    textAlign: "center",
-    marginTop: 5,
+    color: "#fff",
     fontSize: 16,
+    marginTop: 10,
+  },
+
+  text: {
+    color: "#ccc",
+    marginTop: 10,
   },
 });
