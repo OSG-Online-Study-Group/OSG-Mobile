@@ -1,5 +1,7 @@
 import styled from "styled-components/native";
+import { StyleSheet } from "react-native";
 
+// 🔝 BASE ORIGINAL (NÃO ALTERADO)
 export const Container = styled.View`
   flex: 1;
   background-color: #1f0236;
@@ -56,19 +58,41 @@ export const SectionTitle = styled.Text`
   margin-bottom: 10px;
 `;
 
-export const GroupItem = styled.View`
-  flex-direction: row;
-  align-items: center;
-  background-color: #3b0f66;
-  width: 97%;
-  padding: 10px;
-  border-radius: 15px;
-  margin-bottom: 10px;
-  margin: 8px;
-`;
+// 🔥 ESTATÍSTICAS (NOVO)
+export default StyleSheet.create({
+  statsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    width: "100%",
+    marginTop: 10,
+    paddingHorizontal: 10,
+  },
 
-export const GroupText = styled.Text`
-  color: #fff;
-  font-size: 16px;
-  margin-left: 10px;
-`;
+  statCard: {
+    backgroundColor: "#3b0f66",
+    paddingVertical: 15,
+    paddingHorizontal: 10,
+    borderRadius: 15,
+    alignItems: "center",
+    width: "30%",
+  },
+
+  statLabel: {
+    color: "#b060f0",
+    fontSize: 12,
+    marginBottom: 5,
+  },
+
+  statValue: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+
+  statValueSmall: {
+    color: "#fff",
+    fontSize: 13,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+});

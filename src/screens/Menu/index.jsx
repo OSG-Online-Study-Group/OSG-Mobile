@@ -1,25 +1,92 @@
-import { ScrollView, TouchableOpacity, ActivityIndicator, Image } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  ScrollView,
+  TouchableOpacity,
+  ActivityIndicator,
+  Image,
+  View,
+  Text
+} from "react-native";
 import {
   Container, Header, Title, MenuIcon, SearchBar,
-  ProfileIcon, Banner, SectionTitle, GroupItem,
-  GroupText
+  ProfileIcon, Banner, SectionTitle
 } from "./styles";
-import { useMenu } from "./useMenu";
+import styles from "./styles";
 import BottomNav from "../../components/BottomNav";
 
-const GROUP_IMAGES = {
-  matematica: require("../../assets/images/icon mat.png"),
-  ciencias_natureza: require("../../assets/images/icon natural science.png"),
-  linguagens: require("../../assets/images/icon linguagens.png"),
-  ciencias_humanas: require("../../assets/images/icon ciencias humanas.png"),
-  informatica: require("../../assets/images/icon hacker.png"),
-};
+import { getAuth } from "firebase/auth";
+import { getFirestore, doc, getDoc } from "firebase/firestore";
+import { useRankingGeral } from "../../hooks/useRanking";
 
 export default function Menu({ navigation }) {
-  const { grupos, carregando } = useMenu();
+  const [loading, setLoading] = useState(true);
+  const [vitorias, setVitorias] = useState(0);
+  const [melhorMateria, setMelhorMateria] = useState("-");
+  const [posicao, setPosicao] = useState(null);
 
-  // 👇 pega apenas os 3 primeiros grupos
-  const gruposLimitados = grupos.slice(0, 3);
+  const { usuarios } = useRankingGeral();
+
+  useEffect(() => {
+    carregarDados();
+  }, []);
+
+  useEffect(() => {
+    calcularRanking();
+  }, [usuarios]);
+
+  async function carregarDados() {
+    try {
+      const user = getAuth().currentUser;
+      const db = getFirestore();
+
+      const ref = doc(db, "users", user.uid);
+      const snap = await getDoc(ref);
+
+      if (snap.exists()) {
+        const data = snap.data();
+
+        setVitorias(data.duelosVencidos || 0);
+
+        const xpPorGrupo = data.xpPorGrupo || {};
+
+        let melhor = null;
+        let maiorXP = -1;
+
+        for (const key in xpPorGrupo) {
+          if (xpPorGrupo[key] > maiorXP) {
+            maiorXP = xpPorGrupo[key];
+            melhor = key;
+          }
+        }
+
+        if (melhor) {
+          setMelhorMateria(formatarMateria(melhor));
+        }
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  function calcularRanking() {
+    const user = getAuth().currentUser;
+    if (!usuarios || usuarios.length === 0) return;
+
+    const index = usuarios.findIndex((u) => u.id === user.uid);
+
+    if (index !== -1) {
+      setPosicao(index + 1);
+    }
+  }
+
+  function formatarMateria(key) {
+    return key
+      .replace("group_", "")
+      .replaceAll("_", " ")
+      .toUpperCase();
+  }
 
   return (
     <Container>
@@ -33,47 +100,34 @@ export default function Menu({ navigation }) {
       <SearchBar placeholder="Pesquisar" placeholderTextColor="#A086CC" />
       <Banner source={require("../../assets/images/banner.jpg")} />
 
-      <SectionTitle>Seus Grupos</SectionTitle>
+      <SectionTitle>Suas Estatísticas</SectionTitle>
 
       <ScrollView>
-        {carregando ? (
+        {loading ? (
           <ActivityIndicator color="#B84EF2" style={{ marginTop: 20 }} />
-        ) : grupos.length === 0 ? (
-          <TouchableOpacity onPress={() => navigation.navigate("SelecionarMaterias")}>
-            <GroupItem>
-              <GroupText>+ Selecionar matérias</GroupText>
-            </GroupItem>
-          </TouchableOpacity>
         ) : (
-          <>
-            {gruposLimitados.map((grupo) => {
-              const image = GROUP_IMAGES[grupo.subject];
-              return (
-                <TouchableOpacity
-                  key={grupo.id}
-                  onPress={() => navigation.navigate("GrupoChat", {
-                    groupId: grupo.id,
-                    name: grupo.name,
-                    subject: grupo.subject,
-                  })}
-                >
-                  <GroupItem>
-                    {image && (
-                      <Image source={image} style={{ width: 50, height: 50 }} />
-                    )}
-                    <GroupText>{grupo.name}</GroupText>
-                  </GroupItem>
-                </TouchableOpacity>
-              );
-            })}
+          <View style={styles.statsContainer}>
 
-            {/* 👇 botão sempre visível */}
-            <TouchableOpacity onPress={() => navigation.navigate("SelecionarMaterias")}>
-              <GroupItem>
-                <GroupText>+ Adicionar matéria</GroupText>
-              </GroupItem>
-            </TouchableOpacity>
-          </>
+            <View style={styles.statCard}>
+              <Text style={styles.statLabel}>Vitórias</Text>
+              <Text style={styles.statValue}>{vitorias}</Text>
+            </View>
+
+            <View style={styles.statCard}>
+              <Text style={styles.statLabel}>Ranking</Text>
+              <Text style={styles.statValue}>
+                {posicao ? `${posicao}°` : "-"}
+              </Text>
+            </View>
+
+            <View style={styles.statCard}>
+              <Text style={styles.statLabel}>Matéria Top</Text>
+              <Text style={styles.statValueSmall}>
+                {melhorMateria}
+              </Text>
+            </View>
+
+          </View>
         )}
       </ScrollView>
 
