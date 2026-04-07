@@ -40,10 +40,10 @@ import {
 const DEFAULT_AVATAR = require("../../assets/images/profile_photo.jpg");
 
 const GROUP_IMAGES = {
-  matematica: require("../../assets/images/algebra.jpg"),
-  ciencias_natureza: require("../../assets/images/quimica_organica.jpg"),
-  linguagens: require("../../assets/images/economia.jpg"),
-  ciencias_humanas: require("../../assets/images/algebra.jpg"),
+  matematica: require("../../assets/images/icon mat.png"),
+  ciencias_natureza: require("../../assets/images/icon natural science.png"),
+  linguagens: require("../../assets/images/icon linguagens.png"),
+  ciencias_humanas: require("../../assets/images/icon ciencias humanas.png"),
   informatica: require("../../assets/images/quimica_forense.jpg"),
 };
 

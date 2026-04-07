@@ -1,18 +1,17 @@
 import styled from "styled-components/native";
+import { Platform, StatusBar } from "react-native";
 
 export const Container = styled.View`
   flex: 1;
   background-color: #1f0236;
-  padding-top: 40px;
+  padding-top: ${Platform.OS === "android" ? StatusBar.currentHeight + "px" : "40px"};
 `;
 
-/* ================= TOPO ================= */
-
+/* TOPO */
 export const TopBar = styled.View`
   align-items: center;
   padding: 15px;
   background-color: #1f0236;
-
   border-bottom-left-radius: 25px;
   border-bottom-right-radius: 25px;
 `;
@@ -23,7 +22,6 @@ export const Title = styled.Text`
   font-weight: bold;
 `;
 
-/* 🔥 NOVO (linha com menu + search) */
 export const TopRow = styled.View`
   width: 100%;
   flex-direction: row;
@@ -31,7 +29,6 @@ export const TopRow = styled.View`
   align-items: center;
 `;
 
-/* 🔥 NOVO (barra de busca) */
 export const SearchBar = styled.TextInput`
   background-color: #3a1f54;
   width: 80%;
@@ -41,8 +38,7 @@ export const SearchBar = styled.TextInput`
   color: #fff;
 `;
 
-/* ================= HEADER ================= */
-
+/* HEADER */
 export const Header = styled.View`
   flex-direction: row;
   align-items: center;
@@ -60,8 +56,7 @@ export const Logo = styled.Image`
   height: 40px;
 `;
 
-/* ================= CHAT ================= */
-
+/* CHAT */
 export const MessageBubble = styled.View`
   background-color: ${(props) => (props.isUser ? "#6E3CBC" : "#8D5CF6")};
   align-self: ${(props) => (props.isUser ? "flex-end" : "flex-start")};
@@ -76,21 +71,22 @@ export const MessageText = styled.Text`
   font-size: 14px;
 `;
 
-/* ================= INPUT ================= */
-
+/* INPUT */
 export const InputArea = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+
   background-color: #2c173c;
   padding: 10px;
-  margin: 10px;
+  width: 90%;
+  align-self: center;
+
   border-radius: 30px;
   border-width: 1px;
   border-color: #4b2e83;
 
-  /* 🔥 AJUSTE PRA NÃO FICAR ATRÁS DA NAVBAR */
-  margin-bottom: 115px;
+  margin-bottom: 120px; /* acima da navbar fixa */
 `;
 
 export const Input = styled.TextInput`
@@ -121,30 +117,7 @@ export const SendButton = styled.TouchableOpacity`
   margin-left: 8px;
 `;
 
-/* ================= VOLTAR / ICONES ================= */
-
-export const OptionText = styled.Text`
-  color: #fff;
-  font-size: 18px;
-  margin-left: 15px;
-`;
-
-export const BackButton = styled.TouchableOpacity`
-  position: absolute;
-  left: 10px;
-  top: 10px;
-`;
-
-export const Image = styled.Image`
-  position: absolute;
-  right: 10px;
-  top: 10px;
-  height: 40px;
-  width: 40px;
-`;
-
-/* ================= NAVBAR ================= */
-
+/* NAVBAR FIXA */
 export const BottomMenu = styled.View`
   position: absolute;
   bottom: 0;

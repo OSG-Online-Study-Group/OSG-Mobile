@@ -95,7 +95,7 @@ export default function Grupos({ navigation }) {
 
         <GroupCard>
 
-          <GroupIcon source={require("../../assets/images/algebra.jpg")} />
+          <GroupIcon source={require("../../assets/images/icon mat.png")} />
 
           <GroupContent>
 

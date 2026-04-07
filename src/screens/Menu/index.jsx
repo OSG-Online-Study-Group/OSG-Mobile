@@ -28,9 +28,6 @@ export default function Menu({ navigation }) {
           <MenuIcon source={require("../../assets/images/menu.jpg")} />
         </TouchableOpacity>
         <Title>OSG</Title>
-        <TouchableOpacity onPress={() => navigation.navigate("Perfil")}>
-          <ProfileIcon source={require("../../assets/images/libras.jpg")} />
-        </TouchableOpacity>
       </Header>
 
       <SearchBar placeholder="Pesquisar" placeholderTextColor="#A086CC" />
