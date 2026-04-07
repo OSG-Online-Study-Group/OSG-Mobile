@@ -37,7 +37,6 @@ export default function Grupos({ navigation }) {
           <Title>OSG</Title>
 
           <TouchableOpacity onPress={() => navigation.navigate("Perfil")}>
-            <ProfileIcon source={require("../../assets/images/libras.jpg")} />
           </TouchableOpacity>
 
         </TopRow>

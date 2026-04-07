@@ -151,10 +151,6 @@ export default function Ranking() {
     <Container>
       <Header>
         <LeftHeader>
-          <Image
-            source={require("../../assets/images/libras.jpg")}
-            style={{ width: 40, height: 40 }}
-          />
           <Logo source={require("../../assets/images/icon_OSG.jpg")} />
         </LeftHeader>
 
