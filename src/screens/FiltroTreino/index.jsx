@@ -18,7 +18,6 @@ export default function FiltroTreino({ navigation }) {
   return (
     <Container>
       <Header>
-        <Logo source={require("../../assets/images/libras.jpg")} />
         <HeaderCenterIcon source={require("../../assets/images/icon_OSG.jpg")} />
         <BackButton onPress={() => navigation.goBack()}>
           <BackText>Voltar</BackText>

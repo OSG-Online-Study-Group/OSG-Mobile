@@ -83,10 +83,7 @@ export default function Perfil() {
 
         <Name>{usuario?.name || "Usuário"}</Name>
 
-        <Username>
-          @{usuario?.name?.toLowerCase() || firebaseUser?.email}
-        </Username>
-
+       
         {/* XP */}
         <PointsCard>
           <PointsText>

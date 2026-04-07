@@ -44,7 +44,7 @@ const GROUP_IMAGES = {
   ciencias_natureza: require("../../assets/images/icon natural science.png"),
   linguagens: require("../../assets/images/icon linguagens.png"),
   ciencias_humanas: require("../../assets/images/icon ciencias humanas.png"),
-  informatica: require("../../assets/images/quimica_forense.jpg"),
+  informatica: require("../../assets/images/icon hacker.png"),
 };
 
 // ───────────── RANKING DE PESSOAS ─────────────

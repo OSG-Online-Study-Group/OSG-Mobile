@@ -40,12 +40,6 @@ export const Name = styled.Text`
   margin-left: 10px;
 `;
 
-export const Username = styled.Text`
-  color: #a086cc;
-  font-size: 14px;
-  margin-left: 10px;
-`;
-
 
 export const PointsCard = styled.View`
   background-color: #611b9f;
