@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ActivityIndicator, View, Text } from "react-native";
 import { useQuizDiario } from "../../hooks/useQuizDiario";
 import {
   Container, Header, BackButton, BackText, Title,
   SubjectBadge, SubjectText, QuestionCard, QuestionText,
   OptionButton, OptionText, StatusBox, StatusText,
-  PointsText, ActionButton, ActionButtonText,
+  PointsText
 } from "./styles";
 
 export default function QuizDiario({ navigation }) {
@@ -15,60 +15,76 @@ export default function QuizDiario({ navigation }) {
     xpGanho, acertos, responder, getOptionColor,
   } = useQuizDiario();
 
+  // 🔥 redirecionamento automático após finalizar
+  useEffect(() => {
+    if (finalizado) {
+      const timer = setTimeout(() => {
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "Game" }],
+        });
+      }, 5000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [finalizado]);
+
   return (
     <Container>
       <Header>
         <BackButton onPress={() => navigation.goBack()}>
           <BackText>Voltar</BackText>
         </BackButton>
+
         <Title>Quiz Diário</Title>
-        <BackButton onPress={() => navigation.navigate("Game")}>
-          <BackText>Menu</BackText>
-        </BackButton>
+
+        {/* botão da direita removido */}
       </Header>
 
       {carregando ? (
         <ActivityIndicator color="#B84EF2" style={{ flex: 1 }} />
       ) : jaJogouHoje && !finalizado ? (
-        // Já jogou hoje — sem quiz ativo
         <StatusBox>
           <StatusText>Você já respondeu o quiz de hoje. Volte amanhã!</StatusText>
         </StatusBox>
       ) : finalizado ? (
-        // Tela de resultado final
-        <>
-          <SubjectBadge>
-            <SubjectText>{quiz?.materia}</SubjectText>
-          </SubjectBadge>
-          <QuestionCard>
-            <QuestionText style={{ textAlign: "center", fontSize: 22 }}>
-              Quiz concluído!
-            </QuestionText>
-            <QuestionText style={{ textAlign: "center", marginTop: 12 }}>
-              {acertos} de {totalPerguntas} acertos
-            </QuestionText>
-          </QuestionCard>
-          <StatusBox>
-            {xpGanho > 0
-              ? <PointsText>+{xpGanho} XP ganhos!</PointsText>
-              : <StatusText>Nenhum XP desta vez. Tente amanhã!</StatusText>
-            }
-            <StatusText style={{ marginTop: 8 }}>
-              Disponível novamente amanhã.
-            </StatusText>
-          </StatusBox>
-          <ActionButton onPress={() => navigation.navigate("Menu")}>
-            <ActionButtonText>Voltar ao Menu</ActionButtonText>
-          </ActionButton>
-        </>
-      ) : (
-        // Quiz em andamento
         <>
           <SubjectBadge>
             <SubjectText>{quiz?.materia}</SubjectText>
           </SubjectBadge>
 
-          {/* Progresso */}
+          <QuestionCard>
+            <QuestionText style={{ textAlign: "center", fontSize: 22 }}>
+              Quiz concluído!
+            </QuestionText>
+
+            <QuestionText style={{ textAlign: "center", marginTop: 12 }}>
+              {acertos} de {totalPerguntas} acertos
+            </QuestionText>
+          </QuestionCard>
+
+          <StatusBox>
+            {xpGanho > 0
+              ? <PointsText>+{xpGanho} XP ganhos!</PointsText>
+              : <StatusText>Nenhum XP desta vez. Tente amanhã!</StatusText>
+            }
+
+            <StatusText style={{ marginTop: 8 }}>
+              Disponível novamente amanhã.
+            </StatusText>
+
+            {/* aviso do redirecionamento */}
+            <StatusText style={{ marginTop: 8 }}>
+              Indo para o jogo em 5 segundos...
+            </StatusText>
+          </StatusBox>
+        </>
+      ) : (
+        <>
+          <SubjectBadge>
+            <SubjectText>{quiz?.materia}</SubjectText>
+          </SubjectBadge>
+
           <View style={{ alignItems: "center", marginBottom: 8 }}>
             <Text style={{ color: "#A086CC", fontSize: 14 }}>
               Pergunta {perguntaIndex + 1} de {totalPerguntas}
@@ -86,7 +102,9 @@ export default function QuizDiario({ navigation }) {
               onPress={() => responder(index)}
               disabled={respostas[perguntaIndex] !== undefined}
             >
-              <OptionText>{`${String.fromCharCode(65 + index)}. ${alt}`}</OptionText>
+              <OptionText>
+                {`${String.fromCharCode(65 + index)}. ${alt}`}
+              </OptionText>
             </OptionButton>
           ))}
 
@@ -95,12 +113,10 @@ export default function QuizDiario({ navigation }) {
               <StatusText>
                 {respostas[perguntaIndex] === perguntaAtual?.correta
                   ? "✅ Correto!"
-                  : "❌ Incorreto."
-                }
+                  : "❌ Incorreto."}
                 {perguntaIndex < totalPerguntas - 1
                   ? " Próxima pergunta em instantes..."
-                  : ""
-                }
+                  : ""}
               </StatusText>
             ) : (
               <StatusText>Escolha uma alternativa.</StatusText>
