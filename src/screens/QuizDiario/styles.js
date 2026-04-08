@@ -16,22 +16,21 @@ export const Container = styled.View`
   flex: 1;
   background-color: ${colors.background};
   padding: 20px;
+  margin-left: -10px;
 `;
 
-// Header
+// Header (corrigido)
 export const Header = styled.View`
   width: 100%;
   flex-direction: row;
-  justify-content: space-between;
   align-items: center;
   margin-bottom: 24px;
-  padding:  20px;
+  padding: 20px;
 `;
 
 // Botão de voltar
 export const BackButton = styled.TouchableOpacity`
   padding: 8px;
-
 `;
 
 export const BackText = styled.Text`
@@ -40,11 +39,14 @@ export const BackText = styled.Text`
   font-weight: 500;
 `;
 
-// Título da tela
+// Título centralizado
 export const Title = styled.Text`
   color: ${colors.accent};
-  font-size: 26px;
+  font-size: 28px;
   font-weight: bold;
+  flex: 1;
+  text-align: center;
+  margin-right: 45px; 
 `;
 
 // Badge de matéria com gradiente
@@ -65,7 +67,7 @@ export const SubjectText = styled.Text`
   font-weight: bold;
 `;
 
-// Card da pergunta com sombra
+// Card da pergunta
 export const QuestionCard = styled.View`
   background-color: ${colors.secondary};
   border-radius: 22px;
@@ -84,7 +86,7 @@ export const QuestionText = styled.Text`
   line-height: 28px;
 `;
 
-// Opções de resposta com efeito de toque
+// Opções de resposta
 export const OptionButton = styled.TouchableOpacity`
   width: 100%;
   background-color: ${(props) => props.background || colors.secondary};
@@ -107,10 +109,15 @@ export const OptionText = styled.Text`
 
 // Box de status
 export const StatusBox = styled.View`
-  margin-top: 14px;
+  width: 100%;
+  max-width: 420px;
+  margin-top: 20px;
   background-color: ${colors.secondary};
   border-radius: 18px;
-  padding: 14px;
+  padding: 16px;
+  align-self: center;
+  align-items: center;
+
   shadow-color: #000;
   shadow-offset: 0px 2px;
   shadow-opacity: 0.15;
@@ -118,9 +125,11 @@ export const StatusBox = styled.View`
   elevation: 2;
 `;
 
+// Texto centralizado (melhor UX)
 export const StatusText = styled.Text`
   color: ${colors.white};
   font-size: 15px;
+  text-align: center;
 `;
 
 export const PointsText = styled.Text`
@@ -128,27 +137,5 @@ export const PointsText = styled.Text`
   font-size: 16px;
   font-weight: bold;
   margin-top: 8px;
-`;
-
-// Botão de ação com gradiente e sombra
-export const ActionButton = styled(LinearGradient).attrs({
-  colors: [colors.primary, colors.accent],
-  start: { x: 0, y: 0 },
-  end: { x: 1, y: 1 },
-})`
-  margin-top: 20px;
-  border-radius: 20px;
-  padding: 14px;
-  align-items: center;
-  shadow-color: #000;
-  shadow-offset: 0px 4px;
-  shadow-opacity: 0.3;
-  shadow-radius: 6px;
-  elevation: 5;
-`;
-
-export const ActionButtonText = styled.Text`
-  color: ${colors.white};
-  font-size: 16px;
-  font-weight: bold;
+  text-align: center;
 `;
