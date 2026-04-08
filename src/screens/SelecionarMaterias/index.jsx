@@ -33,7 +33,6 @@ export default function SelecionarMaterias({ navigation }) {
     setCarregando(true);
 
     try {
-      // 🔥 junta grupos antigos + novos
       const gruposFinal = [
         ...new Set([
           ...(usuario?.groupIds || []),
@@ -41,19 +40,16 @@ export default function SelecionarMaterias({ navigation }) {
         ])
       ];
 
-      // 🔥 atualiza UI imediatamente
+      // atualiza UI
       refreshUsuario({
         groupIds: gruposFinal
       });
 
-      // 🔥 salva no firestore (apenas novos)
+      // salva no firestore
       await entrarNosGrupos(firebaseUser.uid, selecionados);
 
-      // 🔥 FORÇA SAÍDA DA TELA (resolve 100%)
-      navigation.reset({
-        index: 0,
-        routes: [{ name: "Menu" }],
-      });
+      // ✅ VAI DIRETO PARA A TELA GRUPOS
+      navigation.navigate("Grupos");
 
     } catch (error) {
       console.error(error);
