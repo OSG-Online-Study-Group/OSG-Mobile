@@ -1,80 +1,100 @@
-import { ScrollView, TouchableOpacity, ActivityIndicator, Image } from "react-native";
+import { ScrollView, TouchableOpacity, Image, View, Text } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import {
-  Container, Header, Title, MenuIcon, SearchBar,
-  ProfileIcon, Banner, SectionTitle, GroupItem,
-  GroupText
+  Container,
+  Header,
+  Title,
+  SearchContainer,
+  SearchInput,
+  Banner,
+  SectionTitle,
+  InfoCard,
+  CardImage,
+  ProfileRow,
+  ProfileImage,
+  ProfileInfo,
+  Name,
+  Username,
+  StatsRow,
+  StatBox,
+  StatLabel,
+  StatValue,
 } from "./styles";
-import { useMenu } from "./useMenu";
+
 import BottomNav from "../../components/BottomNav";
 
-const GROUP_IMAGES = {
-  matematica: require("../../assets/images/icon mat.png"),
-  ciencias_natureza: require("../../assets/images/icon natural science.png"),
-  linguagens: require("../../assets/images/icon linguagens.png"),
-  ciencias_humanas: require("../../assets/images/icon ciencias humanas.png"),
-  informatica: require("../../assets/images/icon hacker.png"),
-};
-
 export default function Menu({ navigation }) {
-  const { grupos, carregando } = useMenu();
-
-  // 👇 pega apenas os 3 primeiros grupos
-  const gruposLimitados = grupos.slice(0, 3);
-
   return (
     <Container>
-      <Header>
-        <TouchableOpacity onPress={() => navigation.navigate("FiltroTreino")}>
-          <MenuIcon source={require("../../assets/images/menu.jpg")} />
-        </TouchableOpacity>
-        <Title>OSG</Title>
-      </Header>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        
+        {/* 🔥 HEADER */}
+        <Header>
+          <Ionicons name="" size={24} color="#D36DF3" />
 
-      <SearchBar placeholder="Pesquisar" placeholderTextColor="#A086CC" />
-      <Banner source={require("../../assets/images/banner.jpg")} />
+          <Title>OSG</Title>
 
-      <SectionTitle>Seus Grupos</SectionTitle>
+          {/* espaço vazio para balancear */}
+          <View style={{ width: 24 }} />
+        </Header>
 
-      <ScrollView>
-        {carregando ? (
-          <ActivityIndicator color="#B84EF2" style={{ marginTop: 20 }} />
-        ) : grupos.length === 0 ? (
-          <TouchableOpacity onPress={() => navigation.navigate("SelecionarMaterias")}>
-            <GroupItem>
-              <GroupText>+ Selecionar matérias</GroupText>
-            </GroupItem>
+        {/* 🔍 SEARCH */}
+        <SearchContainer>
+          <Ionicons name="search" size={16} color="#A086CC" />
+          <SearchInput placeholder="Pesquisar" placeholderTextColor="#A086CC" />
+        </SearchContainer>
+
+        {/* 🔥 BANNER COM SETAS */}
+        <View style={{ alignItems: "center", marginTop: 15 }}>
+          
+          <TouchableOpacity style={{ position: "absolute", left: 20, top: "40%", zIndex: 1 }}>
+            <Ionicons name="" size={28} color="#fff" />
           </TouchableOpacity>
-        ) : (
-          <>
-            {gruposLimitados.map((grupo) => {
-              const image = GROUP_IMAGES[grupo.subject];
-              return (
-                <TouchableOpacity
-                  key={grupo.id}
-                  onPress={() => navigation.navigate("GrupoChat", {
-                    groupId: grupo.id,
-                    name: grupo.name,
-                    subject: grupo.subject,
-                  })}
-                >
-                  <GroupItem>
-                    {image && (
-                      <Image source={image} style={{ width: 50, height: 50 }} />
-                    )}
-                    <GroupText>{grupo.name}</GroupText>
-                  </GroupItem>
-                </TouchableOpacity>
-              );
-            })}
 
-            {/* 👇 botão sempre visível */}
-            <TouchableOpacity onPress={() => navigation.navigate("SelecionarMaterias")}>
-              <GroupItem>
-                <GroupText>+ Adicionar matéria</GroupText>
-              </GroupItem>
-            </TouchableOpacity>
-          </>
-        )}
+          <Banner source={require("../../assets/images/banner.jpg")} />
+
+          <TouchableOpacity style={{ position: "absolute", right: 20, top: "40%", zIndex: 1 }}>
+            <Ionicons name="" size={28} color="#fff" />
+          </TouchableOpacity>
+
+        </View>
+
+        {/* 🔥 TÍTULO */}
+        <SectionTitle>Suas Informações</SectionTitle>
+
+        {/* 🔥 CARD */}
+        <InfoCard colors={["#6A11CB", "#FF4ECD"]}>
+          
+          <CardImage source={require("../../assets/images/profile_banner.jpg")} />
+
+          <ProfileRow>
+            <ProfileImage source={require("../../assets/images/profile_photo.jpg")} />
+
+            <ProfileInfo>
+              <Name>Poker Ghost</Name>
+              <Username>@poker_ghost321</Username>
+            </ProfileInfo>
+          </ProfileRow>
+
+          {/* STATS */}
+          <StatsRow>
+            <StatBox>
+              <StatLabel>Duelos Vencidos</StatLabel>
+              <StatValue>77</StatValue>
+            </StatBox>
+
+            <StatBox>
+              <StatLabel>Matérias Incluídas</StatLabel>
+              <StatValue>2</StatValue>
+            </StatBox>
+
+          <StatBox>
+              <StatLabel>Posição no  Ranking</StatLabel>
+              <StatValue>3°</StatValue>
+            </StatBox>
+          </StatsRow>
+        </InfoCard>
+
       </ScrollView>
 
       <BottomNav />
