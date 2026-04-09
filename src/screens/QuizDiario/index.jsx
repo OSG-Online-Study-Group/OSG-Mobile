@@ -2,17 +2,38 @@ import React from "react";
 import { ActivityIndicator, View, Text } from "react-native";
 import { useQuizDiario } from "../../hooks/useQuizDiario";
 import {
-  Container, Header, BackButton, BackText, Title,
-  SubjectBadge, SubjectText, QuestionCard, QuestionText,
-  OptionButton, OptionText, StatusBox, StatusText,
-  PointsText, ActionButton, ActionButtonText,
+  Container,
+  Header,
+  BackButton,
+  BackText,
+  Title,
+  SubjectBadge,
+  SubjectText,
+  QuestionCard,
+  QuestionText,
+  OptionButton,
+  OptionText,
+  StatusBox,
+  StatusText,
+  PointsText,
+  ActionButton,
+  ActionButtonText,
 } from "./styles";
 
 export default function QuizDiario({ navigation }) {
   const {
-    quiz, perguntaAtual, perguntaIndex, totalPerguntas,
-    respostas, carregando, jaJogouHoje, finalizado,
-    xpGanho, acertos, responder, getOptionColor,
+    quiz,
+    perguntaAtual,
+    perguntaIndex,
+    totalPerguntas,
+    respostas,
+    carregando,
+    jaJogouHoje,
+    finalizado,
+    xpGanho,
+    acertos,
+    responder,
+    getOptionColor,
   } = useQuizDiario();
 
   return (
@@ -32,7 +53,9 @@ export default function QuizDiario({ navigation }) {
       ) : jaJogouHoje && !finalizado ? (
         // Já jogou hoje — sem quiz ativo
         <StatusBox>
-          <StatusText>Você já respondeu o quiz de hoje. Volte amanhã!</StatusText>
+          <StatusText>
+            Você já respondeu o quiz de hoje. Volte amanhã!
+          </StatusText>
         </StatusBox>
       ) : finalizado ? (
         // Tela de resultado final
@@ -49,10 +72,11 @@ export default function QuizDiario({ navigation }) {
             </QuestionText>
           </QuestionCard>
           <StatusBox>
-            {xpGanho > 0
-              ? <PointsText>+{xpGanho} XP ganhos!</PointsText>
-              : <StatusText>Nenhum XP desta vez. Tente amanhã!</StatusText>
-            }
+            {xpGanho > 0 ? (
+              <PointsText>+{xpGanho} XP ganhos!</PointsText>
+            ) : (
+              <StatusText>Nenhum XP desta vez. Tente amanhã!</StatusText>
+            )}
             <StatusText style={{ marginTop: 8 }}>
               Disponível novamente amanhã.
             </StatusText>
@@ -95,12 +119,10 @@ export default function QuizDiario({ navigation }) {
               <StatusText>
                 {respostas[perguntaIndex] === perguntaAtual?.correta
                   ? "✅ Correto!"
-                  : "❌ Incorreto."
-                }
+                  : "❌ Incorreto."}
                 {perguntaIndex < totalPerguntas - 1
                   ? " Próxima pergunta em instantes..."
-                  : ""
-                }
+                  : ""}
               </StatusText>
             ) : (
               <StatusText>Escolha uma alternativa.</StatusText>

@@ -1,13 +1,20 @@
 import { db } from "./firebase";
 import {
-  collection, addDoc, onSnapshot,
-  orderBy, query, updateDoc, doc,
+  collection,
+  addDoc,
+  onSnapshot,
+  orderBy,
+  query,
+  updateDoc,
+  doc,
   serverTimestamp,
 } from "firebase/firestore";
 
-export async function enviarMensagem(groupId, uid, senderName, text, senderPhoto = null) {
+export async function enviarMensagem(groupId, uid, text, senderPhoto = null) {
+  if (!groupId || !uid || !text.trim()) return;
+
   await addDoc(collection(db, "groups", groupId, "messages"), {
-    text,
+    text: text.trim(),
     senderId: uid,
     senderName,
     senderPhoto,

@@ -5,18 +5,43 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "../services/firebase";
 
 export function useChat(groupId) {
-  const { firebaseUser, usuario } = useAuth();
+  const { firebaseUser } = useAuth();
+
   const [mensagens, setMensagens] = useState([]);
+  const [usuariosMap, setUsuariosMap] = useState({});
   const [newMessage, setNewMessage] = useState("");
   const [carregando, setCarregando] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     if (!groupId) return;
-    const unsub = ouvirMensagens(groupId, (msgs) => {
+
+    const unsub = ouvirMensagens(groupId, async (msgs) => {
       setMensagens(msgs);
       setCarregando(false);
+
+      // 🔥 pegar IDs únicos
+      const ids = [...new Set(msgs.map((m) => m.senderId))];
+
+      const novosUsuarios = {};
+
+      for (let id of ids) {
+        if (!usuariosMap[id]) {
+          const userData = await buscarUsuario(id);
+          if (userData) {
+            novosUsuarios[id] = userData;
+          }
+        }
+      }
+
+      if (Object.keys(novosUsuarios).length > 0) {
+        setUsuariosMap((prev) => ({
+          ...prev,
+          ...novosUsuarios,
+        }));
+      }
     });
+
     return () => unsub();
   }, [groupId]);
 
@@ -41,6 +66,7 @@ export function useChat(groupId) {
 
   return {
     messages: mensagens,
+    usuariosMap,
     newMessage,
     setNewMessage,
     handleSend,

@@ -1,6 +1,6 @@
 import { ScrollView, Image, ActivityIndicator } from "react-native";
-import { useAuth } from '../../hooks/useAuth';
-import { getTituloLevel } from '../../services/firestore';
+import { useAuth } from "../../hooks/useAuth";
+import { getTituloLevel } from "../../services/firestore";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
@@ -53,7 +53,7 @@ export default function Perfil() {
 
   return (
     <Container>
-       <ScrollView
+      <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 40 }}
       >
@@ -64,7 +64,9 @@ export default function Perfil() {
             style={{ width: "100%", height: 220 }}
           />
         ) : (
-          <BackgroundImage source={require("../../assets/images/profile_banner.jpg")} />
+          <BackgroundImage
+            source={require("../../assets/images/profile_banner.jpg")}
+          />
         )}
 
         {/* BOTÃO VOLTAR */}
@@ -82,10 +84,6 @@ export default function Perfil() {
         />
 
         <Name>{usuario?.name || "Usuário"}</Name>
-
-        <Username>
-          @{usuario?.name?.toLowerCase() || firebaseUser?.email}
-        </Username>
 
         {/* XP */}
         <PointsCard>
@@ -166,7 +164,6 @@ export default function Perfil() {
           <Image source={require("../../assets/images/logout_icon.jpg")} />
           <MenuText>Fazer Logout</MenuText>
         </MenuItem>
-
       </ScrollView>
     </Container>
   );
