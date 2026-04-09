@@ -1,36 +1,39 @@
-import { ScrollView, Image, TouchableOpacity } from "react-native";
+import { ScrollView, TouchableOpacity, ActivityIndicator } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useGrupos } from "./useGrupos";
 
 import {
   Container,
   Header,
   TopRow,
-  MenuIcon,
   Title,
-  ProfileIcon,
   SearchBar,
   SectionTitle,
   GroupCard,
   GroupIcon,
   GroupContent,
   GroupTitle,
-  GroupMessage,
-  TimeText,
   BottomMenu,
   MenuButton,
   MenuText,
   CenterButton,
 } from "./styles";
 
+const GROUP_IMAGES = {
+  matematica: require("../../assets/images/icon mat.png"),
+  ciencias_natureza: require("../../assets/images/icon natural science.png"),
+  linguagens: require("../../assets/images/icon linguagens.png"),
+  ciencias_humanas: require("../../assets/images/icon ciencias humanas.png"),
+  informatica: require("../../assets/images/icon hacker.png"),
+};
+
 export default function Grupos({ navigation }) {
+  const { grupos, carregando } = useGrupos();
+
   return (
     <Container>
       <Header>
         <TopRow>
-          <TouchableOpacity onPress={() => navigation.navigate("FiltroTreino")}>
-            <MenuIcon source={require("../../assets/images/menu.jpg")} />
-          </TouchableOpacity>
-
           <Title>OSG</Title>
 
           <TouchableOpacity
@@ -44,57 +47,60 @@ export default function Grupos({ navigation }) {
       <SectionTitle>Seus Grupos</SectionTitle>
 
       <ScrollView showsVerticalScrollIndicator={false}>
-        <GroupCard>
-          <GroupIcon
-            source={require("../../assets/images/quimica_organica.jpg")}
+        {carregando ? (
+          <ActivityIndicator
+            size="large"
+            color="#420286"
+            style={{ marginTop: 20 }}
           />
+        ) : grupos.length === 0 ? (
+          <TouchableOpacity
+            onPress={() => navigation.navigate("SelecionarMaterias")}
+          >
+            <GroupCard>
+              <GroupContent>
+                <GroupTitle>+ Selecionar matérias</GroupTitle>
+              </GroupContent>
+            </GroupCard>
+          </TouchableOpacity>
+        ) : (
+          <>
+            {grupos.map((grupo) => {
+              const image = GROUP_IMAGES[grupo.subject];
 
-          <GroupContent>
-            <GroupTitle>Grupo de Quimica Organica</GroupTitle>
+              return (
+                <TouchableOpacity
+                  key={grupo.id}
+                  onPress={() =>
+                    navigation.navigate("GrupoChat", {
+                      groupId: grupo.id,
+                      name: grupo.name,
+                      subject: grupo.subject,
+                    })
+                  }
+                >
+                  <GroupCard>
+                    {image && <GroupIcon source={image} />}
+                    <GroupContent>
+                      <GroupTitle>{grupo.name}</GroupTitle>
+                    </GroupContent>
+                  </GroupCard>
+                </TouchableOpacity>
+              );
+            })}
 
-            <GroupMessage>Coreana: Arigato</GroupMessage>
-          </GroupContent>
-
-          <TimeText>13:51</TimeText>
-        </GroupCard>
-
-        <GroupCard>
-          <GroupIcon source={require("../../assets/images/economia.jpg")} />
-
-          <GroupContent>
-            <GroupTitle>Grupo de Economia</GroupTitle>
-
-            <GroupMessage>Bruna: Preciso de Ajuda</GroupMessage>
-          </GroupContent>
-
-          <TimeText>11:47</TimeText>
-        </GroupCard>
-
-        <GroupCard>
-          <GroupIcon source={require("../../assets/images/icon mat.png")} />
-
-          <GroupContent>
-            <GroupTitle>Grupo de Algebra</GroupTitle>
-
-            <GroupMessage>Jurandir: A resposta é A</GroupMessage>
-          </GroupContent>
-
-          <TimeText>09:43</TimeText>
-        </GroupCard>
-
-        <GroupCard>
-          <GroupIcon
-            source={require("../../assets/images/quimica_forense.jpg")}
-          />
-
-          <GroupContent>
-            <GroupTitle>Grupo de Quimica Forense</GroupTitle>
-
-            <GroupMessage>Carla: Obrigada</GroupMessage>
-          </GroupContent>
-
-          <TimeText>10:01</TimeText>
-        </GroupCard>
+            {/* botão sempre no final */}
+            <TouchableOpacity
+              onPress={() => navigation.navigate("SelecionarMaterias")}
+            >
+              <GroupCard>
+                <GroupContent>
+                  <GroupTitle>+ Adicionar matéria</GroupTitle>
+                </GroupContent>
+              </GroupCard>
+            </TouchableOpacity>
+          </>
+        )}
       </ScrollView>
 
       {/* MENU INFERIOR */}

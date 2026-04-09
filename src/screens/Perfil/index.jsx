@@ -1,6 +1,7 @@
-import { ScrollView, Image, ActivityIndicator } from "react-native";
-import { useAuth } from "../../hooks/useAuth";
-import { getTituloLevel } from "../../services/firestore";
+import { ScrollView, Image, ActivityIndicator, Modal, TouchableOpacity } from "react-native";
+import { useState } from "react";
+import { useAuth } from '../../hooks/useAuth';
+import { getTituloLevel } from '../../services/firestore';
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
@@ -23,7 +24,11 @@ import {
   Badge,
   PlusCard,
   PlusText,
-  MenuItem,
+  MenuItemMensagem,
+  MenuItemRanking,
+  MenuItemEditar,
+  MenuItemConfig,
+  MenuItemLogout,
   MenuText,
   Divider,
 } from "./styles";
@@ -32,6 +37,8 @@ export default function Perfil() {
   const navigation = useNavigation();
   const { usuario, firebaseUser, carregando, logout } = useAuth();
 
+  const [imagemAberta, setImagemAberta] = useState(false);
+
   const level = usuario?.level || 1;
   const titulo = getTituloLevel(level);
 
@@ -39,7 +46,6 @@ export default function Perfil() {
     await logout();
   }
 
-  // 🔥 PROTEÇÃO DO GRADIENT (evita crash)
   const temTemaValido =
     Array.isArray(usuario?.theme) && usuario.theme.length >= 2;
 
@@ -51,13 +57,17 @@ export default function Perfil() {
     );
   }
 
+  const imagemPerfil = usuario?.photo
+    ? { uri: usuario.photo }
+    : require("../../assets/images/profile_photo.jpg");
+
   return (
     <Container>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 40 }}
       >
-        {/* 🔥 BACKGROUND DINÂMICO */}
+        {/* BACKGROUND */}
         {temTemaValido ? (
           <LinearGradient
             colors={usuario.theme}
@@ -69,19 +79,15 @@ export default function Perfil() {
           />
         )}
 
-        {/* BOTÃO VOLTAR */}
+        {/* VOLTAR */}
         <BackButton onPress={() => navigation.goBack()}>
           <Ionicons name="arrow-undo" size={22} color="#B84EF2" />
         </BackButton>
 
-        {/* 🔥 FOTO DINÂMICA */}
-        <ProfileImage
-          source={
-            usuario?.photo
-              ? { uri: usuario.photo }
-              : require("../../assets/images/profile_photo.jpg")
-          }
-        />
+        {/* FOTO */}
+        <TouchableOpacity onPress={() => setImagemAberta(true)}>
+          <ProfileImage source={imagemPerfil} />
+        </TouchableOpacity>
 
         <Name>{usuario?.name || "Usuário"}</Name>
 
@@ -110,7 +116,7 @@ export default function Perfil() {
           </Stat>
         </StatsContainer>
 
-        {/* BADGES (mantido como você pediu) */}
+        {/* BADGES */}
         <SectionTitle>Conquistas</SectionTitle>
         <BadgesContainer>
           <Badge source={require("../../assets/images/badge1.jpg")} />
@@ -126,45 +132,56 @@ export default function Perfil() {
           </PlusText>
         </PlusCard>
 
-        {/* MENU (mantido) */}
-        <MenuItem onPress={() => navigation.navigate("ChatList")}>
-          <Image source={require("../../assets/images/message_icon.jpg")} />
+        {/* MENU */}
+        <MenuItemMensagem onPress={() => navigation.navigate("ChatList")}>
+          <Image source={require("../../assets/images/message_icon.jpg")} style={{ width: 22, height: 22 }} />
           <MenuText>Mensagem</MenuText>
-        </MenuItem>
+        </MenuItemMensagem>
 
-        <MenuItem onPress={() => navigation.navigate("Ranking")}>
-          <Image source={require("../../assets/images/ranking_icon.jpg")} />
+        <MenuItemRanking onPress={() => navigation.navigate("Ranking")}>
+          <Image source={require("../../assets/images/ranking_icon.jpg")} style={{ width: 22, height: 22 }} />
           <MenuText>Ranking</MenuText>
-        </MenuItem>
+        </MenuItemRanking>
 
-        {/* 🔥 CORREÇÃO AQUI */}
-        <MenuItem onPress={() => navigation.navigate("EditarPerfil")}>
-          <Image source={require("../../assets/images/edit_icon.jpg")} />
+        <MenuItemEditar onPress={() => navigation.navigate("EditarPerfil")}>
+          <Image source={require("../../assets/images/edit_icon.jpg")} style={{ width: 22, height: 22 }} />
           <MenuText>Editar Perfil</MenuText>
-        </MenuItem>
+        </MenuItemEditar>
 
-        <MenuItem>
-          <Image source={require("../../assets/images/language_icon.jpg")} />
-          <MenuText>Idioma</MenuText>
-        </MenuItem>
-
-        <MenuItem>
-          <Image source={require("../../assets/images/security_icon.jpg")} />
-          <MenuText>Configurações de Segurança</MenuText>
-        </MenuItem>
-
-        <MenuItem>
-          <Image source={require("../../assets/images/help_icon.jpg")} />
-          <MenuText>Ajuda e Suporte</MenuText>
-        </MenuItem>
+        <MenuItemConfig>
+          <Image source={require("../../assets/images/icon_config1.png")} style={{ width: 22, height: 22 }} />
+          <MenuText>Configurações</MenuText>
+        </MenuItemConfig>
 
         <Divider />
 
-        <MenuItem onPress={handleLogout}>
-          <Image source={require("../../assets/images/logout_icon.jpg")} />
+        <MenuItemLogout onPress={handleLogout}>
+          <Image source={require("../../assets/images/logout_icon.jpg")} style={{ width: 22, height: 22 }} />
           <MenuText>Fazer Logout</MenuText>
-        </MenuItem>
+        </MenuItemLogout>
       </ScrollView>
+
+      {/* MODAL */}
+      <Modal visible={imagemAberta} transparent>
+        <TouchableOpacity
+          style={{
+            flex: 1,
+            backgroundColor: "rgba(0,0,0,0.95)",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+          onPress={() => setImagemAberta(false)}
+        >
+          <Image
+            source={imagemPerfil}
+            style={{
+              width: "100%",
+              height: "80%",
+              resizeMode: "contain",
+            }}
+          />
+        </TouchableOpacity>
+      </Modal>
     </Container>
   );
 }

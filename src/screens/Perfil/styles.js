@@ -6,13 +6,6 @@ export const Container = styled.View`
   align-items: center;
 `;
 
-export const Header = styled.View`
-  position: absolute;
-  top: 40px;
-  left: 20px;
-  z-index: 2;
-`;
-
 export const BackButton = styled.TouchableOpacity`
   bottom: 207px;
   right: -10px;
@@ -68,13 +61,11 @@ export const StatNumber = styled.Text`
   color: white;
   font-size: 18px;
   font-weight: bold;
-  margin-left: -5px;
 `;
 
 export const StatLabel = styled.Text`
   color: #a086cc;
   font-size: 15px;
-  margin-left: -5px;
 `;
 
 export const SectionTitle = styled.Text`
@@ -111,22 +102,47 @@ export const PlusText = styled.Text`
   text-align: center;
 `;
 
-export const MenuItem = styled.TouchableOpacity`
+/* 🔥 MENU BASE PADRONIZADO */
+export const MenuItemBase = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
-  padding: 10px 25px;
-  margin-left: -5px;
+  width: 100%;
+  height: 55px; 
+  padding: 0 20px;
 `;
 
+/* 🔥 WRAPPER DO ÍCONE (ALINHAMENTO PERFEITO) */
+export const IconWrapper = styled.View`
+  width: 30px;
+  align-items: center;
+  justify-content: center;
+`;
+
+/* 🔥 ITENS SEPARADOS */
+export const MenuItemMensagem = styled(MenuItemBase)``;
+
+export const MenuItemRanking = styled(MenuItemBase)``;
+
+export const MenuItemEditar = styled(MenuItemBase)``;
+
+export const MenuItemConfig = styled(MenuItemBase)``;
+
+export const MenuItemLogout = styled(MenuItemBase)`
+  margin-top: 5px;
+`;
+
+/* 🔥 TEXTO */
 export const MenuText = styled.Text`
   color: white;
   font-size: 15px;
   margin-left: 10px;
 `;
 
+/* 🔥 DIVISOR */
 export const Divider = styled.View`
-  height: 5px;
-  width: 100%;
+  height: 1px;
+  width: 90%;
   background-color: #3b0f66;
-  margin: 10px 0;
+  margin: 15px 0;
+  align-self: center;
 `;

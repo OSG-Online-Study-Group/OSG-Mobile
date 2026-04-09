@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useChat } from "../../hooks/useChat";
+
 import {
   Container,
   TopBar,
@@ -85,6 +86,10 @@ export default function GrupoChat({ route, navigation }) {
 
   const [keyboardVisible, setKeyboardVisible] = useState(false);
 
+  const groupKey = (subject || groupId || "").replace("group_", "");
+  const groupLogo =
+    GROUP_IMAGES[groupKey];
+
   useEffect(() => {
     const showSub = Keyboard.addListener("keyboardDidShow", () =>
       setKeyboardVisible(true),
@@ -156,26 +161,15 @@ export default function GrupoChat({ route, navigation }) {
     <Container>
       <TopBar>
         <TopRow>
-          <Ionicons
-            name="menu"
-            size={26}
-            color="#C67AFC"
-            onPress={() => navigation.navigate("FiltroTreino")}
-          />
-          <Ionicons
-            name="menu"
-            size={26}
-            color="#C67AFC"
-            onPress={() => navigation.navigate("FiltroTreino")}
-          />
           <Title>OSG</Title>
           <Ionicons name="search" size={22} color="#C67AFC" />
         </TopRow>
+
         <SearchBar placeholder="Pesquisar..." placeholderTextColor="#aaa" />
       </TopBar>
 
       <Header>
-        <Logo source={require("../../assets/images/icon mat.png")} />
+        <Logo source={groupLogo} />
         <TopBarTitle>{name}</TopBarTitle>
       </Header>
 
@@ -191,7 +185,7 @@ export default function GrupoChat({ route, navigation }) {
           contentContainerStyle={{ padding: 8, paddingBottom: 150 }}
         />
 
-        {/* INPUT AREA */}
+        {/* INPUT */}
         <InputArea style={{ marginBottom: keyboardVisible ? 20 : 120 }}>
           <AddButton>
             <Ionicons name="add" size={20} color="#fff" />
@@ -215,17 +209,21 @@ export default function GrupoChat({ route, navigation }) {
           <Ionicons name="home-outline" size={22} color="#fff" />
           <MenuText>Home</MenuText>
         </MenuButton>
+
         <MenuButton onPress={() => navigation.navigate("Game")}>
           <Ionicons name="game-controller-outline" size={22} color="#fff" />
           <MenuText>Game</MenuText>
         </MenuButton>
+
         <CenterButton onPress={() => navigation.navigate("Ranking")}>
           <Ionicons name="trophy" size={28} color="#fff" />
         </CenterButton>
+
         <MenuButton onPress={() => navigation.navigate("Grupos")}>
           <Ionicons name="grid-outline" size={22} color="#fff" />
           <MenuText>Grupos</MenuText>
         </MenuButton>
+
         <MenuButton onPress={() => navigation.navigate("Perfil")}>
           <Ionicons name="person-outline" size={22} color="#fff" />
           <MenuText>Perfil</MenuText>

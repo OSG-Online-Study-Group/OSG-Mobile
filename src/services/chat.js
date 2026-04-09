@@ -10,13 +10,19 @@ import {
   serverTimestamp,
 } from "firebase/firestore";
 
-export async function enviarMensagem(groupId, uid, text, senderPhoto = null) {
+export async function enviarMensagem(
+  groupId,
+  uid,
+  senderName,
+  text,
+  senderPhoto = null
+) {
   if (!groupId || !uid || !text.trim()) return;
 
   await addDoc(collection(db, "groups", groupId, "messages"), {
     text: text.trim(),
     senderId: uid,
-    senderName,
+    senderName: senderName || "Usuário",
     senderPhoto,
     createdAt: serverTimestamp(),
     deleted: false,

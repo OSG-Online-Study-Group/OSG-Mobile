@@ -4,8 +4,16 @@ import { GROUPS } from "../../constants/groups";
 import { entrarNosGrupos } from "../../services/firestore";
 import { useAuth } from "../../hooks/useAuth";
 import {
-  Container, Title, Subtitle, GrupoCard, GrupoEmoji,
-  GrupoNome, CheckIcon, Button, ButtonText, ErrorText,
+  Container,
+  Title,
+  Subtitle,
+  GrupoCard,
+  GrupoEmoji,
+  GrupoNome,
+  CheckIcon,
+  Button,
+  ButtonText,
+  ErrorText,
 } from "./styles";
 
 export default function SelecionarMaterias({ navigation }) {
@@ -19,7 +27,7 @@ export default function SelecionarMaterias({ navigation }) {
     setSelecionados((prev) =>
       prev.includes(groupId)
         ? prev.filter((id) => id !== groupId)
-        : [...prev, groupId]
+        : [...prev, groupId],
     );
     setErro("");
   }
@@ -33,28 +41,20 @@ export default function SelecionarMaterias({ navigation }) {
     setCarregando(true);
 
     try {
-      // 🔥 junta grupos antigos + novos
       const gruposFinal = [
-        ...new Set([
-          ...(usuario?.groupIds || []),
-          ...selecionados
-        ])
+        ...new Set([...(usuario?.groupIds || []), ...selecionados]),
       ];
 
-      // 🔥 atualiza UI imediatamente
+      // atualiza UI
       refreshUsuario({
-        groupIds: gruposFinal
+        groupIds: gruposFinal,
       });
 
-      // 🔥 salva no firestore (apenas novos)
+      // salva no firestore
       await entrarNosGrupos(firebaseUser.uid, selecionados);
 
-      // 🔥 FORÇA SAÍDA DA TELA (resolve 100%)
-      navigation.reset({
-        index: 0,
-        routes: [{ name: "Menu" }],
-      });
-
+      // ✅ VAI DIRETO PARA A TELA GRUPOS
+      navigation.navigate("Grupos");
     } catch (error) {
       console.error(error);
       Alert.alert("Erro", "Não foi possível salvar.");
@@ -85,9 +85,7 @@ export default function SelecionarMaterias({ navigation }) {
             >
               <GrupoEmoji>{grupo.emoji}</GrupoEmoji>
 
-              <GrupoNome selected={selected}>
-                {grupo.name}
-              </GrupoNome>
+              <GrupoNome selected={selected}>{grupo.name}</GrupoNome>
 
               {selected && <CheckIcon>✓</CheckIcon>}
             </GrupoCard>
@@ -98,10 +96,11 @@ export default function SelecionarMaterias({ navigation }) {
       {erro ? <ErrorText>{erro}</ErrorText> : null}
 
       <Button onPress={handleConfirmar} disabled={carregando}>
-        {carregando
-          ? <ActivityIndicator color="#fff" />
-          : <ButtonText>Confirmar e Entrar →</ButtonText>
-        }
+        {carregando ? (
+          <ActivityIndicator color="#fff" />
+        ) : (
+          <ButtonText>Confirmar e Entrar →</ButtonText>
+        )}
       </Button>
     </Container>
   );

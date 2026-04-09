@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { buscarGruposDoUsuario } from "../../services/firestore";
 import { useAuth } from "../../hooks/useAuth";
 
-export function useMenu() {
+export function useGrupos() {
   const { firebaseUser } = useAuth();
   const [grupos, setGrupos] = useState([]);
   const [carregando, setCarregando] = useState(true);

@@ -3,9 +3,10 @@ import { useAuth } from "./useAuth";
 import { enviarMensagem, ouvirMensagens, deletarMensagem } from "../services/chat";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../services/firebase";
+import { buscarUsuario } from "../services/firestore";
 
 export function useChat(groupId) {
-  const { firebaseUser } = useAuth();
+  const { firebaseUser, usuario } = useAuth();
 
   const [mensagens, setMensagens] = useState([]);
   const [usuariosMap, setUsuariosMap] = useState({});
@@ -55,8 +56,16 @@ export function useChat(groupId) {
   }, [firebaseUser]);
 
   async function handleSend() {
-    if (!newMessage.trim()) return;
-    await enviarMensagem(groupId, firebaseUser.uid, usuario.name, newMessage, usuario.photo || null);
+    if (!newMessage.trim() || !firebaseUser) return;
+
+    await enviarMensagem(
+      groupId,
+      firebaseUser.uid,
+      usuario?.name || "Usuário",
+      newMessage,
+      usuario?.photo || null
+    );
+
     setNewMessage("");
   }
 

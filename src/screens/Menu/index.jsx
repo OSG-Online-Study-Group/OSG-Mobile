@@ -11,14 +11,14 @@ import {
   Container,
   Header,
   Title,
-  MenuIcon,
-  SearchBar,
-  ProfileIcon,
+  SearchContainer,
+  SearchInput,
   Banner,
   SectionTitle,
 } from "./styles";
 import styles from "./styles";
 import BottomNav from "../../components/BottomNav";
+import { Ionicons } from "@expo/vector-icons";
 
 import { LinearGradient } from "expo-linear-gradient";
 
@@ -47,6 +47,8 @@ export default function Menu({ navigation }) {
   async function carregarDados() {
     try {
       const user = getAuth().currentUser;
+      if (!user) return;
+
       const db = getFirestore();
 
       const ref = doc(db, "users", user.uid);
@@ -82,6 +84,8 @@ export default function Menu({ navigation }) {
 
   function calcularRanking() {
     const user = getAuth().currentUser;
+    if (!user) return;
+
     if (!usuarios || usuarios.length === 0) return;
 
     const index = usuarios.findIndex((u) => u.id === user.uid);
@@ -97,24 +101,40 @@ export default function Menu({ navigation }) {
 
   return (
     <Container>
-      <Header>
-        <TouchableOpacity onPress={() => navigation.navigate("FiltroTreino")}>
-          <MenuIcon source={require("../../assets/images/menu.jpg")} />
-        </TouchableOpacity>
-        <Title>OSG</Title>
-      </Header>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        {/* 🔥 HEADER */}
+        <Header>
+          <Ionicons name="" size={24} color="#D36DF3" />
 
-      <SearchBar placeholder="Pesquisar" placeholderTextColor="#A086CC" />
-      <Banner source={require("../../assets/images/banner.jpg")} />
+          <Title>OSG</Title>
 
-      <SectionTitle>Suas Estatísticas</SectionTitle>
+          {/* espaço vazio para balancear */}
+          <View style={{ width: 24 }} />
+        </Header>
 
-      <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
+        {/* 🔍 SEARCH */}
+        <SearchContainer>
+          <Ionicons name="search" size={16} color="#A086CC" />
+          <SearchInput placeholder="Pesquisar" placeholderTextColor="#A086CC" />
+        </SearchContainer>
+
+        {/* 🔥 BANNER COM SETAS */}
+        <View style={{ alignItems: "center", marginTop: 15 }}>
+          <TouchableOpacity
+            style={{ position: "absolute", left: 20, top: "40%", zIndex: 1 }}
+          >
+            <Ionicons name="" size={28} color="#fff" />
+          </TouchableOpacity>
+
+          <Banner source={require("../../assets/images/banner.jpg")} />
+        </View>
+
+        <SectionTitle>Suas Estatísticas</SectionTitle>
+
         {loading ? (
           <ActivityIndicator color="#B84EF2" style={{ marginTop: 20 }} />
         ) : (
           <>
-            {/* 🔥 CARD DE PERFIL */}
             <LinearGradient
               colors={
                 Array.isArray(usuario?.theme) && usuario.theme.length >= 2
@@ -129,9 +149,7 @@ export default function Menu({ navigation }) {
                 paddingBottom: 20,
               }}
             >
-              {/* 🔥 TOPO (BANNER + FOTO CORRIGIDO) */}
               <View style={{ width: "100%", height: 140 }}>
-                {/* Banner padrão se não tiver tema */}
                 {!usuario?.theme && (
                   <Image
                     source={require("../../assets/images/profile_banner.jpg")}
@@ -144,7 +162,6 @@ export default function Menu({ navigation }) {
                   />
                 )}
 
-                {/* FOTO (agora correta) */}
                 <Image
                   source={
                     usuario?.photo
@@ -164,12 +181,10 @@ export default function Menu({ navigation }) {
                 />
               </View>
 
-              {/* NOME */}
               <Text style={{ color: "#fff", fontSize: 18, marginTop: 15 }}>
                 {usuario?.name || "Usuário"}
               </Text>
 
-              {/* STATS */}
               <View style={styles.statsContainer}>
                 <View style={styles.statCard}>
                   <Text style={styles.statLabel}>Vitórias</Text>
