@@ -9,38 +9,66 @@ const CATEGORIAS = {
   matematica: {
     label: "Matemática",
     materias: "Matemática (Álgebra, Geometria ou Trigonometria)",
-    contexto: "contexto matemático",
+    contexto: "matemático",
   },
   ciencias_natureza: {
     label: "Ciências da Natureza",
     materias: "Física, Química ou Biologia",
-    contexto: "contexto científico",
+    contexto: "científico",
   },
   ciencias_humanas: {
     label: "Ciências Humanas",
     materias: "História, Geografia, Filosofia ou Sociologia",
-    contexto: "contexto histórico/social",
+    contexto: "histórico/social",
   },
   linguagens: {
     label: "Linguagens",
     materias: "Português, Literatura ou Inglês",
-    contexto: "contexto linguístico e literário",
+    contexto: "linguístico e literário",
   },
   informatica: {
     label: "Informática",
     materias: "Lógica, Programação ou Redes",
-    contexto: "contexto de tecnologia e computação",
+    contexto: "tecnologia e computação",
   },
 };
+
+const FALLBACK = {
+  pergunta: "Qual é o resultado de 2 + 2?",
+  alternativas: ["3", "4", "5", "6"],
+  correta: 1,
+};
+
+function parseResposta(raw) {
+  try {
+    const match = raw?.match(/\{[\s\S]*\}/);
+    if (!match) return null;
+    const parsed = JSON.parse(match[0]);
+    if (
+      !parsed.pergunta ||
+      !Array.isArray(parsed.alternativas) ||
+      parsed.alternativas.length !== 4 ||
+      !Number.isInteger(parsed.correta) ||
+      parsed.correta < 0 || parsed.correta > 3
+    ) return null;
+    return {
+      pergunta: String(parsed.pergunta),
+      alternativas: parsed.alternativas.map(String),
+      correta: parsed.correta,
+    };
+  } catch {
+    return null;
+  }
+}
 
 export function useTreino(categoria) {
   const { firebaseUser, usuario, refreshUsuario } = useAuth();
   const config = CATEGORIAS[categoria] || CATEGORIAS.ciencias_humanas;
   const groupId = `group_${categoria}`;
 
-  const [messages, setMessages] = useState([]);
-  const [perguntaAtual, setPerguntaAtual] = useState("");
-  const [newMessage, setNewMessage] = useState("");
+  const [pergunta, setPergunta] = useState(null);
+  const [respondido, setRespondido] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(null);
   const [carregando, setCarregando] = useState(true);
   const [xpTotal, setXpTotal] = useState(0);
 
@@ -50,77 +78,74 @@ export function useTreino(categoria) {
 
   async function gerarPergunta() {
     setCarregando(true);
+    setRespondido(false);
+    setSelectedIndex(null);
+
+    const prompt = `
+      Gere uma pergunta de múltipla escolha sobre ${config.materias}.
+      Retorne SOMENTE um JSON válido no formato:
+      {
+        "pergunta": "texto da pergunta",
+        "alternativas": ["opcao A", "opcao B", "opcao C", "opcao D"],
+        "correta": 0
+      }
+      Regras:
+      - Exatamente 4 alternativas.
+      - Apenas uma correta.
+      - "correta" é índice de 0 a 3.
+      - Sem markdown.
+    `;
+
     try {
-      const prompt = `
-        Gere uma pergunta de ${config.materias}.
-        A pergunta deve exigir resposta curta ou explicação breve.
-        Não forneça a resposta.
-        Retorne apenas a pergunta.
-      `;
       const resposta = await enviarMensagemParaIA(prompt);
-      setPerguntaAtual(resposta);
-      setMessages([{ id: Date.now(), sender: "bot", text: resposta }]);
-    } catch (error) {
-      console.error("Erro ao gerar pergunta:", error);
-    } finally {
-      setCarregando(false);
+      const parsed = parseResposta(resposta);
+      setPergunta(parsed || FALLBACK);
+    } catch {
+      setPergunta(FALLBACK);
     }
+    setCarregando(false);
   }
 
-  async function handleSend() {
-    if (!newMessage.trim()) return;
+  async function responder(index) {
+    if (respondido || carregando) return;
 
-    const userAnswer = newMessage;
-    setMessages((prev) => [
-      ...prev,
-      { id: Date.now(), sender: "you", text: userAnswer },
-    ]);
-    setNewMessage("");
+    setSelectedIndex(index);
+    setRespondido(true);
 
-    try {
-      const promptCorrecao = `
-        Pergunta: ${perguntaAtual}
-        Resposta do aluno: ${userAnswer}
+    const acertou = index === pergunta.correta;
 
-        Avalie a resposta considerando ${config.contexto}.
-        Responda apenas:
-
-        CORRETA ou INCORRETA
-
-        Depois explique brevemente o motivo.
-      `;
-
-      const respostaIA = await enviarMensagemParaIA(promptCorrecao);
-      const acertou = respostaIA.toUpperCase().includes("CORRETA");
-
-      setMessages((prev) => [
-        ...prev,
-        { id: Date.now() + 1, sender: "bot", text: respostaIA },
-      ]);
-
-      if (acertou && firebaseUser) {
-        const { novoXP, novoLevel } = await atualizarXP(firebaseUser.uid, XP_POR_ACERTO, groupId);
+    if (acertou && firebaseUser) {
+      try {
+        const { novoXP, novoLevel } = await atualizarXP(
+          firebaseUser.uid, XP_POR_ACERTO, groupId
+        );
         setXpTotal((prev) => prev + XP_POR_ACERTO);
         refreshUsuario({ xp: novoXP, level: novoLevel });
+      } catch (err) {
+        console.error("Erro ao salvar XP:", err);
       }
-
-      setTimeout(() => gerarPergunta(), 3000);
-
-    } catch {
-      setMessages((prev) => [
-        ...prev,
-        { id: Date.now() + 2, sender: "bot", text: "Erro ao corrigir resposta." },
-      ]);
     }
+
+    // Próxima pergunta após 2s
+    setTimeout(() => gerarPergunta(), 2000);
+  }
+
+  function getOptionColor(index) {
+    if (selectedIndex === null) return "#4c2d6f";
+    if (index === pergunta?.correta) return "#2f9e44";
+    if (index === selectedIndex) return "#c92a2a";
+    return "#4c2d6f";
   }
 
   return {
-    messages,
-    newMessage,
-    setNewMessage,
-    handleSend,
+    pergunta,
     carregando,
+    respondido,
+    selectedIndex,
     xpTotal,
     config,
+    responder,
+    getOptionColor,
+    proximaPergunta: gerarPergunta,
   };
 }

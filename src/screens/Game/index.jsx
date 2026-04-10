@@ -21,34 +21,32 @@ export default function Game() {
   return (
     <Container>
       <ScrollView showsVerticalScrollIndicator={false}>
-      <Header>
-        <BackButton onPress={() => navigation.goBack()}>
-          <OptionText style={{ color: "#C67AFC" }}>Voltar</OptionText>
-        </BackButton>
-        <Title>Escolha o Modo que deseja jogar</Title>
-      </Header>
+        <Header>
+          <BackButton onPress={() => navigation.goBack()}>
+            <OptionText style={{ color: "#C67AFC" }}>Voltar</OptionText>
+          </BackButton>
+          <Title>Escolha o Modo que deseja jogar</Title>
+        </Header>
 
-      <GameOption onPress={() => navigation.navigate("QuizDiario")}>
-        <Image source={require("../../assets/images/quiz_icon.jpg")} />
-        <Text>Quiz diário</Text>
-      </GameOption>
+        <GameOption onPress={() => navigation.navigate("QuizDiario")}>
+          <Image source={require("../../assets/images/quiz_icon.jpg")} />
+          <Text>Quiz diário</Text>
+        </GameOption>
 
-      <GameOption onPress={() => navigation.navigate("FiltroTreino")}>
-        <Image source={require("../../assets/images/icon_versus.jpg")} />
-        <Text2>Duelo Aleatório</Text2>
-      </GameOption>
+        <GameOption onPress={() => navigation.navigate("DueloAleatorio")}>
+          <Image source={require("../../assets/images/icon_versus.jpg")} />
+          <Text2>Duelo Aleatório</Text2>
+        </GameOption>
 
-      <GameOption onPress={() => navigation.navigate("ConviteDuelo")}>
-        <Image source={require("../../assets/images/icon duelo amigo.png")} />
-        <Text3>Duelo Amigo</Text3>
-      </GameOption>
+        <GameOption onPress={() => navigation.navigate("ConviteDuelo")}>
+          <Image source={require("../../assets/images/icon duelo amigo.png")} />
+          <Text3>Duelo Amigo</Text3>
+        </GameOption>
 
-      <GameOption onPress={() => navigation.navigate("FiltroTreino")}>
-        <Image source={require("../../assets/images/icon treino.png")} />
-        <Text>Treino</Text>
-      </GameOption>
-
-
+        <GameOption onPress={() => navigation.navigate("FiltroTreino")}>
+          <Image source={require("../../assets/images/icon treino.png")} />
+          <Text>Treino</Text>
+        </GameOption>
       </ScrollView>
     </Container>
   );

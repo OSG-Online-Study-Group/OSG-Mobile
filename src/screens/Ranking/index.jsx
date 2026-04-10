@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
   Text,
-  StyleSheet
+  StyleSheet,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useRankingGeral, useRankingTodosGrupos } from "../../hooks/useRanking";
@@ -34,17 +34,17 @@ import {
   AvatarTop,
   UsernameTop,
   PointsTop,
-  SubTitle
+  SubTitle,
 } from "./styles";
 
 const DEFAULT_AVATAR = require("../../assets/images/profile_photo.jpg");
 
 const GROUP_IMAGES = {
-  matematica: require("../../assets/images/algebra.jpg"),
-  ciencias_natureza: require("../../assets/images/quimica_organica.jpg"),
-  linguagens: require("../../assets/images/economia.jpg"),
-  ciencias_humanas: require("../../assets/images/algebra.jpg"),
-  informatica: require("../../assets/images/quimica_forense.jpg"),
+  matematica: require("../../assets/images/icon mat.png"),
+  ciencias_natureza: require("../../assets/images/icon natural science.png"),
+  linguagens: require("../../assets/images/icon linguagens.png"),
+  ciencias_humanas: require("../../assets/images/icon ciencias humanas.png"),
+  informatica: require("../../assets/images/icon hacker.png"),
 };
 
 // ───────────── RANKING DE PESSOAS ─────────────
@@ -82,7 +82,7 @@ function RankingPessoas() {
               </TopUser>
             ) : (
               <TopUser key={index} />
-            )
+            ),
           )}
         </TopUsers>
       </TopBox>
@@ -101,7 +101,9 @@ function RankingPessoas() {
               }
             />
 
-            <Username>{index + 4}. {item.name}</Username>
+            <Username>
+              {index + 4}. {item.name}
+            </Username>
 
             <Points>{item.xp} XP</Points>
           </ListCard>
@@ -127,9 +129,7 @@ function RankingGruposLista() {
       renderItem={({ item }) => (
         <Card>
           <IconCircle>
-            <CardIcon
-              source={GROUP_IMAGES[item.subject] || DEFAULT_AVATAR}
-            />
+            <CardIcon source={GROUP_IMAGES[item.subject] || DEFAULT_AVATAR} />
           </IconCircle>
 
           <TextContainer>
@@ -151,10 +151,6 @@ export default function Ranking() {
     <Container>
       <Header>
         <LeftHeader>
-          <Image
-            source={require("../../assets/images/libras.jpg")}
-            style={{ width: 40, height: 40 }}
-          />
           <Logo source={require("../../assets/images/icon_OSG.jpg")} />
         </LeftHeader>
 
@@ -173,7 +169,7 @@ export default function Ranking() {
           <Text
             style={[
               styles.toggleText,
-              modo === "pessoas" && styles.toggleTextAtivo
+              modo === "pessoas" && styles.toggleTextAtivo,
             ]}
           >
             Pessoas
@@ -187,7 +183,7 @@ export default function Ranking() {
           <Text
             style={[
               styles.toggleText,
-              modo === "grupos" && styles.toggleTextAtivo
+              modo === "grupos" && styles.toggleTextAtivo,
             ]}
           >
             Grupos

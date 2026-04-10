@@ -60,68 +60,29 @@ export const QuestionText = styled.Text`
   margin-top: 10px;
 `;
 
-export const ChatArea = styled(ScrollView)`
-  flex: 1;
-  margin-bottom: 20px;
-`;
-
-export const MessageRow = styled.View`
-  flex-direction: row;
-  align-items: flex-end;
-  margin-bottom: 15px;
-`;
-
-export const Avatar = styled.Image`
-  width: 45px;
-  height: 45px;
-  border-radius: 30px;
-`;
-
-export const MessageBubble = styled.View`
-  max-width: 70%;
-  background-color: #4c2d6f;
-  padding: 12px;
-  border-radius: 15px;
-  margin: 0 10px;
-`;
-
-export const MessageText = styled.Text`
-  color: #fff;
-  font-size: 16px;
-`;
-
-/* INPUT */
-
-export const InputArea = styled.View`
-  flex-direction: row;
+export const OptionButton = styled.TouchableOpacity`
+  background-color: ${(props) => props.background || "#4c2d6f"};
+  margin: 6px 20px;
+  padding: 14px;
+  border-radius: 12px;
   align-items: center;
-  background-color: #2c173c;
-  padding: 10px;
-  margin: 10px;
-  border-radius: 30px;
-  border-width: 1px;
-  border-color: #4b2e83;
-  margin-bottom: 110px;
 `;
 
-export const Input = styled.TextInput`
-  flex: 1;
+export const OptionText = styled.Text`
   color: #fff;
-  padding: 10px;
+  font-size: 15px;
 `;
 
-export const AddButton = styled.TouchableOpacity`
-  background-color: #a020f0;
-  width: 35px;
-  height: 35px;
-  border-radius: 20px;
+export const StatusBox = styled.View`
+  margin: 12px 20px;
   align-items: center;
-  justify-content: center;
-  margin-right: 8px;
 `;
 
-export const SendButton = styled.TouchableOpacity`
-  padding: 8px;
+export const StatusText = styled.Text`
+  color: #A086CC;
+  font-size: 14px;
+  text-align: center;
+  line-height: 22px;
 `;
 
 /* ================= NAVBAR ================= */

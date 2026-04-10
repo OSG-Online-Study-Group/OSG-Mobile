@@ -1,74 +1,101 @@
 import styled from "styled-components/native";
+import { StyleSheet } from "react-native";
 
+/* BASE ORIGINAL */
 export const Container = styled.View`
   flex: 1;
   background-color: #1f0236;
-  align-items: center;
-  justify-content: flex-start;
-  padding-top: 40px;
 `;
 
 export const Header = styled.View`
   width: 100%;
   flex-direction: row;
-  align-items: center;
   justify-content: space-between;
-  padding: 0 20px;
+  align-items: center;
+  padding: 50px 20px 10px 20px;
 `;
 
 export const Title = styled.Text`
   color: #d36df3;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
+  margin-left: 20px;
 `;
 
-export const MenuIcon = styled.Image`
-  width: 30px;
-  height: 24px;
-`;
-
-export const ProfileIcon = styled.Image`
-  width: 35px;
-  height: 35px;
-`;
-
-export const SearchBar = styled.TextInput`
+export const SearchContainer = styled.View`
   width: 85%;
-  height: 40px;
-  margin: 20px 0;
+  align-self: center;
+  flex-direction: row;
+  align-items: center;
   background-color: #2a0d4d;
   border-radius: 20px;
-  padding: 0 15px;
-  color: white;
+  padding: 6px 12px;
+  margin-top: 10px;
+`;
+
+export const SearchInput = styled.TextInput`
+  color: #fff;
+  margin-left: 8px;
+  flex: 1;
+  font-size: 12px;
 `;
 
 export const Banner = styled.Image`
-  width: 90%;
-  height: 210px;
-  border-radius: 15px;
-  margin-bottom: 25px;
+  width: 85%;
+  height: 200px;
+  border-radius: 20px;
 `;
 
 export const SectionTitle = styled.Text`
-  color: #b060f0;
-  font-size: 18px;
+  color: #c77dff;
+  font-size: 14px;
   font-weight: bold;
-  margin-bottom: 10px;
+  margin: 20px;
+  text-align: center;
+  background-color: #2a0d4d;
+  padding: 8px;
+  border-radius: 10px;
+  width: 100%;
+  margin-left: 0;
 `;
 
-export const GroupItem = styled.View`
-  flex-direction: row;
-  align-items: center;
-  background-color: #3b0f66;
-  width: 97%;
-  padding: 10px;
-  border-radius: 15px;
-  margin-bottom: 10px;
-  margin: 8px;
-`;
+/* STATS */
+export default StyleSheet.create({
+  statsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    width: "100%",
+    marginTop: 15,
+    paddingHorizontal: 10,
+  },
 
-export const GroupText = styled.Text`
-  color: #fff;
-  font-size: 16px;
-  margin-left: 10px;
-`;
+  statCard: {
+    backgroundColor: "rgba(255,255,255,0.12)",
+    paddingVertical: 15,
+    paddingHorizontal: 10,
+    borderRadius: 15,
+    alignItems: "center",
+    width: "30%",
+  },
+
+  statLabel: {
+    color: "#d1b3ff",
+    fontSize: 12,
+    marginBottom: 5,
+  },
+
+  statValue: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+
+  statValueSmall: {
+    color: "#fff",
+    fontSize: 13,
+    fontWeight: "bold",
+    textAlign: "center",
+    flexWrap: "wrap",
+    width: "100%",
+  },
+});
