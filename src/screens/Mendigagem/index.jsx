@@ -48,11 +48,11 @@ export default function AjudaDevs() {
           <Image
             source={require("../../assets/images/cifrao 1.png")}
             style={{
-              width: 40,
-              height: 40,
+              width: 50,
+              height: 50,
               position: "absolute",
               right: 20,
-              bottom: 20,
+              bottom: 40,
             }}
           />
         </CardIntro>
