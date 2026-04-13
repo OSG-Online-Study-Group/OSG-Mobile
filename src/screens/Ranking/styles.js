@@ -27,7 +27,7 @@ export const LeftHeader = styled.View`
 export const Logo = styled.Image`
   width: 120px;
   height: 120px;
-  margin-left: 85px;
+  margin-left: 125px;
   margin-top: 40px;
 `;
 
