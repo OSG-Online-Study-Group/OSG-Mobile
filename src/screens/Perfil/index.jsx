@@ -80,7 +80,7 @@ export default function Perfil() {
         )}
 
         {/* VOLTAR */}
-        <BackButton onPress={() => navigation.goBack()}>
+        <BackButton onPress={() => navigation.navigate("Menu")}>
           <Ionicons name="arrow-undo" size={22} color="#B84EF2" />
         </BackButton>
 
@@ -126,11 +126,13 @@ export default function Perfil() {
           <Badge source={require("../../assets/images/badge2.jpg")} />
         </BadgesContainer>
 
-        <PlusCard>
-          <PlusText>
-            Obter Plus? Ganhe o dobro de XP e mais recompensas
-          </PlusText>
-        </PlusCard>
+       <TouchableOpacity onPress={() => navigation.navigate("AjudaDevs")}>
+  <PlusCard>
+    <PlusText>
+      pague um café para os Devs ! {"\n"}Eles também precisam comer!!
+    </PlusText>
+  </PlusCard>
+</TouchableOpacity>
 
         {/* MENU */}
         <MenuItemMensagem onPress={() => navigation.navigate("ChatList")}>
