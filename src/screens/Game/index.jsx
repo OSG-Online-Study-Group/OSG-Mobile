@@ -22,7 +22,7 @@ export default function Game() {
     <Container>
       <ScrollView showsVerticalScrollIndicator={false}>
         <Header>
-          <BackButton onPress={() => navigation.goBack()}>
+          <BackButton onPress={() => navigation.navigate("Menu")}>
             <OptionText style={{ color: "#C67AFC" }}>Voltar</OptionText>
           </BackButton>
           <Title>Escolha o Modo que deseja jogar</Title>
