@@ -25,6 +25,7 @@ export const Title = styled.Text`
   color: #d85bff;
   font-size: 22px;
   font-weight: bold;
+   margin-left: 160px;
 `;
 
 export const MenuIcon = styled.Image`
