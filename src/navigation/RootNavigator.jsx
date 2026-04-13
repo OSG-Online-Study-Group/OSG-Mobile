@@ -24,6 +24,7 @@ import DueloAleatorio from "../screens/DueloAleatorio";
 import QuizDiario from "../screens/QuizDiario";
 import FiltroTreino from "../screens/FiltroTreino";
 import Treino from "../screens/Treino";
+import AjudaDevs from "../screens/Mendigagem";
 
 const Stack = createNativeStackNavigator();
 
@@ -68,6 +69,7 @@ function PrivateStack() {
       <Stack.Screen name="QuizDiario" component={QuizDiario} />
       <Stack.Screen name="Treino" component={Treino} />
       <Stack.Screen name="FiltroTreino" component={FiltroTreino} />
+      <Stack.Screen name="AjudaDevs" component={AjudaDevs} />
     </Stack.Navigator>
   );
 }
