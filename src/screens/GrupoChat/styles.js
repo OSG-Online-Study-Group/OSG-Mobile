@@ -22,6 +22,7 @@ export const Title = styled.Text`
     color: #b84ef2;
     font-size: 20px;
     font-weight: bold;
+     margin-left: 170px;
   `;
 
 export const TopRow = styled.View`
