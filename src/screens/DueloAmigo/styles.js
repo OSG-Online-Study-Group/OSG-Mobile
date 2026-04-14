@@ -2,221 +2,122 @@ import styled from "styled-components/native";
 
 export const Container = styled.View`
   flex: 1;
-  background-color: #2C173C;
-  padding: 20px;
+  background-color: #1a1033;
+  padding-top: 40px;
 `;
 
 export const Header = styled.View`
-  width: 100%;
   flex-direction: row;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
-`;
-
-export const MenuIcon = styled.Image`
-  width: 28px;
-  height: 28px;
+  justify-content: space-between;
+  padding: 0 20px 16px;
 `;
 
 export const Title = styled.Text`
-  color: #fff;
-  font-size: 22px;
+  color: #B84EF2;
+  font-size: 20px;
   font-weight: bold;
-  color: #C644E0;
 `;
 
 export const BackButton = styled.TouchableOpacity``;
 
 export const BackText = styled.Text`
-  color: #C644E0;
+  color: #C67AFC;
   font-size: 16px;
 `;
 
-export const QuestionCard = styled.View`
-  width: 100%;
-  background-color: #8A3DE3;
+export const SubjectBadge = styled.View`
+  align-self: center;
+  background-color: #7c3aed;
+  padding: 8px 20px;
   border-radius: 25px;
-  padding: 20px;
-  margin-bottom: 25px;
+  margin-bottom: 12px;
 `;
 
-export const QuestionIcon = styled.Image`
-  width: 32px;
-  height: 32px;
-`;
-
-export const QuestionTitle = styled.Text`
+export const SubjectText = styled.Text`
   color: #fff;
-  font-size: 22px;
-  margin-top: 10px;
+  font-size: 14px;
   font-weight: bold;
+`;
+
+export const ProgressText = styled.Text`
+  text-align: center;
+  color: #A086CC;
+  font-size: 14px;
+  margin-bottom: 12px;
+`;
+
+export const QuestionCard = styled.View`
+  background-color: #2c173c;
+  margin: 0 20px 16px;
+  padding: 20px;
+  border-radius: 16px;
 `;
 
 export const QuestionText = styled.Text`
   color: #fff;
-  font-size: 18px;
-  margin-top: 10px;
-`;
-
-export const ChatArea = styled.View`
-  flex: 1;
-  margin-bottom: 20px;
-`;
-
-export const MessageRow = styled.View`
-  flex-direction: row;
-  align-items: flex-end;
-  margin-bottom: 15px;
-`;
-
-export const Avatar = styled.Image`
-  width: 45px;
-  height: 45px;
-  border-radius: 30px;
-`;
-
-export const MessageBubble = styled.View`
-  max-width: 70%;
-  background-color: #4C2D6F;
-  padding: 12px;
-  border-radius: 15px;
-  margin: 0 10px;
-`;
-
-export const MessageText = styled.Text`
-  color: #fff;
   font-size: 16px;
+  text-align: center;
+  line-height: 24px;
 `;
 
-export const LifeBox = styled.View`
+export const OptionButton = styled.TouchableOpacity`
+  background-color: ${(props) => props.background || "#4c2d6f"};
+  margin: 6px 20px;
+  padding: 14px;
+  border-radius: 12px;
   align-items: center;
-  margin-bottom: 8px;
 `;
 
-export const LifeNumber = styled.Text`
+export const OptionText = styled.Text`
   color: #fff;
-  font-size: 32px;
-  font-weight: bold;
+  font-size: 15px;
 `;
 
-export const LifeLabel = styled.Text`
-  color: #aaa;
-`;
-
-export const LifeBar = styled.View`
-  flex-direction: row;
-  margin-bottom: 20px;
-  margin-left: 110px;
-`;
-
-export const LifeSegment = styled.View`
-  width: 25px;
-  height: 16px;
-  background-color: #8A3DE3;
-  border-radius: 8px;
-  margin-right: 6px;
-`;
-
-export const InputRow = styled.View`
-  width: 100%;
-  flex-direction: row;
-  align-items: center;
-  background-color: #fff;
-  border-radius: 25px;
-  padding: 5px 10px;
-  margin-bottom: 25px;
-`;
-
-export const TextInputStyled = styled.TextInput`
-  flex: 1;
-  padding-left: 10px;
-  font-size: 16px;
-`;
-
-export const SendButton = styled.TouchableOpacity`
-  padding: 8px;
-`;
-
-export const SendIcon = styled.Image`
-  width: 28px;
-  height: 28px;
-`;
-
-export const BottomTabs = styled.View`
-  width: 100%;
-  flex-direction: row;
-  justify-content: space-between;
-  background-color: #502473;
-  padding: 10px 15px;
-  border-radius: 20px;
-`;
-
-export const TabItem = styled.TouchableOpacity`
+export const StatusBox = styled.View`
+  margin: 12px 20px;
   align-items: center;
 `;
 
-export const TabIcon = styled.Image`
-  width: 22px;
-  height: 22px;
-`;
-
-export const TabLabel = styled.Text`
-  color: #fff;
-  font-size: 12px;
-  margin-top: 5px;
-`;
-
-export const InputArea = styled.View`
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  background-color: #2c173c;
-  padding: 10px;
-  margin: 10px;
-  border-radius: 30px;
-  border-width: 1px;
-  border-color: #4b2e83;
-  margin-bottom: 25px;
-`;
-
-export const Input = styled.TextInput`
-  flex: 1;
-  background-color: transparent;
-  padding: 10px 15px;
-  color: #fff;
+export const StatusText = styled.Text`
+  color: #A086CC;
   font-size: 14px;
+  text-align: center;
 `;
 
-export const AddButton = styled.TouchableOpacity`
-  background-color: #a020f0;
-  width: 35px;
-  height: 35px;
+export const ResultCard = styled.View`
+  background-color: #2c173c;
+  margin: 20px;
+  padding: 30px;
   border-radius: 20px;
   align-items: center;
-  justify-content: center;
-  margin-right: 8px;
+  gap: 12px;
 `;
 
-export const BottomMenu = styled.View`
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  background-color: #3a1f54;
-  padding: 10px 0;
-  border-top-width: 1px;
-  border-color: #4b2e83;
-  margin-bottom: 15px;
-  border-radius: 20px;
-`;
-
-export const MenuButton = styled.TouchableOpacity`
-  align-items: center;
-  opacity: ${(props) => (props.active ? 1 : 0.7)};
-`;
-
-export const MenuText = styled.Text`
+export const ResultTitle = styled.Text`
   color: #fff;
-  font-size: 12px;
-  margin-top: 2px;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+`;
+
+export const ResultScore = styled.Text`
+  color: #d8a8ff;
+  font-size: 18px;
+`;
+
+export const ResultXP = styled.Text`
+  color: #B84EF2;
+  font-size: 22px;
+  font-weight: bold;
+  margin-top: 8px;
+`;
+
+export const WaitingText = styled.Text`
+  flex: 1;
+  text-align: center;
+  color: #d8a8ff;
+  font-size: 18px;
+  padding: 40px 20px;
+  line-height: 30px;
 `;
