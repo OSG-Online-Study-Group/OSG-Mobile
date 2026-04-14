@@ -7,14 +7,34 @@ import {
   SearchBox, SearchInput, SearchButton,
   UserCard, UserInfo, UserName, UserLevel,
   DesafiarButton, DesafiarText,
-  StatusText, EmptyText,
+  StatusText, EmptyText, WaitingBox, WaitingText,
 } from "./styles";
 
 export default function ConviteDuelo({ navigation }) {
   const {
     busca, setBusca, usuarios, carregando,
-    enviando, erro, sucesso, pesquisar, desafiar,
-  } = useConviteDuelo();
+    enviando, erro, sucesso, dueloIdCriado, desafiar,
+  } = useConviteDuelo(navigation); // ← passa navigation para o hook
+
+  // Aguardando o desafiado aceitar
+  if (dueloIdCriado) {
+    return (
+      <Container>
+        <Header>
+          <BackButton onPress={() => navigation.goBack()}>
+            <BackText>Voltar</BackText>
+          </BackButton>
+          <Title>Duelo Amigos</Title>
+        </Header>
+
+        <WaitingBox>
+          <ActivityIndicator color="#B84EF2" size="large" />
+          <WaitingText>{sucesso}</WaitingText>
+          {erro ? <StatusText error>{erro}</StatusText> : null}
+        </WaitingBox>
+      </Container>
+    );
+  }
 
   return (
     <Container>
@@ -25,48 +45,49 @@ export default function ConviteDuelo({ navigation }) {
         <Title>Duelo Amigos</Title>
       </Header>
 
-      {/* BUSCA */}
+      {/* BUSCA — reage enquanto digita */}
       <SearchBox>
         <SearchInput
           placeholder="Buscar usuário pelo nome..."
           placeholderTextColor="#A086CC"
           value={busca}
           onChangeText={setBusca}
-          onSubmitEditing={pesquisar}
+          autoCorrect={false}
         />
-        <SearchButton onPress={pesquisar}>
-          <Ionicons name="search" size={20} color="#fff" />
-        </SearchButton>
+        {carregando
+          ? <ActivityIndicator color="#B84EF2" size="small" />
+          : <Ionicons name="search" size={20} color="#A086CC" />
+        }
       </SearchBox>
 
       {erro ? <StatusText error>{erro}</StatusText> : null}
-      {sucesso ? <StatusText>{sucesso}</StatusText> : null}
 
-      {carregando ? (
-        <ActivityIndicator color="#B84EF2" style={{ marginTop: 20 }} />
-      ) : (
-        <FlatList
-          data={usuarios}
-          keyExtractor={(item) => item.uid}
-          ListEmptyComponent={
-            busca ? <EmptyText>Nenhum usuário encontrado.</EmptyText> : null
-          }
-          renderItem={({ item }) => (
-            <UserCard>
-              <UserInfo>
-                <UserName>{item.name}</UserName>
-                <UserLevel>Nível {item.level || 1} · {item.xp || 0} XP</UserLevel>
-              </UserInfo>
-              <DesafiarButton
-                onPress={() => desafiar(item)}
-                disabled={enviando}
-              >
-                <DesafiarText>⚔️ Desafiar</DesafiarText>
-              </DesafiarButton>
-            </UserCard>
-          )}
-        />
-      )}
+      <FlatList
+        data={usuarios}
+        keyExtractor={(item) => item.uid}
+        ListEmptyComponent={
+          busca.length >= 2 && !carregando
+            ? <EmptyText>Nenhum usuário encontrado.</EmptyText>
+            : null
+        }
+        renderItem={({ item }) => (
+          <UserCard>
+            <UserInfo>
+              <UserName>{item.name}</UserName>
+              <UserLevel>Nível {item.level || 1} · {item.xp || 0} XP</UserLevel>
+            </UserInfo>
+            <DesafiarButton
+              onPress={() => desafiar(item)}
+              disabled={enviando}
+            >
+              {enviando
+                ? <DesafiarText>Enviando...</DesafiarText>
+                : <DesafiarText>⚔️ Desafiar</DesafiarText>
+              }
+            </DesafiarButton>
+          </UserCard>
+        )}
+      />
     </Container>
   );
 }

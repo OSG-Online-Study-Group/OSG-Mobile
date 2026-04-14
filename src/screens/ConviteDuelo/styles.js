@@ -99,3 +99,18 @@ export const EmptyText = styled.Text`
   margin-top: 30px;
   font-size: 15px;
 `;
+
+export const WaitingBox = styled.View`
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 40px;
+`;
+
+export const WaitingText = styled.Text`
+  color: #d8a8ff;
+  font-size: 18px;
+  text-align: center;
+  line-height: 28px;
+`;
