@@ -7,31 +7,41 @@ export const Container = styled.View`
   padding: 20px;
 `;
 
+/* HEADER CORRIGIDO */
 export const Header = styled.View`
   width: 100%;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+  height: 50px;
+  justify-content: center;
+  position: relative;
   margin-bottom: 40px;
   margin-top: 20px;
+`;
+
+export const Title = styled.Text`
+  position: absolute;
+  left: 0;
+  right: 0;
+  text-align: center;
+
+  color: #c644e0;
+  font-size: 20px;
+  font-weight: bold;
+`;
+
+export const BackButton = styled.TouchableOpacity`
+  position: absolute;
+  right: 0;
+  z-index: 1;
+`;
+
+export const BackText = styled.Text`
+  color: #c644e0;
+  font-size: 16px;
 `;
 
 export const MenuIcon = styled.Image`
   width: 28px;
   height: 28px;
-`;
-
-export const Title = styled.Text`
-  color: #c644e0;
-  font-size: 22px;
-  font-weight: bold;
-`;
-
-export const BackButton = styled.TouchableOpacity``;
-
-export const BackText = styled.Text`
-  color: #c644e0;
-  font-size: 16px;
 `;
 
 export const QuestionCard = styled.View`
@@ -85,8 +95,7 @@ export const StatusText = styled.Text`
   line-height: 22px;
 `;
 
-/* ================= NAVBAR ================= */
-
+/* NAVBAR */
 export const BottomMenu = styled.View`
   position: absolute;
   bottom: 0;

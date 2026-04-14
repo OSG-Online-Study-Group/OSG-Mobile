@@ -28,7 +28,7 @@ export const Title = styled.Text`
 
 export const GameOption = styled.TouchableOpacity`
   background-color: #2a0d4d;
-  border-radius: 00px;
+  border-radius: 20px;
   width: 380px;
   padding: 15px;
   margin: 10px 0;

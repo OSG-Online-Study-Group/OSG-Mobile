@@ -33,7 +33,6 @@ export const Name = styled.Text`
   margin-left: 10px;
 `;
 
-
 export const PointsCard = styled.View`
   background-color: #611b9f;
   border-radius: 15px;
@@ -89,20 +88,31 @@ export const Badge = styled.Image`
   margin: 10px;
 `;
 
+/* 🔥 CARD DEV MELHORADO */
 export const PlusCard = styled.View`
-  background-color: #54268a;
+  margin: 15px 20px;
   border-radius: 15px;
-  padding: 15px;
-  margin: 10px 20px;
+  overflow: hidden;
+  elevation: 5;
 `;
 
-export const PlusText = styled.Text`
-  color: #ffffff;
-  font-size: 14px;
-  text-align: center;
+export const PlusTextContainer = styled.View`
+  flex: 1;
 `;
 
-/* 🔥 MENU BASE PADRONIZADO */
+export const PlusTitle = styled.Text`
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+`;
+
+export const PlusSubtitle = styled.Text`
+  color: #e9d8ff;
+  font-size: 13px;
+  margin-top: 4px;
+`;
+
+/* MENU */
 export const MenuItemBase = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
@@ -111,34 +121,21 @@ export const MenuItemBase = styled.TouchableOpacity`
   padding: 0 20px;
 `;
 
-/* 🔥 WRAPPER DO ÍCONE (ALINHAMENTO PERFEITO) */
-export const IconWrapper = styled.View`
-  width: 30px;
-  align-items: center;
-  justify-content: center;
-`;
-
-/* 🔥 ITENS SEPARADOS */
 export const MenuItemMensagem = styled(MenuItemBase)``;
-
 export const MenuItemRanking = styled(MenuItemBase)``;
-
 export const MenuItemEditar = styled(MenuItemBase)``;
-
 export const MenuItemConfig = styled(MenuItemBase)``;
 
 export const MenuItemLogout = styled(MenuItemBase)`
   margin-top: 5px;
 `;
 
-/* 🔥 TEXTO */
 export const MenuText = styled.Text`
   color: white;
   font-size: 15px;
   margin-left: 10px;
 `;
 
-/* 🔥 DIVISOR */
 export const Divider = styled.View`
   height: 1px;
   width: 90%;

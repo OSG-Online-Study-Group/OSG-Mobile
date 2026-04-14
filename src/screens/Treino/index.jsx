@@ -20,10 +20,8 @@ export default function Treino({ route, navigation }) {
   return (
     <Container>
       <Header>
-        <MenuButton onPress={() => navigation.navigate("FiltroEstudo")}>
-          <MenuIcon source={require("../../assets/images/menu.jpg")} />
-        </MenuButton>
         <Title>Treino {config.label}</Title>
+
         <BackButton onPress={() => navigation.goBack()}>
           <BackText>Voltar</BackText>
         </BackButton>
@@ -33,7 +31,9 @@ export default function Treino({ route, navigation }) {
         <QuestionIcon source={require("../../assets/images/espada.jpg")} />
         <QuestionTitle>Modo {config.label}</QuestionTitle>
         <QuestionText>
-          {xpTotal > 0 ? `+${xpTotal} XP ganhos nessa sessão!` : "Responda e ganhe XP!"}
+          {xpTotal > 0
+            ? `+${xpTotal} XP ganhos nessa sessão!`
+            : "Responda e ganhe XP!"}
         </QuestionText>
       </QuestionCard>
 
@@ -68,8 +68,9 @@ export default function Treino({ route, navigation }) {
               <StatusText>
                 {selectedIndex === pergunta?.correta
                   ? `✅ Correto! +${10} XP`
-                  : `❌ Incorreto. A resposta era ${String.fromCharCode(65 + pergunta?.correta)}.`
-                }
+                  : `❌ Incorreto. A resposta era ${String.fromCharCode(
+                      65 + pergunta?.correta
+                    )}.`}
                 {"\n"}Próxima pergunta em instantes...
               </StatusText>
             ) : (
@@ -84,17 +85,21 @@ export default function Treino({ route, navigation }) {
           <Ionicons name="home-outline" size={22} color="#fff" />
           <MenuText>Home</MenuText>
         </MenuButton>
+
         <MenuButton onPress={() => navigation.navigate("Game")}>
           <Ionicons name="game-controller-outline" size={22} color="#fff" />
           <MenuText>Game</MenuText>
         </MenuButton>
+
         <CenterButton onPress={() => navigation.navigate("Ranking")}>
           <Ionicons name="trophy" size={28} color="#fff" />
         </CenterButton>
+
         <MenuButton onPress={() => navigation.navigate("Grupos")}>
           <Ionicons name="grid-outline" size={22} color="#fff" />
           <MenuText>Grupos</MenuText>
         </MenuButton>
+
         <MenuButton onPress={() => navigation.navigate("Perfil")}>
           <Ionicons name="person-outline" size={22} color="#fff" />
           <MenuText>Perfil</MenuText>
