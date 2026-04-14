@@ -12,7 +12,6 @@ import {
   BackgroundImage,
   ProfileImage,
   Name,
-  Username,
   PointsCard,
   PointsText,
   StatsContainer,
@@ -23,7 +22,9 @@ import {
   BadgesContainer,
   Badge,
   PlusCard,
-  PlusText,
+  PlusTextContainer,
+  PlusTitle,
+  PlusSubtitle,
   MenuItemMensagem,
   MenuItemRanking,
   MenuItemEditar,
@@ -126,13 +127,30 @@ export default function Perfil() {
           <Badge source={require("../../assets/images/badge2.jpg")} />
         </BadgesContainer>
 
-       <TouchableOpacity onPress={() => navigation.navigate("AjudaDevs")}>
-  <PlusCard>
-    <PlusText>
-      pague um café para os Devs ! {"\n"}Eles também precisam comer!!
-    </PlusText>
-  </PlusCard>
-</TouchableOpacity>
+        {/* 🔥 CARD AJUDA DEVS */}
+        <TouchableOpacity onPress={() => navigation.navigate("AjudaDevs")}>
+          <PlusCard>
+            <LinearGradient
+              colors={["#B84EF2", "#6A2CFF"]}
+              style={{
+                borderRadius: 15,
+                padding: 16,
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between"
+              }}
+            >
+              <PlusTextContainer>
+                <PlusTitle> Apoie os Devs</PlusTitle>
+                <PlusSubtitle>
+                  Pague um café e ajude o app a crescer 
+                </PlusSubtitle>
+              </PlusTextContainer>
+
+              <Ionicons name="heart" size={22} color="#fff" />
+            </LinearGradient>
+          </PlusCard>
+        </TouchableOpacity>
 
         {/* MENU */}
         <MenuItemMensagem onPress={() => navigation.navigate("ChatList")}>
