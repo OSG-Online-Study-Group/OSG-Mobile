@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useAuth } from "./useAuth";
 import {
   criarDuelo, responderDesafio, salvarRespostaDuelo,
@@ -6,7 +6,7 @@ import {
   verificarDuelosExpirados,
 } from "../services/firestore";
 
-// ── Hook para duelos pendentes (badge no Menu) ──
+// ── Hook para duelos pendentes ──
 export function useDuelosPendentes() {
   const { firebaseUser } = useAuth();
   const [pendentes, setPendentes] = useState([]);
@@ -21,8 +21,8 @@ export function useDuelosPendentes() {
   return { pendentes, total: pendentes.length };
 }
 
-// ── Hook para criar duelo (ConviteDuelo) ──
-export function useConviteDuelo() {
+// ── Hook para criar duelo ──
+export function useConviteDuelo(navigation) {
   const { firebaseUser, usuario } = useAuth();
   const [busca, setBusca] = useState("");
   const [usuarios, setUsuarios] = useState([]);
@@ -30,14 +30,43 @@ export function useConviteDuelo() {
   const [enviando, setEnviando] = useState(false);
   const [erro, setErro] = useState("");
   const [sucesso, setSucesso] = useState("");
+  const [dueloIdCriado, setDueloIdCriado] = useState(null);
+
+  // Escuta o duelo criado — redireciona quando aceito
+  useEffect(() => {
+    if (!dueloIdCriado) return;
+
+    const unsub = ouvirDuelo(dueloIdCriado, (duelo) => {
+      if (duelo.status === "ativo") {
+        unsub();
+        navigation.replace("DueloAmigo", { dueloId: dueloIdCriado });
+      }
+      if (duelo.status === "recusado" || duelo.status === "cancelado") {
+        unsub();
+        setSucesso("");
+        setErro("O desafio foi recusado.");
+        setDueloIdCriado(null);
+      }
+    });
+
+    return () => unsub();
+  }, [dueloIdCriado]);
+
+  // Busca em tempo real enquanto digita
+  useEffect(() => {
+    if (!busca.trim() || busca.length < 2) {
+      setUsuarios([]);
+      return;
+    }
+    const timeout = setTimeout(() => pesquisar(), 400); // debounce 400ms
+    return () => clearTimeout(timeout);
+  }, [busca]);
 
   async function pesquisar() {
-    if (!busca.trim()) return;
     setCarregando(true);
     setErro("");
     try {
       const resultado = await buscarUsuarios(busca);
-      // Remove o próprio usuário da lista
       setUsuarios(resultado.filter((u) => u.uid !== firebaseUser.uid));
     } catch {
       setErro("Erro ao buscar usuários.");
@@ -50,13 +79,14 @@ export function useConviteDuelo() {
     setErro("");
     setSucesso("");
     try {
-      await criarDuelo(
+      const id = await criarDuelo(
         firebaseUser.uid,
         usuario.name,
         desafiado.uid,
         desafiado.name,
       );
-      setSucesso(`Desafio enviado para ${desafiado.name}!`);
+      setDueloIdCriado(id);
+      setSucesso(`Aguardando ${desafiado.name} aceitar...`);
       setUsuarios([]);
       setBusca("");
     } catch (err) {
@@ -69,11 +99,12 @@ export function useConviteDuelo() {
     busca, setBusca,
     usuarios, carregando,
     enviando, erro, sucesso,
-    pesquisar, desafiar,
+    dueloIdCriado,
+    desafiar,
   };
 }
 
-// ── Hook para responder duelo (DueloAmigo) ──
+// ── Hook para responder duelo ──
 export function useDueloAmigo(dueloId) {
   const { firebaseUser } = useAuth();
   const [duelo, setDuelo] = useState(null);
@@ -106,7 +137,6 @@ export function useDueloAmigo(dueloId) {
       return;
     }
 
-    // Última pergunta — salva no Firestore
     setFinalizado(true);
     await salvarRespostaDuelo(dueloId, firebaseUser.uid, novasRespostas);
   }
