@@ -9,7 +9,8 @@ import {
     Title, 
     Input, 
     Button, 
-    ButtonText 
+    ButtonText, 
+    Label
 } from "./styles";
 
 export default function Login({ navigation }) {
@@ -44,16 +45,18 @@ export default function Login({ navigation }) {
                     <Logo source={require("../../assets/images/icon_OSG.jpg")} />
                     <Title>Faça Login</Title>
 
+                    <Label>Email</Label>
                     <Input 
-                        placeholder="Email"
+                        placeholder=""
                         placeholderTextColor="#42A4C5"
                         value={email}
                         onChangeText={setEmail}
                         autoCapitalize="none"
                     />
-
+                    
+                    <Label>Senha</Label>
                     <Input 
-                        placeholder="Senha"
+                        placeholder=""
                         placeholderTextColor="#42A4C5"
                         secureTextEntry
                         value={senha}

@@ -97,7 +97,7 @@ export const PlusCard = styled.View`
 `;
 
 export const PlusText = styled.Text`
-  color: #d1b9ff;
+  color: #ffffff;
   font-size: 14px;
   text-align: center;
 `;

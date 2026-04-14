@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Alert, ScrollView, KeyboardAvoidingView, Platform } from "react-native";
-import { Container, Logo, Title, Input, Button, ButtonText } from "./styles";
+import { Container, Logo, Title, Input, Button, ButtonText, Label } from "./styles";
 import { auth } from "../../services/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { salvarUsuario } from "../../services/firestore";
@@ -43,15 +43,17 @@ export default function Cadastro({ navigation }) {
           <Logo source={require("../../assets/images/icon_OSG.jpg")} />
           <Title>Faça seu Cadastro</Title>
 
+          <Label>Nome Completo</Label>
           <Input
-            placeholder="Nome Completo"
+            placeholder=""
             placeholderTextColor="#42A4C5"
             value={nome}
             onChangeText={setNome}
           />
 
+          <Label>Email</Label>
           <Input
-            placeholder="Email"
+            placeholder=""
             placeholderTextColor="#42A4C5"
             value={email}
             onChangeText={setEmail}
@@ -59,16 +61,18 @@ export default function Cadastro({ navigation }) {
             keyboardType="email-address"
           />
 
+          <Label>Senha</Label>
           <Input
-            placeholder="Senha"
+            placeholder=""
             placeholderTextColor="#42A4C5"
             secureTextEntry
             value={senha}
             onChangeText={setSenha}
           />
 
+          <Label>Confirmar Senha</Label>
           <Input
-            placeholder="Confirmar Senha"
+            placeholder=""
             placeholderTextColor="#42A4C5"
             secureTextEntry
             value={confirmarSenha}

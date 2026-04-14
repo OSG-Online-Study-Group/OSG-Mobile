@@ -45,3 +45,13 @@ export const ButtonText = styled.Text`
   font-size: 15px;
   font-weight: bold;
 `;
+
+export const Label = styled.Text`
+width: 85%;
+color: #42a4c5;
+font-size: 14px;
+margin-top: 0px;
+margin-bottom: -5px;
+margin-left: 60px;
+gap: 30px;
+`
