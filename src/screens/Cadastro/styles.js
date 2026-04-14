@@ -8,16 +8,15 @@ export const Container = styled.View`
 `;
 
 export const Logo = styled.Image`
-  margin-top: 40px;
-  width: 400px;
-  height: 400px;
+  margin-top: 20px;
+  width: 300px;
+  height: 300px;
 `;
 
 export const Title = styled.Text`
   font-size: 30px;
   color: #42A4C5;
-  margin-bottom: 40px;
-  margin-bottom: 10px;
+  margin-bottom: 45px;
 `;
 
 export const Input = styled.TextInput`
@@ -45,3 +44,13 @@ export const ButtonText = styled.Text`
   text-align: center;
   font-weight: bold;
 `;
+
+export const Label = styled.Text`
+width: 85%;
+color: #42a4c5;
+font-size: 14px;
+margin-top: 0px;
+margin-bottom: -5px;
+margin-left: 60px;
+gap: 30px;
+`
