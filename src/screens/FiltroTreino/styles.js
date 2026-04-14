@@ -22,7 +22,7 @@ export const Logo = styled.Image`
 export const HeaderCenterIcon = styled.Image`
   width: 130px;
   height: 130px;
-  margin-left: 5px;
+  margin-left: 120px;
   margin-top: 5px;
 `;
 
