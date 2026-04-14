@@ -52,11 +52,11 @@ export const DonateRow = styled.View`
 export const DonateCard = styled.TouchableOpacity`
   flex: 1;
   margin: 0 5px;
-  height: 170px;
+  height: 150px;
   background-color: ${(props) =>
-    props.selected ? "#870893" : "#6a11cb"};
+    props.selected ? "#42A4C5" : "#6a11cb"};
   border-radius: 20px;
-  padding: 18px;
+  padding: 15px;
   align-items: center;
   justify-content: center;
   border: ${(props) =>
@@ -68,7 +68,29 @@ export const DonateText = styled.Text`
   text-align: center;
   margin-top: 10px;
   font-size: 13px;
-  line-height: 16px;
+`;
+
+/* 🔽 CONTAINER EXPANSÍVEL */
+export const ExpandContainer = styled.View`
+  width: 95%;
+  background-color: #6a11cb;
+  border-radius: 15px;
+  padding: 15px;
+  margin-top: 15px;
+  align-items: center;
+`;
+
+export const PixText = styled.Text`
+  color: #fff;
+  margin-top: 10px;
+  font-size: 12px;
+  text-align: center;
+`;
+
+export const QRCodeImage = styled.Image`
+  width: 200px;
+  height: 200px;
+  margin-top: 10px;
 `;
 
 export const InputContainer = styled.View`
@@ -82,7 +104,7 @@ export const InputContainer = styled.View`
 export const Input = styled.TextInput`
   background-color: #3b0f66;
   border-radius: 10px;
-  margin-top: 10px;
+  margin-top: 20px;
   padding: 10px;
   color: white;
   height: 100px;
@@ -90,8 +112,8 @@ export const Input = styled.TextInput`
 
 export const Button = styled.TouchableOpacity`
   width: 100%;
-  background-color: #00c853;
-  margin-top: 20px;
+  background-color: #42A4C5;
+  margin-top: 10px;
   padding: 15px;
   border-radius: 10px;
   align-items: center;
@@ -104,17 +126,17 @@ export const ButtonText = styled.Text`
 `;
 
 export const ButtonSecondary = styled.TouchableOpacity`
-  width: 100%;
+  width: 30%;
   background-color: transparent;
-  margin-top: 10px;
+  margin-top: 95px;
   padding: 15px;
-  border-radius: 10px;
-  align-items: center;
-  border: 1px solid #ff0000;
+  border-radius: 50px;
+  margin-left: 130px;
+  border: 1px solid #444245;
 `;
 
 export const ButtonSecondaryText = styled.Text`
-  color: #ff0000;
+  color: #444245;
   font-weight: bold;
   font-size: 16px;
 `;
