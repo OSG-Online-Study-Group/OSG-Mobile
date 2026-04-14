@@ -26,7 +26,6 @@ export default function Menu({ navigation }) {
 
         {/* HEADER */}
         <Header>
-          <Ionicons name="menu-outline" size={24} color="#D36DF3" />
           <Title>OSG</Title>
 
           {/* Badge de duelos pendentes */}
@@ -56,7 +55,13 @@ export default function Menu({ navigation }) {
         ) : (
           <LinearGradient
             colors={gradientColors}
-            style={{ margin: 15, borderRadius: 20, overflow: "hidden", alignItems: "center", paddingBottom: 20 }}
+            style={{
+              margin: 15,
+              borderRadius: 20,
+              overflow: "hidden",
+              alignItems: "center",
+              paddingBottom: 20
+            }}
           >
             {!temTheme && (
               <ProfileBanner
