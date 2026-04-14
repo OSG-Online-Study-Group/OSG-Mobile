@@ -1,211 +1,98 @@
-import React, { useEffect, useState } from "react";
-import {
-  ScrollView,
-  TouchableOpacity,
-  ActivityIndicator,
-  Image,
-  View,
-  Text,
-} from "react-native";
-import {
-  Container,
-  Header,
-  Title,
-  SearchContainer,
-  SearchInput,
-  Banner,
-  SectionTitle,
-} from "./styles";
-import styles from "./styles";
-import BottomNav from "../../components/BottomNav";
+import React from "react";
+import { ScrollView, ActivityIndicator } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-
 import { LinearGradient } from "expo-linear-gradient";
-
-import { getAuth } from "firebase/auth";
-import { getFirestore, doc, getDoc } from "firebase/firestore";
-import { useRankingGeral } from "../../hooks/useRanking";
-import { useAuth } from "../../hooks/useAuth";
+import BottomNav from "../../components/BottomNav";
+import { useMenuStats } from "../../hooks/useMenuStats";
+import { useDuelosPendentes } from "../../hooks/useDuelo";
+import {
+  Container, Header, Title,
+  SearchContainer, SearchInput, Banner, SectionTitle,
+  BadgeWrapper, BadgeCount, BadgeText,
+  ProfileBanner, ProfilePhoto, UserName,
+  StatsRow, StatCard, StatLabel, StatValue,
+} from "./styles";
 
 export default function Menu({ navigation }) {
-  const [loading, setLoading] = useState(true);
-  const [vitorias, setVitorias] = useState(0);
-  const [melhorMateria, setMelhorMateria] = useState("-");
-  const [posicao, setPosicao] = useState(null);
+  const { total } = useDuelosPendentes();
+  const { usuario, loading, vitorias, melhorMateria, posicao } = useMenuStats();
 
-  const { usuarios } = useRankingGeral();
-  const { usuario } = useAuth();
-
-  useEffect(() => {
-    carregarDados();
-  }, []);
-
-  useEffect(() => {
-    calcularRanking();
-  }, [usuarios]);
-
-  async function carregarDados() {
-    try {
-      const user = getAuth().currentUser;
-      if (!user) return;
-
-      const db = getFirestore();
-
-      const ref = doc(db, "users", user.uid);
-      const snap = await getDoc(ref);
-
-      if (snap.exists()) {
-        const data = snap.data();
-
-        setVitorias(data.duelosVencidos || 0);
-
-        const xpPorGrupo = data.xpPorGrupo || {};
-
-        let melhor = null;
-        let maiorXP = -1;
-
-        for (const key in xpPorGrupo) {
-          if (xpPorGrupo[key] > maiorXP) {
-            maiorXP = xpPorGrupo[key];
-            melhor = key;
-          }
-        }
-
-        if (melhor) {
-          setMelhorMateria(formatarMateria(melhor));
-        }
-      }
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  function calcularRanking() {
-    const user = getAuth().currentUser;
-    if (!user) return;
-
-    if (!usuarios || usuarios.length === 0) return;
-
-    const index = usuarios.findIndex((u) => u.id === user.uid);
-
-    if (index !== -1) {
-      setPosicao(index + 1);
-    }
-  }
-
-  function formatarMateria(key) {
-    return key.replace("group_", "").replaceAll("_", " ").toUpperCase();
-  }
+  const temTheme = Array.isArray(usuario?.theme) && usuario.theme.length >= 2;
+  const gradientColors = temTheme ? usuario.theme : ["#7B2FF7", "#2C0E5A"];
 
   return (
     <Container>
       <ScrollView showsVerticalScrollIndicator={false}>
-        {/* 🔥 HEADER */}
-        <Header>
-          <Ionicons name="" size={24} color="#D36DF3" />
 
+        {/* HEADER */}
+        <Header>
+          <Ionicons name="menu-outline" size={24} color="#D36DF3" />
           <Title>OSG</Title>
 
-          {/* espaço vazio para balancear */}
-          <View style={{ width: 24 }} />
+          {/* Badge de duelos pendentes */}
+          <BadgeWrapper onPress={() => navigation.navigate("DuelosPendentes")}>
+            <Ionicons name="game-controller" size={24} color="#B84EF2" />
+            {total > 0 && (
+              <BadgeCount>
+                <BadgeText>{total}</BadgeText>
+              </BadgeCount>
+            )}
+          </BadgeWrapper>
         </Header>
 
-        {/* 🔍 SEARCH */}
+        {/* BUSCA */}
         <SearchContainer>
           <Ionicons name="search" size={16} color="#A086CC" />
           <SearchInput placeholder="Pesquisar" placeholderTextColor="#A086CC" />
         </SearchContainer>
 
-        {/* 🔥 BANNER COM SETAS */}
-        <View style={{ alignItems: "center", marginTop: 15 }}>
-          <TouchableOpacity
-            style={{ position: "absolute", left: 20, top: "40%", zIndex: 1 }}
-          >
-            <Ionicons name="" size={28} color="#fff" />
-          </TouchableOpacity>
-
-          <Banner source={require("../../assets/images/banner.jpg")} />
-        </View>
+        {/* BANNER */}
+        <Banner source={require("../../assets/images/banner.jpg")} />
 
         <SectionTitle>Suas Estatísticas</SectionTitle>
 
         {loading ? (
           <ActivityIndicator color="#B84EF2" style={{ marginTop: 20 }} />
         ) : (
-          <>
-            <LinearGradient
-              colors={
-                Array.isArray(usuario?.theme) && usuario.theme.length >= 2
-                  ? usuario.theme
-                  : ["#7B2FF7", "#2C0E5A"]
+          <LinearGradient
+            colors={gradientColors}
+            style={{ margin: 15, borderRadius: 20, overflow: "hidden", alignItems: "center", paddingBottom: 20 }}
+          >
+            {!temTheme && (
+              <ProfileBanner
+                source={require("../../assets/images/profile_banner.jpg")}
+              />
+            )}
+
+            <ProfilePhoto
+              source={
+                usuario?.photo
+                  ? { uri: usuario.photo }
+                  : require("../../assets/images/profile_photo.jpg")
               }
-              style={{
-                margin: 15,
-                borderRadius: 20,
-                overflow: "hidden",
-                alignItems: "center",
-                paddingBottom: 20,
-              }}
-            >
-              <View style={{ width: "100%", height: 140 }}>
-                {!usuario?.theme && (
-                  <Image
-                    source={require("../../assets/images/profile_banner.jpg")}
-                    style={{
-                      width: "100%",
-                      height: 120,
-                      position: "absolute",
-                      top: 0,
-                    }}
-                  />
-                )}
+            />
 
-                <Image
-                  source={
-                    usuario?.photo
-                      ? { uri: usuario.photo }
-                      : require("../../assets/images/profile_photo.jpg")
-                  }
-                  style={{
-                    position: "absolute",
-                    bottom: 0,
-                    alignSelf: "center",
-                    width: 90,
-                    height: 90,
-                    borderRadius: 45,
-                    borderWidth: 3,
-                    borderColor: "#fff",
-                  }}
-                />
-              </View>
+            <UserName>{usuario?.name || "Usuário"}</UserName>
 
-              <Text style={{ color: "#fff", fontSize: 18, marginTop: 15 }}>
-                {usuario?.name || "Usuário"}
-              </Text>
+            <StatsRow>
+              <StatCard>
+                <StatLabel>Vitórias</StatLabel>
+                <StatValue>{vitorias}</StatValue>
+              </StatCard>
 
-              <View style={styles.statsContainer}>
-                <View style={styles.statCard}>
-                  <Text style={styles.statLabel}>Vitórias</Text>
-                  <Text style={styles.statValue}>{vitorias}</Text>
-                </View>
+              <StatCard>
+                <StatLabel>Ranking</StatLabel>
+                <StatValue>{posicao ? `${posicao}°` : "-"}</StatValue>
+              </StatCard>
 
-                <View style={styles.statCard}>
-                  <Text style={styles.statLabel}>Ranking</Text>
-                  <Text style={styles.statValue}>
-                    {posicao ? `${posicao}°` : "-"}
-                  </Text>
-                </View>
-
-                <View style={styles.statCard}>
-                  <Text style={styles.statLabel}>Matéria Top</Text>
-                  <Text style={styles.statValueSmall}>{melhorMateria}</Text>
-                </View>
-              </View>
-            </LinearGradient>
-          </>
+              <StatCard>
+                <StatLabel>Matéria Top</StatLabel>
+                <StatValue small>{melhorMateria}</StatValue>
+              </StatCard>
+            </StatsRow>
+          </LinearGradient>
         )}
+
       </ScrollView>
 
       <BottomNav />

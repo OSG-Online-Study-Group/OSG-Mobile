@@ -1,149 +1,122 @@
 import React from "react";
+import { ActivityIndicator } from "react-native";
+import { useDueloAmigo } from "../../hooks/useDuelo";
+import { useAuth } from "../../hooks/useAuth";
 import {
-    Container,
-    Header,
-    MenuButton,
-    MenuIcon,
-    Title,
-    BackButton,
-    BackText,
-    QuestionCard,
-    QuestionIcon,
-    QuestionTitle,
-    QuestionText,
-    ChatArea,
-    MessageRow,
-    Avatar,
-    MessageBubble,
-    MessageText,
-    LifeBox,
-    LifeNumber,
-    LifeLabel,
-    LifeBar,
-    LifeSegment,
-    InputArea,
-    SendButton,
-    AddButton,
-    BottomMenu,
-    MenuText,
-    Input,
-    newMessage,
-    setNewMessage,
-    handleSend,
-
+  Container, Header, BackButton, BackText, Title,
+  SubjectBadge, SubjectText, QuestionCard, QuestionText,
+  ProgressText, OptionButton, OptionText,
+  StatusBox, StatusText, ResultCard,
+  ResultTitle, ResultScore, ResultXP,
+  WaitingText,
 } from "./styles";
-import { Ionicons } from "@expo/vector-icons";
 
-export default function DueloAmigo({ navigation }) {
+export default function DueloAmigo({ route, navigation }) {
+  const { dueloId } = route.params;
+  const { firebaseUser } = useAuth();
+  const {
+    duelo, perguntaAtual, perguntaIndex,
+    totalPerguntas, respostas, finalizado,
+    carregando, responder, getOptionColor,
+  } = useDueloAmigo(dueloId);
+
+  if (carregando) {
     return (
-        <Container>
-
-            {/* ======= HEADER ======= */}
-            <Header>
-                <MenuButton>
-                    <MenuIcon source={require("../../assets/images/menu.jpg")} />
-                </MenuButton>
-
-                <Title>OSG</Title>
-
-                <BackButton onPress={() => navigation.goBack()}>
-                    <BackText>Voltar</BackText>
-                </BackButton>
-            </Header>
-
-            {/* ======= CARD DE PERGUNTA ======= */}
-            <QuestionCard>
-                <QuestionIcon source={require("../../assets/images/espada.jpg")} />
-
-                <QuestionTitle>Responda!</QuestionTitle>
-
-                <QuestionText>
-                    Liste 3 momentos importantes da era do renascimento
-                </QuestionText>
-            </QuestionCard>
-
-            {/* ======= CHAT ======= */}
-            <ChatArea>
-
-                {/* Mensagem do outro jogador */}
-                <MessageRow>
-                    <Avatar source={require("../../assets/images/icon_OSG.jpg")} />
-                    <MessageBubble>
-                        <MessageText>Mensagem do jogador aqui...</MessageText>
-                    </MessageBubble>
-                </MessageRow>
-
-                {/* Sua mensagem */}
-                <MessageRow style={{ justifyContent: "flex-end" }}>
-                    <MessageBubble style={{ backgroundColor: "#6A3BA7" }}>
-                        <MessageText>Mensagem sua aqui...</MessageText>
-                    </MessageBubble>
-
-                    <Avatar source={require("../../assets/images/profile_photo.jpg")} />
-                </MessageRow>
-
-            </ChatArea>
-
-            {/* ======= VIDA ======= */}
-            <LifeBox>
-                <LifeNumber>5</LifeNumber>
-                <LifeLabel>pontos de vida restantes</LifeLabel>
-            </LifeBox>
-
-            <LifeBar>
-                <LifeSegment />
-                <LifeSegment />
-                <LifeSegment />
-                <LifeSegment />
-                <LifeSegment />
-            </LifeBar>
-
-            {/* ======= INPUT ======= */}
-            <InputArea>
-                <AddButton>
-                    <Title style={{ color: "#fff", fontSize: 22 }}>+</Title>
-                </AddButton>
-
-                <Input
-                    placeholder="Digite aqui!"
-                    placeholderTextColor="#DCDCDC"
-                    value={newMessage}
-                    onChangeText={setNewMessage}
-                />
-
-                <SendButton onPress={handleSend}>
-                    <Title style={{ color: "#fff", fontSize: 20 }}>➤</Title>
-                </SendButton>
-            </InputArea>
-
-            {/* ======= TABS INFERIORES ======= */}
-            <BottomMenu>
-                <MenuButton>
-                    <Ionicons name="home-outline" size={20} color="#fff" />
-                    <MenuText>Home</MenuText>
-                </MenuButton>
-
-                <MenuButton>
-                    <Ionicons name="game-controller-outline" size={20} color="#fff" />
-                    <MenuText>Game</MenuText>
-                </MenuButton>
-
-                <MenuButton active>
-                    <Ionicons name="chatbubble-ellipses" size={22} color="#fff" />
-                    <MenuText>Grupos</MenuText>
-                </MenuButton>
-
-                <MenuButton>
-                    <Ionicons name="book-outline" size={20} color="#fff" />
-                    <MenuText>Grupos</MenuText>
-                </MenuButton>
-
-                <MenuButton>
-                    <Ionicons name="person-outline" size={20} color="#fff" />
-                    <MenuText>Perfil</MenuText>
-                </MenuButton>
-            </BottomMenu>
-
-        </Container>
+      <Container>
+        <ActivityIndicator color="#B84EF2" style={{ flex: 1 }} />
+      </Container>
     );
+  }
+
+  const isDesafiante = duelo?.desafianteId === firebaseUser?.uid;
+  const meusPontos = isDesafiante ? duelo?.pontosDesafiante : duelo?.pontosDesafiado;
+  const pontoAdversario = isDesafiante ? duelo?.pontosDesafiado : duelo?.pontosDesafiante;
+  const nomeAdversario = isDesafiante ? duelo?.desafiadoNome : duelo?.desafianteNome;
+
+  // Aguardando adversário terminar
+  if (finalizado && duelo?.status !== "finalizado") {
+    return (
+      <Container>
+        <Header>
+          <Title>Duelo Amigos</Title>
+        </Header>
+        <WaitingText>
+          ✅ Suas respostas foram enviadas!{"\n"}
+          Aguardando {nomeAdversario} responder...
+        </WaitingText>
+      </Container>
+    );
+  }
+
+  // Resultado final
+  if (duelo?.status === "finalizado") {
+    const venceu = duelo.vencedorId === firebaseUser?.uid;
+    const empate = duelo.vencedorId === "empate";
+
+    return (
+      <Container>
+        <Header>
+          <Title>Resultado</Title>
+        </Header>
+        <ResultCard>
+          <ResultTitle>
+            {empate ? "🤝 Empate!" : venceu ? "🏆 Você venceu!" : "😅 Você perdeu!"}
+          </ResultTitle>
+          <ResultScore>Você: {meusPontos}/5</ResultScore>
+          <ResultScore>{nomeAdversario}: {pontoAdversario}/5</ResultScore>
+          <ResultXP>
+            {empate ? "+10 XP" : venceu ? "+25 XP" : "+0 XP"}
+          </ResultXP>
+        </ResultCard>
+        <BackButton onPress={() => navigation.navigate("Menu")} style={{ alignSelf: "center", marginTop: 20 }}>
+          <BackText>Voltar ao Menu</BackText>
+        </BackButton>
+      </Container>
+    );
+  }
+
+  // Quiz em andamento
+  return (
+    <Container>
+      <Header>
+        <BackButton onPress={() => navigation.goBack()}>
+          <BackText>Voltar</BackText>
+        </BackButton>
+        <Title>Duelo Amigos</Title>
+      </Header>
+
+      <SubjectBadge>
+        <SubjectText>vs {nomeAdversario}</SubjectText>
+      </SubjectBadge>
+
+      <ProgressText>
+        Pergunta {perguntaIndex + 1} de {totalPerguntas}
+      </ProgressText>
+
+      <QuestionCard>
+        <QuestionText>{perguntaAtual?.pergunta}</QuestionText>
+      </QuestionCard>
+
+      {perguntaAtual?.alternativas.map((alt, index) => (
+        <OptionButton
+          key={index}
+          background={getOptionColor(index)}
+          onPress={() => responder(index)}
+          disabled={respostas[perguntaIndex] !== undefined}
+        >
+          <OptionText>{`${String.fromCharCode(65 + index)}. ${alt}`}</OptionText>
+        </OptionButton>
+      ))}
+
+      <StatusBox>
+        <StatusText>
+          {respostas[perguntaIndex] !== undefined
+            ? respostas[perguntaIndex] === perguntaAtual?.correta
+              ? "✅ Correto!"
+              : `❌ Incorreto. Resposta: ${String.fromCharCode(65 + perguntaAtual?.correta)}`
+            : "Escolha uma alternativa."}
+        </StatusText>
+      </StatusBox>
+    </Container>
+  );
 }

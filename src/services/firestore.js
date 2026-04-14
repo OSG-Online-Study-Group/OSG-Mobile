@@ -1,9 +1,11 @@
 import {
   doc, setDoc, getDoc, updateDoc,
   collection, query, where, getDocs,
-  arrayUnion, increment, orderBy, serverTimestamp,
+  arrayUnion, increment, orderBy, serverTimestamp, 
+  onSnapshot, addDoc,
 } from "firebase/firestore";
 import { db } from "./firebase";
+import { enviarMensagemParaIA } from "./openrouter";
 
 // ─── Level ───────────────────────────────────────────
 export function calcularLevel(xp) {
@@ -143,5 +145,175 @@ export async function buscarMembrosDoGrupo(groupId) {
   );
   const snap = await getDocs(q);
   return snap.docs.map((d) => ({ uid: d.id, ...d.data() }));
+}
+
+// ─── DUELOS ──────────────────────────────────────────
+
+async function gerarPerguntasDuelo() {
+  const materias = [
+    "Matemática", "Física", "Química", "Biologia",
+    "História", "Geografia", "Português", "Informática",
+  ];
+  const materia = materias[Math.floor(Math.random() * materias.length)];
+
+  const prompt = `
+    Gere 5 perguntas de múltipla escolha de nível ensino médio sobre ${materia}.
+    Retorne SOMENTE um JSON válido no formato:
+    {
+      "perguntas": [
+        {
+          "pergunta": "texto",
+          "alternativas": ["A", "B", "C", "D"],
+          "correta": 0
+        }
+      ]
+    }
+    Regras:
+    - Exatamente 5 perguntas.
+    - Exatamente 4 alternativas por pergunta.
+    - "correta" é índice 0 a 3.
+    - Sem markdown.
+  `;
+
+  try {
+    const resposta = await enviarMensagemParaIA(prompt);
+    const match = resposta?.match(/\{[\s\S]*\}/);
+    if (!match) return null;
+    const parsed = JSON.parse(match[0]);
+    if (!Array.isArray(parsed.perguntas) || parsed.perguntas.length !== 5) return null;
+    return parsed.perguntas;
+  } catch {
+    return null;
+  }
+}
+
+export async function criarDuelo(desafianteId, desafianteNome, desafiadoId, desafiadoNome) {
+  // Verifica limite de 3 duelos pendentes
+  const q = query(
+    collection(db, "duelos"),
+    where("desafianteId", "==", desafianteId),
+    where("status", "==", "pendente")
+  );
+  const snap = await getDocs(q);
+  if (snap.size >= 3) {
+    throw new Error("Você já tem 3 duelos pendentes. Aguarde uma resposta.");
+  }
+
+  const perguntas = await gerarPerguntasDuelo();
+  if (!perguntas) throw new Error("Erro ao gerar perguntas. Tente novamente.");
+
+  const agora = new Date();
+  const expiraEm = new Date(agora.getTime() + 24 * 60 * 60 * 1000);
+
+  const ref = await addDoc(collection(db, "duelos"), {
+    desafianteId,
+    desafianteNome,
+    desafiadoId,
+    desafiadoNome,
+    status: "pendente",
+    perguntas,
+    respostas: { [desafianteId]: [], [desafiadoId]: [] },
+    pontosDesafiante: null,
+    pontosDesafiado: null,
+    vencedorId: null,
+    criadoEm: serverTimestamp(),
+    expiraEm: expiraEm.toISOString(),
+  });
+
+  return ref.id;
+}
+
+export async function responderDesafio(dueloId, aceitar) {
+  const status = aceitar ? "ativo" : "recusado";
+  await updateDoc(doc(db, "duelos", dueloId), { status });
+}
+
+export async function salvarRespostaDuelo(dueloId, userId, respostas) {
+  const dueloSnap = await getDoc(doc(db, "duelos", dueloId));
+  if (!dueloSnap.exists()) throw new Error("Duelo não encontrado.");
+
+  const duelo = dueloSnap.data();
+  const { desafianteId, desafiadoId, perguntas } = duelo;
+
+  // Calcula pontos do jogador atual
+  const pontos = respostas.filter(
+    (resp, i) => resp === perguntas[i].correta
+  ).length;
+
+  const isDesafiante = userId === desafianteId;
+  const campoRespostas = `respostas.${userId}`;
+  const campoPontos = isDesafiante ? "pontosDesafiante" : "pontosDesafiado";
+
+  await updateDoc(doc(db, "duelos", dueloId), {
+    [campoRespostas]: respostas,
+    [campoPontos]: pontos,
+  });
+
+  // Verifica se ambos responderam para finalizar
+  const novoSnap = await getDoc(doc(db, "duelos", dueloId));
+  const novo = novoSnap.data();
+
+  const ambosResponderam =
+    novo.pontosDesafiante !== null && novo.pontosDesafiado !== null;
+
+  if (ambosResponderam) {
+    const vencedorId =
+      novo.pontosDesafiante > novo.pontosDesafiado ? desafianteId :
+      novo.pontosDesafiado > novo.pontosDesafiante ? desafiadoId :
+      "empate";
+
+    await updateDoc(doc(db, "duelos", dueloId), {
+      status: "finalizado",
+      vencedorId,
+    });
+
+    // Distribui XP
+    if (vencedorId === "empate") {
+      await atualizarXP(desafianteId, 10);
+      await atualizarXP(desafiadoId, 10);
+    } else {
+      await atualizarXP(vencedorId, 25);
+    }
+  }
+}
+
+export async function verificarDuelosExpirados(uid) {
+  const agora = new Date().toISOString();
+  const q = query(
+    collection(db, "duelos"),
+    where("desafiadoId", "==", uid),
+    where("status", "==", "pendente")
+  );
+  const snap = await getDocs(q);
+  const promises = snap.docs
+    .filter((d) => d.data().expiraEm < agora)
+    .map((d) => updateDoc(doc(db, "duelos", d.id), { status: "cancelado" }));
+  await Promise.all(promises);
+}
+
+export function ouvirDuelosPendentes(uid, callback) {
+  const q = query(
+    collection(db, "duelos"),
+    where("desafiadoId", "==", uid),
+    where("status", "==", "pendente")
+  );
+  return onSnapshot(q, (snap) => {
+    callback(snap.docs.map((d) => ({ id: d.id, ...d.data() })));
+  });
+}
+
+export function ouvirDuelo(dueloId, callback) {
+  return onSnapshot(doc(db, "duelos", dueloId), (snap) => {
+    if (snap.exists()) callback({ id: snap.id, ...snap.data() });
+  });
+}
+
+export async function buscarUsuarios(termoBusca) {
+  const snap = await getDocs(collection(db, "users"));
+  return snap.docs
+    .map((d) => ({ uid: d.id, ...d.data() }))
+    .filter((u) =>
+      u.name?.toLowerCase().includes(termoBusca.toLowerCase())
+    );
 }
 
