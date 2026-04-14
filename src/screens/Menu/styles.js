@@ -17,6 +17,7 @@ export const Title = styled.Text`
   color: #d36df3;
   font-size: 20px;
   font-weight: bold;
+  margin-left: 165px;
 `;
 
 export const SearchContainer = styled.View`
