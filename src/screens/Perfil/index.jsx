@@ -158,10 +158,6 @@ export default function Perfil() {
           <MenuText>Mensagem</MenuText>
         </MenuItemMensagem>
 
-        <MenuItemRanking onPress={() => navigation.navigate("Ranking")}>
-          <Image source={require("../../assets/images/ranking_icon.jpg")} style={{ width: 22, height: 22 }} />
-          <MenuText>Ranking</MenuText>
-        </MenuItemRanking>
 
         <MenuItemEditar onPress={() => navigation.navigate("EditarPerfil")}>
           <Image source={require("../../assets/images/edit_icon.jpg")} style={{ width: 22, height: 22 }} />
