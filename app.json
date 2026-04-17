@@ -20,10 +20,17 @@
         "foregroundImage": "./src/assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.juanoliveira.osg"
     },
     "web": {
       "favicon": "./src/assets/images/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "db4886d8-f3a9-4b81-a535-0de3024fbe19"
+      }
+    },
+    "owner": "juan_oliveira"
   }
 }
