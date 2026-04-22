@@ -4,27 +4,27 @@
     "slug": "OSG",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./src/assets/images/icon_OSG.jpg",
+    "icon": "./src/assets/images/icon_osg_fundo_preto.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./src/assets/images/icon_OSG.jpg",
+      "image": "./src/assets/images/icon_osg_fundo_preto.png",
       "resizeMode": "contain",
-      "backgroundColor": "#2C173C"
+      "backgroundColor": "#000000"
     },
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./src/assets/images/icon_OSG.jpg",
+        "foregroundImage": "./src/assets/images/icon_osg_fundo_preto.png",
         "backgroundColor": "#2C173C"
       },
       "edgeToEdgeEnabled": true,
       "package": "com.juanoliveira.osg"
     },
     "web": {
-      "favicon": "./src/assets/images/icon_OSG.jpg"
+      "favicon": "./src/assets/images/icon_osg_fundo_preto.png"
     },
     "extra": {
       "eas": {
