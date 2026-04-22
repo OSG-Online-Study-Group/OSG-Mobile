@@ -7,7 +7,12 @@ export const Container = styled.View`
   padding: 20px;
 `;
 
-/* HEADER CORRIGIDO */
+/* SCROLL */
+export const ContentScroll = styled(ScrollView)`
+  flex: 1;
+`;
+
+/* HEADER */
 export const Header = styled.View`
   width: 100%;
   height: 50px;
@@ -22,7 +27,6 @@ export const Title = styled.Text`
   left: 0;
   right: 0;
   text-align: center;
-
   color: #c644e0;
   font-size: 20px;
   font-weight: bold;
@@ -39,11 +43,7 @@ export const BackText = styled.Text`
   font-size: 16px;
 `;
 
-export const MenuIcon = styled.Image`
-  width: 28px;
-  height: 28px;
-`;
-
+/* CARDS */
 export const QuestionCard = styled.View`
   width: 100%;
   background-color: #8a3de3;
@@ -70,6 +70,7 @@ export const QuestionText = styled.Text`
   margin-top: 10px;
 `;
 
+/* OPÇÕES */
 export const OptionButton = styled.TouchableOpacity`
   background-color: ${(props) => props.background || "#4c2d6f"};
   margin: 6px 20px;
@@ -83,6 +84,7 @@ export const OptionText = styled.Text`
   font-size: 15px;
 `;
 
+/* STATUS */
 export const StatusBox = styled.View`
   margin: 12px 20px;
   align-items: center;
@@ -101,11 +103,9 @@ export const BottomMenu = styled.View`
   bottom: 0;
   width: 100%;
   align-self: center;
-
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
-
   background-color: #3a1f54;
   padding: 14px 0;
   border-radius: 20px;
