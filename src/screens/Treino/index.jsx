@@ -3,10 +3,11 @@ import { ActivityIndicator } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useTreino } from "../../hooks/useTreino";
 import {
-  Container, Header, MenuButton, MenuIcon, Title,
+  Container, Header, Title,
   BackButton, BackText, QuestionCard, QuestionIcon,
   QuestionTitle, QuestionText, OptionButton, OptionText,
-  StatusBox, StatusText, BottomMenu, CenterButton, MenuText,
+  StatusBox, StatusText, BottomMenu, CenterButton, MenuButton, MenuText,
+  ContentScroll
 } from "./styles";
 
 export default function Treino({ route, navigation }) {
@@ -27,58 +28,60 @@ export default function Treino({ route, navigation }) {
         </BackButton>
       </Header>
 
-      <QuestionCard>
-        <QuestionIcon source={require("../../assets/images/espada.jpg")} />
-        <QuestionTitle>Modo {config.label}</QuestionTitle>
-        <QuestionText>
-          {xpTotal > 0
-            ? `+${xpTotal} XP ganhos nessa sessão!`
-            : "Responda e ganhe XP!"}
-        </QuestionText>
-      </QuestionCard>
+      <ContentScroll contentContainerStyle={{ paddingBottom: 120 }}>
+        <QuestionCard>
+          <QuestionIcon source={require("../../assets/images/espada.jpg")} />
+          <QuestionTitle>Modo {config.label}</QuestionTitle>
+          <QuestionText>
+            {xpTotal > 0
+              ? `+${xpTotal} XP ganhos nessa sessão!`
+              : "Responda e ganhe XP!"}
+          </QuestionText>
+        </QuestionCard>
 
-      {carregando ? (
-        <ActivityIndicator color="#B84EF2" style={{ flex: 1 }} />
-      ) : (
-        <>
-          {/* PERGUNTA */}
-          <QuestionCard style={{ marginTop: 8 }}>
-            <QuestionText style={{ fontSize: 16, textAlign: "center" }}>
-              {pergunta?.pergunta}
-            </QuestionText>
-          </QuestionCard>
+        {carregando ? (
+          <ActivityIndicator color="#B84EF2" style={{ marginTop: 40 }} />
+        ) : (
+          <>
+            {/* PERGUNTA */}
+            <QuestionCard style={{ marginTop: 8 }}>
+              <QuestionText style={{ fontSize: 16, textAlign: "center" }}>
+                {pergunta?.pergunta}
+              </QuestionText>
+            </QuestionCard>
 
-          {/* ALTERNATIVAS */}
-          {pergunta?.alternativas.map((alt, index) => (
-            <OptionButton
-              key={index}
-              background={getOptionColor(index)}
-              onPress={() => responder(index)}
-              disabled={respondido}
-            >
-              <OptionText>
-                {`${String.fromCharCode(65 + index)}. ${alt}`}
-              </OptionText>
-            </OptionButton>
-          ))}
+            {/* ALTERNATIVAS */}
+            {pergunta?.alternativas.map((alt, index) => (
+              <OptionButton
+                key={index}
+                background={getOptionColor(index)}
+                onPress={() => responder(index)}
+                disabled={respondido}
+              >
+                <OptionText>
+                  {`${String.fromCharCode(65 + index)}. ${alt}`}
+                </OptionText>
+              </OptionButton>
+            ))}
 
-          {/* FEEDBACK */}
-          <StatusBox>
-            {respondido ? (
-              <StatusText>
-                {selectedIndex === pergunta?.correta
-                  ? `✅ Correto! +${10} XP`
-                  : `❌ Incorreto. A resposta era ${String.fromCharCode(
-                      65 + pergunta?.correta
-                    )}.`}
-                {"\n"}Próxima pergunta em instantes...
-              </StatusText>
-            ) : (
-              <StatusText>Escolha uma alternativa.</StatusText>
-            )}
-          </StatusBox>
-        </>
-      )}
+            {/* FEEDBACK */}
+            <StatusBox>
+              {respondido ? (
+                <StatusText>
+                  {selectedIndex === pergunta?.correta
+                    ? `✅ Correto! +${10} XP`
+                    : `❌ Incorreto. A resposta era ${String.fromCharCode(
+                        65 + pergunta?.correta
+                      )}.`}
+                  {"\n"}Próxima pergunta em instantes...
+                </StatusText>
+              ) : (
+                <StatusText>Escolha uma alternativa.</StatusText>
+              )}
+            </StatusBox>
+          </>
+        )}
+      </ContentScroll>
 
       <BottomMenu>
         <MenuButton onPress={() => navigation.navigate("Menu")}>
