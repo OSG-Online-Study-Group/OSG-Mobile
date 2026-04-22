@@ -1,57 +1,50 @@
 import styled from "styled-components/native";
 
 export const Container = styled.View`
-  flex: 1;
-  background-color: #1f0236;
+  width: 100%;
   align-items: center;
   padding: 20px;
-  width: 100%;
 `;
 
 export const Logo = styled.Image`
-  margin-top: 40px;
-  width: 400px;
-  height: 400px;
+width: 360px;
+  height: 360px;
+  resize-mode: contain;
 `;
 
 export const Title = styled.Text`
-  font-size: 30px;
+  font-size: 28px;
   color: #42a4c5;
-  margin-bottom: 40px;
-  margin-top: 20px;
+  margin-bottom: 30px;
 `;
 
 export const Input = styled.TextInput`
   border-radius: 20px;
   background-color: #724274;
-  width: 75%;
+  width: 80%;
   padding: 13px;
-  margin: 13px;
+  margin: 10px;
   color: #fff;
 `;
 
 export const Button = styled.TouchableOpacity`
   background-color: #42a4c5;
   border-radius: 25px;
-  width: 40%;
-  margin: 20px;
-  padding: 10px;
+  width: 50%;
+  margin-top: 20px;
+  padding: 12px;
   align-items: center;
 `;
 
 export const ButtonText = styled.Text`
   color: #42254e;
-  text-align: center;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: bold;
 `;
 
 export const Label = styled.Text`
-width: 85%;
-color: #42a4c5;
-font-size: 14px;
-margin-top: 0px;
-margin-bottom: -5px;
-margin-left: 60px;
-gap: 30px;
-`
+  width: 80%;
+  color: #42a4c5;
+  font-size: 14px;
+  margin-top: 10px;
+`;
