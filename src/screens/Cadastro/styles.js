@@ -1,56 +1,51 @@
 import styled from "styled-components/native";
 
 export const Container = styled.View`
-  flex: 1;
-  background-color: #1f0236;
+  width: 100%;
   align-items: center;
   padding: 20px;
 `;
 
 export const Logo = styled.Image`
-  margin-top: 20px;
-  width: 300px;
-  height: 300px;
+  width: 260px;
+  height: 260px;
+  resize-mode: contain;
 `;
 
 export const Title = styled.Text`
-  font-size: 30px;
-  color: #42A4C5;
-  margin-bottom: 45px;
+  font-size: 28px;
+  color: #42a4c5;
+  margin-bottom: 30px;
 `;
 
 export const Input = styled.TextInput`
   width: 80%;
   background-color: #724274;
-  padding: 15px;
+  padding: 14px;
   border-radius: 20px;
-  margin: 12px;
+  margin: 10px;
   font-size: 15px;
   color: #fff;
 `;
 
 export const Button = styled.TouchableOpacity`
-  background-color: #42A4C5;
+  background-color: #42a4c5;
   border-radius: 25px;
   padding: 12px;
-  margin: 20px;
-  width: 40%;
+  margin-top: 20px;
+  width: 50%;
   align-items: center;
 `;
 
 export const ButtonText = styled.Text`
   font-size: 16px;
-  color: #42254E;
-  text-align: center;
+  color: #42254e;
   font-weight: bold;
 `;
 
 export const Label = styled.Text`
-width: 85%;
-color: #42a4c5;
-font-size: 14px;
-margin-top: 0px;
-margin-bottom: -5px;
-margin-left: 60px;
-gap: 30px;
-`
+  width: 80%;
+  color: #42a4c5;
+  font-size: 14px;
+  margin-top: 10px;
+`;
