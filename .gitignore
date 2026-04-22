@@ -48,4 +48,8 @@ yarn-error.*
 
 # Admin key
 
-online-study-group-a76fd-firebase-adminsdk-fbsvc-8eebe9e917.json
+online-study-group-a76fd-firebase-adminsdk-fbsvc-8eebe9e917.
+
+# eas.json
+
+.eas.json
