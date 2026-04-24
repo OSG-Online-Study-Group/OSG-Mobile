@@ -4,26 +4,33 @@
     "slug": "OSG",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./src/assets/images/icon.png",
+    "icon": "./src/assets/images/icon_osg_fundo_preto.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./src/assets/images/splash-icon.png",
+      "image": "./src/assets/images/icon_osg_fundo_preto.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#000000"
     },
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./src/assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./src/assets/images/icon_osg_fundo_preto.png",
+        "backgroundColor": "#2C173C"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.juanoliveira.osg"
     },
     "web": {
-      "favicon": "./src/assets/images/favicon.png"
-    }
+      "favicon": "./src/assets/images/icon_osg_fundo_preto.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "db4886d8-f3a9-4b81-a535-0de3024fbe19"
+      }
+    },
+    "owner": "onlinestudygroup"
   }
 }

@@ -28,6 +28,11 @@ yarn-error.*
 
 # macOS
 .DS_Store
+
+# Environment variables
+.env
+.env.local
+.env.*.local
 *.pem
 
 # local env files
@@ -40,3 +45,11 @@ yarn-error.*
 # generated native folders
 /ios
 /android
+
+# Admin key
+
+online-study-group-a76fd-firebase-adminsdk-fbsvc-8eebe9e917.
+
+# eas.json
+
+eas.json
