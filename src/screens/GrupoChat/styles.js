@@ -64,18 +64,15 @@ export const Logo = styled.Image`
 
 export const MessageBubble = styled.View`
   background-color: ${(props) => (props.isUser ? "#6E3CBC" : "#8D5CF6")};
-  align-self: ${(props) => (props.isUser ? "flex-end" : "flex-start")};
   border-radius: 12px;
-  margin-vertical: 6px;
   padding: 10px 14px;
-  max-width: 85%;
-  flex-shrink: 1;
+  align-self: flex-start;
 `;
 
 export const MessageText = styled.Text`
   color: #fff;
   font-size: 14px;
-  flex-wrap: wrap;
+  flex-shrink: 1;
 `;
 
 /* INPUT */
@@ -172,13 +169,14 @@ export const MessageRow = styled.View`
   flex-direction: ${(props) => (props.isUser ? "row-reverse" : "row")};
   align-items: flex-end;
   margin-vertical: 6px;
-  margin-horizontal: 17px;
-  gap: 9px;
+  margin-horizontal: 12px;
+  gap: 8px;
+  max-width: 75%;
+  align-self: ${(props) => (props.isUser ? "flex-end" : "flex-start")};
 `;
 
 export const MessageWrapper = styled.View`
-  max-width: 85%;
-  flex-shrink: 1;
+  align-items: flex-start;
 `;
 
 export const SenderName = styled.Text`
@@ -190,9 +188,10 @@ export const SenderName = styled.Text`
 
 export const MessageMeta = styled.View`
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   margin-top: 4px;
+  gap: 6px;
 `;
 
 export const MessageTime = styled.Text`
