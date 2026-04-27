@@ -192,10 +192,10 @@ O projeto utiliza:
 
 ## 👤 Autores
 
-Juan Oliveira
-João Vitor Aguiar Souza
-Lucas Gonçalves
-Reinaldo Silva Santos
+- Juan Oliveira  
+- João Vitor Aguiar Souza  
+- Lucas Gonçalves  
+- Reinaldo Silva Santos  
 
 
 ---
