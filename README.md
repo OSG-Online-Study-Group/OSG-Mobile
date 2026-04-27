@@ -1,75 +1,97 @@
+Perfeito — mantive o estilo **simples igual ao seu**, só ajustando o que mudou no projeto (chat, duelo, context, navigation, firestore, etc.) sem inflar demais.
+
+Aqui está o **README.md pronto pra copiar**:
+
+---
+
 # 📱 OSG Mobile — Online Study Group
 
-Aplicativo mobile desenvolvido com **Expo (React Native)** com foco em organização e apoio a estudos em grupo.  
-O projeto conta com **cadastro e login de usuários via Firebase Authentication**, além de navegação estruturada entre telas de estudo.
+Aplicativo mobile desenvolvido com **Expo (React Native)** com foco em organização, interação e apoio a estudos em grupo.
+O projeto conta com **cadastro e login de usuários**, **chat em tempo real** e **duelos entre usuários**, utilizando Firebase e WebSocket.
 
-Segue o link para a documentação do projeto OSG: 
-https://docs.google.com/document/d/1TvzjzY_PO6MyKmDhbehu0nvHvZDyqewG/edit
+Segue o link para a documentação do projeto OSG:
+[https://docs.google.com/document/d/1TvzjzY_PO6MyKmDhbehu0nvHvZDyqewG/edit](https://docs.google.com/document/d/1TvzjzY_PO6MyKmDhbehu0nvHvZDyqewG/edit)
 
 ---
 
 ## 🚀 Tecnologias Utilizadas
 
 ### 📦 Mobile / Front-end
-- React Native
-- Expo
-- JavaScript (ES6+)
-- Styled-components
+
+* React Native
+* Expo
+* JavaScript (ES6+)
+* Styled-components
 
 ### 🔐 Backend as a Service
-- Firebase
-- Firebase Authentication
+
+* Firebase
+* Firebase Authentication
+* Firestore
+
+### 🔌 Tempo Real
+
+* WebSocket
+
+### 🧠 Gerenciamento de Estado
+
+* Context API
 
 ### 🧭 Navegação
-- React Navigation  
-  - `@react-navigation/native`  
-  - `@react-navigation/native-stack`
+
+* React Navigation
+
+  * `@react-navigation/native`
+  * `@react-navigation/native-stack`
 
 ### 🛠️ Ferramentas
-- Node.js
-- NPM
-- Git
-- GitHub
-- Visual Studio Code
+
+* Node.js
+* NPM
+* Git
+* GitHub
+* Visual Studio Code
 
 ---
 
 ## 📂 Estrutura do Projeto
 
 ```
-
 OSG-Mobile/
 ├── src/
 │   ├── assets/
-│   │   ├── images/
-│   │   └── screens/
-│   │       ├── Login/
-│   │       ├── Cadastro/
-│   │       ├── Menu/
-│   │       ├── Grupo Economia/
-│   │       ├── Grupo Quimica Organica/
-│   │       └── Filtro de materia quimica/
+│   ├── components/
+│   ├── screens/
+│   │   ├── Login/
+│   │   ├── Cadastro/
+│   │   ├── Menu/
+│   │   ├── Grupos/
+│   │   ├── Chat/
+│   │   ├── Duelo/
+│   │   └── Perfil/
+│   ├── context/
+│   ├── navigation/
 │   ├── services/
-│   │   └── firebase.js
+│   ├── hooks/
 │   └── routes/
-│       └── index.js
 ├── App.js
 ├── app.json
 ├── package.json
 └── README.md
-
 ```
 
 ---
 
 ## 🔑 Funcionalidades
 
-- Cadastro de usuário com email e senha
-- Login de usuário autenticado
-- Autenticação via Firebase
-- Navegação entre telas
-- Interface estilizada com Styled-components
-- Organização modular por telas
+* Cadastro de usuário com email e senha
+* Login de usuário autenticado
+* Autenticação via Firebase
+* Navegação entre telas
+* Chat em tempo real com exibição do nome do usuário
+* Sistema de duelo aleatório em tempo real
+* Interface estilizada com Styled-components
+* Gerenciamento global de estado com Context API
 
 ---
 
@@ -80,35 +102,36 @@ A navegação do aplicativo é feita utilizando **React Navigation (Native Stack
 Fluxo principal de telas:
 
 ```
-
 Login
-└── Cadastro
+├── Cadastro
 └── Menu
-├── Grupos
-│    ├── Grupo Economia
-│    └── Grupo Química Orgânica
-└── Filtro de Matéria Química
+    ├── Grupos
+    │   └── Chat
+    ├── Duelo Aleatório
+    └── Perfil
+```
 
-````
-
-- **Login**: autenticação do usuário
-- **Cadastro**: criação de nova conta
-- **Menu**: tela principal após login
-- **Grupos**: acesso aos grupos de estudo
-- **Filtro de Matéria**: navegação por áreas da química
-- Botão **Voltar** configurado via `navigation.goBack()`
+* **Login**: autenticação do usuário
+* **Cadastro**: criação de nova conta
+* **Menu**: tela principal após login
+* **Grupos**: acesso aos grupos de estudo
+* **Chat**: comunicação em tempo real
+* **Duelo**: partidas entre usuários
+* **Perfil**: informações do usuário
+* Botão **Voltar** configurado via `navigation.goBack()`
 
 ---
 
 ## ⚙️ Configuração do Ambiente
 
 ### Pré-requisitos
-- Node.js
-- Expo CLI
+
+* Node.js
+* Expo CLI
 
 ```bash
 npm install -g expo-cli
-````
+```
 
 ---
 
@@ -140,8 +163,10 @@ Abra o **Expo Go** no celular e escaneie o QR Code, ou execute em um emulador.
 
 ## 🔥 Firebase
 
-O projeto utiliza **Firebase Authentication** para cadastro e login de usuários.
+O projeto utiliza:
 
+* **Firebase Authentication** para autenticação
+* **Firestore** para armazenamento de dados (mensagens, usuários, grupos)
 
 > Em produção, recomenda-se o uso de variáveis de ambiente para proteger as credenciais.
 
@@ -150,27 +175,29 @@ O projeto utiliza **Firebase Authentication** para cadastro e login de usuários
 ## 🧠 Observações
 
 * O `.gitignore` do Expo ignora automaticamente arquivos desnecessários
-* Avisos de `LF` / `CRLF` no Git não afetam o funcionamento
-* Projeto desenvolvido com foco educacional
+* Projeto em evolução contínua
+* Estrutura modular para facilitar manutenção e escalabilidade
 
 ---
 
 ## 📌 Melhorias Futuras
 
 * Recuperação de senha
+* Sistema de ranking nos duelos
+* Notificações em tempo real
 * Validação de formulários
-* Integração com Firestore
-* Perfil de usuário
-* Grupos dinâmicos
+* Criação de grupos dinâmicos
 
 ---
 
 ## 👤 Autores
 
 Juan Oliveira
-
 João Vitor Aguiar Souza
-
 Lucas Gonçalves
+Reinaldo Silva Santos
+
+
+---
 
 Projeto desenvolvido para fins educacionais e aprendizado em desenvolvimento mobile com React Native.
