@@ -178,16 +178,6 @@ O projeto utiliza:
 
 ---
 
-## 📌 Melhorias Futuras
-
-* Recuperação de senha
-* Sistema de ranking nos duelos
-* Notificações em tempo real
-* Validação de formulários
-* Criação de grupos dinâmicos
-
----
-
 ## 👤 Autores
 
 - Juan Oliveira  
