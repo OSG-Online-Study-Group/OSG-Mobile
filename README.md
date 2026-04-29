@@ -1,6 +1,4 @@
-Perfeito — mantive o estilo **simples igual ao seu**, só ajustando o que mudou no projeto (chat, duelo, context, navigation, firestore, etc.) sem inflar demais.
 
-Aqui está o **README.md pronto pra copiar**:
 
 ---
 
