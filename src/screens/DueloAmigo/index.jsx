@@ -3,11 +3,27 @@ import { ActivityIndicator } from "react-native";
 import { useDueloAmigo } from "../../hooks/useDuelo";
 import { useAuth } from "../../hooks/useAuth";
 import {
-  Container, Header, BackButton, BackText, Title,
-  SubjectBadge, SubjectText, QuestionCard, QuestionText,
-  ProgressText, OptionButton, OptionText,
-  StatusBox, StatusText, ResultCard,
-  ResultTitle, ResultScore, ResultXP,
+  Container,
+  CenterWrapper,
+  Header,
+  TitleQuiz,
+  TitleWaiting,
+  TitleResult,
+  BackButton,
+  BackText,
+  SubjectBadge,
+  SubjectText,
+  QuestionCard,
+  QuestionText,
+  ProgressText,
+  OptionButton,
+  OptionText,
+  StatusBox,
+  StatusText,
+  ResultCard,
+  ResultTitle,
+  ResultScore,
+  ResultXP,
   WaitingText,
 } from "./styles";
 
@@ -15,9 +31,15 @@ export default function DueloAmigo({ route, navigation }) {
   const { dueloId } = route.params;
   const { firebaseUser } = useAuth();
   const {
-    duelo, perguntaAtual, perguntaIndex,
-    totalPerguntas, respostas, finalizado,
-    carregando, responder, getOptionColor,
+    duelo,
+    perguntaAtual,
+    perguntaIndex,
+    totalPerguntas,
+    respostas,
+    finalizado,
+    carregando,
+    responder,
+    getOptionColor,
   } = useDueloAmigo(dueloId);
 
   if (carregando) {
@@ -30,15 +52,25 @@ export default function DueloAmigo({ route, navigation }) {
 
   const isDesafiante = duelo?.desafianteId === firebaseUser?.uid;
   const meusPontos = isDesafiante ? duelo?.pontosDesafiante : duelo?.pontosDesafiado;
-  const pontoAdversario = isDesafiante ? duelo?.pontosDesafiado : duelo?.pontosDesafiante;
+  const pontosAdversario = isDesafiante ? duelo?.pontosDesafiado : duelo?.pontosDesafiante;
   const nomeAdversario = isDesafiante ? duelo?.desafiadoNome : duelo?.desafianteNome;
 
-  // Aguardando adversário terminar
+  const respostaAtual = respostas[perguntaIndex];
+  const respondeu = respostaAtual !== undefined;
+  const acertou = respondeu && respostaAtual === perguntaAtual?.correta;
+
+  const statusMensagem = respondeu
+    ? acertou
+      ? "✅ Correto!"
+      : `❌ Incorreto. Resposta: ${String.fromCharCode(65 + perguntaAtual?.correta)}`
+    : "Escolha uma alternativa.";
+
+  // ── Tela: Aguardando adversário terminar ──────────────────────
   if (finalizado && duelo?.status !== "finalizado") {
     return (
       <Container>
         <Header>
-          <Title>Duelo Amigos</Title>
+          <TitleWaiting>Duelo Amigos</TitleWaiting>
         </Header>
         <WaitingText>
           ✅ Suas respostas foram enviadas!{"\n"}
@@ -48,41 +80,49 @@ export default function DueloAmigo({ route, navigation }) {
     );
   }
 
-  // Resultado final
+  // ── Tela: Resultado final ─────────────────────────────────────
   if (duelo?.status === "finalizado") {
-    const venceu = duelo.vencedorId === firebaseUser?.uid;
     const empate = duelo.vencedorId === "empate";
+    const venceu = !empate && duelo.vencedorId === firebaseUser?.uid;
+
+    const tituloResultado = empate
+      ? "🤝 Empate!"
+      : venceu
+      ? "🏆 Você venceu!"
+      : "😅 Você perdeu!";
+
+    const xpResultado = empate ? "+10 XP" : venceu ? "+25 XP" : "+0 XP";
 
     return (
       <Container>
         <Header>
-          <Title>Resultado</Title>
+          <TitleResult>Resultado</TitleResult>
         </Header>
         <ResultCard>
-          <ResultTitle>
-            {empate ? "🤝 Empate!" : venceu ? "🏆 Você venceu!" : "😅 Você perdeu!"}
-          </ResultTitle>
+          <ResultTitle>{tituloResultado}</ResultTitle>
           <ResultScore>Você: {meusPontos}/5</ResultScore>
-          <ResultScore>{nomeAdversario}: {pontoAdversario}/5</ResultScore>
-          <ResultXP>
-            {empate ? "+10 XP" : venceu ? "+25 XP" : "+0 XP"}
-          </ResultXP>
+          <ResultScore>
+            {nomeAdversario}: {pontosAdversario}/5
+          </ResultScore>
+          <ResultXP>{xpResultado}</ResultXP>
         </ResultCard>
-        <BackButton onPress={() => navigation.navigate("Menu")} style={{ alignSelf: "center", marginTop: 20 }}>
-          <BackText>Voltar ao Menu</BackText>
-        </BackButton>
+        <CenterWrapper>
+          <BackButton onPress={() => navigation.navigate("Menu")}>
+            <BackText>Voltar ao Menu</BackText>
+          </BackButton>
+        </CenterWrapper>
       </Container>
     );
   }
 
-  // Quiz em andamento
+  // ── Tela: Quiz em andamento ───────────────────────────────────
   return (
     <Container>
       <Header>
         <BackButton onPress={() => navigation.goBack()}>
           <BackText>Voltar</BackText>
         </BackButton>
-        <Title>Duelo Amigos</Title>
+        <TitleQuiz>Duelo Amigos</TitleQuiz>
       </Header>
 
       <SubjectBadge>
@@ -102,20 +142,14 @@ export default function DueloAmigo({ route, navigation }) {
           key={index}
           background={getOptionColor(index)}
           onPress={() => responder(index)}
-          disabled={respostas[perguntaIndex] !== undefined}
+          disabled={respondeu}
         >
           <OptionText>{`${String.fromCharCode(65 + index)}. ${alt}`}</OptionText>
         </OptionButton>
       ))}
 
       <StatusBox>
-        <StatusText>
-          {respostas[perguntaIndex] !== undefined
-            ? respostas[perguntaIndex] === perguntaAtual?.correta
-              ? "✅ Correto!"
-              : `❌ Incorreto. Resposta: ${String.fromCharCode(65 + perguntaAtual?.correta)}`
-            : "Escolha uma alternativa."}
-        </StatusText>
+        <StatusText>{statusMensagem}</StatusText>
       </StatusBox>
     </Container>
   );
