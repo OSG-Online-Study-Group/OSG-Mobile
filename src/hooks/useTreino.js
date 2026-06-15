@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "./useAuth";
 import { enviarMensagemParaIA } from "../services/openrouter";
 import { atualizarXP } from "../services/firestore";
+import { MULTIPLE_CHOICE_RULES, parsePerguntaMultiplaEscolha } from "../services/aiQuestionParser";
 
 const XP_POR_ACERTO = 10;
 
@@ -39,28 +40,6 @@ const FALLBACK = {
   correta: 1,
 };
 
-function parseResposta(raw) {
-  try {
-    const match = raw?.match(/\{[\s\S]*\}/);
-    if (!match) return null;
-    const parsed = JSON.parse(match[0]);
-    if (
-      !parsed.pergunta ||
-      !Array.isArray(parsed.alternativas) ||
-      parsed.alternativas.length !== 4 ||
-      !Number.isInteger(parsed.correta) ||
-      parsed.correta < 0 || parsed.correta > 3
-    ) return null;
-    return {
-      pergunta: String(parsed.pergunta),
-      alternativas: parsed.alternativas.map(String),
-      correta: parsed.correta,
-    };
-  } catch {
-    return null;
-  }
-}
-
 export function useTreino(categoria) {
   const { firebaseUser, usuario, refreshUsuario } = useAuth();
   const config = CATEGORIAS[categoria] || CATEGORIAS.ciencias_humanas;
@@ -93,12 +72,15 @@ export function useTreino(categoria) {
       - Exatamente 4 alternativas.
       - Apenas uma correta.
       - "correta" é índice de 0 a 3.
+      - Cada alternativa precisa trazer conteúdo real e completo, sem usar apenas letras, números soltos ou rótulos como "A)".
+      - A interface já exibe as letras das alternativas, então não repita isso no texto da IA.
       - Sem markdown.
+      ${MULTIPLE_CHOICE_RULES}
     `;
 
     try {
       const resposta = await enviarMensagemParaIA(prompt);
-      const parsed = parseResposta(resposta);
+      const parsed = parsePerguntaMultiplaEscolha(resposta);
       setPergunta(parsed || FALLBACK);
     } catch {
       setPergunta(FALLBACK);

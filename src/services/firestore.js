@@ -6,6 +6,7 @@ import {
 } from "firebase/firestore";
 import { db } from "./firebase";
 import { enviarMensagemParaIA } from "./openrouter";
+import { MULTIPLE_CHOICE_RULES, parseQuizMultiplaEscolha } from "./aiQuestionParser";
 
 // ─── Level ───────────────────────────────────────────
 export function calcularLevel(xp) {
@@ -172,16 +173,16 @@ async function gerarPerguntasDuelo() {
     - Exatamente 5 perguntas.
     - Exatamente 4 alternativas por pergunta.
     - "correta" é índice 0 a 3.
+    - Cada alternativa precisa trazer conteúdo real e completo, sem usar apenas letras, números soltos ou rótulos como "A)".
+    - A interface já exibe as letras das alternativas, então não repita isso no texto da IA.
     - Sem markdown.
+    ${MULTIPLE_CHOICE_RULES}
   `;
 
   try {
     const resposta = await enviarMensagemParaIA(prompt);
-    const match = resposta?.match(/\{[\s\S]*\}/);
-    if (!match) return null;
-    const parsed = JSON.parse(match[0]);
-    if (!Array.isArray(parsed.perguntas) || parsed.perguntas.length !== 5) return null;
-    return parsed.perguntas;
+    const parsed = parseQuizMultiplaEscolha(resposta, 5);
+    return parsed?.perguntas || null;
   } catch {
     return null;
   }
