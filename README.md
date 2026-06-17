@@ -7,8 +7,7 @@
 Aplicativo mobile desenvolvido com **Expo (React Native)** com foco em organização, interação e apoio a estudos em grupo.
 O projeto conta com **cadastro e login de usuários**, **chat em tempo real** e **duelos entre usuários**, utilizando Firebase e WebSocket.
 
-Segue o link para a documentação do projeto OSG:
-[https://docs.google.com/document/d/1TvzjzY_PO6MyKmDhbehu0nvHvZDyqewG/edit](https://docs.google.com/document/d/1TvzjzY_PO6MyKmDhbehu0nvHvZDyqewG/edit)
+
 
 ---
 
