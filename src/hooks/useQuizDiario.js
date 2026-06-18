@@ -4,6 +4,7 @@ import { enviarMensagemParaIA } from "../services/openrouter";
 import { atualizarXP } from "../services/firestore";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../services/firebase";
+import { MULTIPLE_CHOICE_RULES, parseQuizMultiplaEscolha } from "../services/aiQuestionParser";
 
 const MATERIAS = [
   "Matemática", "Física", "Química", "Biologia",
@@ -12,17 +13,17 @@ const MATERIAS = [
 ];
 
 const MATERIA_TO_GROUP = {
-  "Matemática":  "group_matematica",
-  "Física":      "group_ciencias_natureza",
-  "Química":     "group_ciencias_natureza",
-  "Biologia":    "group_ciencias_natureza",
-  "História":    "group_ciencias_humanas",
-  "Geografia":   "group_ciencias_humanas",
-  "Filosofia":   "group_ciencias_humanas",
-  "Sociologia":  "group_ciencias_humanas",
-  "Português":   "group_linguagens",
-  "Literatura":  "group_linguagens",
-  "Inglês":      "group_linguagens",
+  "Matemática": "group_matematica",
+  "Física": "group_ciencias_natureza",
+  "Química": "group_ciencias_natureza",
+  "Biologia": "group_ciencias_natureza",
+  "História": "group_ciencias_humanas",
+  "Geografia": "group_ciencias_humanas",
+  "Filosofia": "group_ciencias_humanas",
+  "Sociologia": "group_ciencias_humanas",
+  "Português": "group_linguagens",
+  "Literatura": "group_linguagens",
+  "Inglês": "group_linguagens",
   "Informática": "group_informatica",
 };
 
@@ -36,36 +37,6 @@ const FALLBACK_PERGUNTAS = [
 
 function getTodayKey() {
   return new Date().toISOString().split("T")[0];
-}
-
-function parseQuiz(raw) {
-  try {
-    const match = raw?.match(/\{[\s\S]*\}/);
-    if (!match) return null;
-    const parsed = JSON.parse(match[0]);
-    if (
-      !Array.isArray(parsed.perguntas) ||
-      parsed.perguntas.length !== 5 ||
-      !parsed.perguntas.every(p =>
-        p.pergunta &&
-        Array.isArray(p.alternativas) &&
-        p.alternativas.length === 4 &&
-        Number.isInteger(p.correta) &&
-        p.correta >= 0 && p.correta <= 3
-      )
-    ) return null;
-
-    return {
-      materia: parsed.materia || "Geral",
-      perguntas: parsed.perguntas.map(p => ({
-        pergunta: String(p.pergunta),
-        alternativas: p.alternativas.map(String),
-        correta: p.correta,
-      })),
-    };
-  } catch {
-    return null;
-  }
 }
 
 export function useQuizDiario() {
@@ -121,12 +92,15 @@ export function useQuizDiario() {
       - Exatamente 4 alternativas por pergunta.
       - Apenas uma correta por pergunta.
       - "correta" é índice de 0 a 3.
+      - Cada alternativa precisa trazer conteúdo real e completo, sem usar apenas letras, números soltos ou rótulos como "A)".
+      - A interface já exibe as letras das alternativas, então não repita isso no texto da IA.
       - Sem markdown.
+      ${MULTIPLE_CHOICE_RULES}
     `;
     try {
       const resposta = await enviarMensagemParaIA(prompt);
-      const parsed = parseQuiz(resposta);
-      setQuiz(parsed || { materia, perguntas: FALLBACK_PERGUNTAS });
+      const parsed = parseQuizMultiplaEscolha(resposta, 5);
+      setQuiz(parsed || { materia: "Geral", perguntas: FALLBACK_PERGUNTAS });
     } catch {
       setQuiz({ materia: "Geral", perguntas: FALLBACK_PERGUNTAS });
     }
@@ -144,13 +118,11 @@ export function useQuizDiario() {
     novasRespostas[perguntaIndex] = index;
     setRespostas(novasRespostas);
 
-    // Se não é a última pergunta, avança após 1.5s
     if (perguntaIndex < totalPerguntas - 1) {
-      setTimeout(() => setPerguntaIndex(prev => prev + 1), 1500);
+      setTimeout(() => setPerguntaIndex((prev) => prev + 1), 1500);
       return;
     }
 
-    // Última pergunta — calcula resultado
     const totalAcertos = novasRespostas.filter(
       (resp, i) => resp === quiz.perguntas[i].correta
     ).length;

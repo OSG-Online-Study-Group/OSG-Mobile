@@ -17,6 +17,7 @@ export const Title = styled.Text`
   color: #B84EF2;
   font-size: 22px;
   font-weight: bold;
+  margin-right: 105px;
 `;
 
 export const BackButton = styled.TouchableOpacity``;
